@@ -1,0 +1,54 @@
+div.log-form {
+  margin: 1rem 0;
+}
+
+div.log-form input[type=text] {
+  width: 50%;
+}
+
+div.log-form-params {
+  position: relative;
+  margin: 0 -1rem 1rem -1rem;
+  padding: 0 1rem 1.5rem 1rem;
+  background-color: white;
+  box-shadow: 0 9px 11px -5px rgba(0, 0, 0, 0.18), 0 10px 15px -5px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+div.log-form-params .row {
+  margin: 0;
+  padding: 0;
+}
+
+div.log-form-params .block {
+  margin: 0 1rem 1rem 0;
+  float: left;
+}
+
+div.log-form-params .row:after {
+  clear: both;
+}
+
+ul.log {
+  margin-bottom: 1rem;
+}
+
+ul.log li {
+  border-bottom: 1px solid #eee;
+}
+
+ul.log li .date {
+  float: right;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+ul.log li .date .time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+ul.log li:last-child {
+  border: none;
+}

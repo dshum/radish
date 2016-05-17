@@ -1,0 +1,62 @@
+ul.users {
+  margin: 0 0 1rem 0;
+}
+
+ul.users li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+ul.users li a {
+  color: #337ab7;
+  text-decoration: underline;
+}
+
+ul.users li span {
+  color: sienna;
+}
+
+ul.users li .perms {
+  font-size: 0.75rem;
+  color: black;
+  text-decoration: underline;
+}
+
+ul.users li .date {
+  float: right;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+ul.users li .date .time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+ul.users li .remove {
+  float: right;
+  margin-top: -0.6rem;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}
+
+ul.users li .remove .halflings {
+  color: crimson;
+}
+
+ul.users li .remove:hover .halflings {
+  color: orange;
+}
+
+ul.users li .remove.disabled .halflings {
+  color: #ccc;
+}
+
+.addnew {
+  position: relative;
+  top: -0.2rem;
+  left: 0.5rem;
+  font-size: 1.5rem;
+  color: orange;
+}

@@ -1,0 +1,231 @@
+.options {
+  margin-top: 0.25rem;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: #ccc;
+}
+
+.options.active {
+  color: orange;
+}
+
+.options.edit a {
+  color: goldenrod;
+}
+
+.browse-form {
+  margin-bottom: 1rem;
+}
+
+.browse-form input[type=text] {
+  width: 50%;
+}
+
+.browse-form-params {
+  position: relative;
+  margin: 0 -1rem 1rem -1rem;
+  padding: 0 1rem 1.5rem 1rem;
+  background-color: white;
+  box-shadow: 0 9px 11px -5px rgba(0, 0, 0, 0.18), 0 10px 15px -5px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+.browse-form-params .row {
+  margin: 0;
+  padding: 0;
+}
+
+.browse-form-params .block {
+  margin: 0 2rem 1rem 0;
+  float: left;
+  white-space: nowrap;
+}
+
+.browse-form-params .row:after {
+  clear: both;
+}
+
+.browse-form-params .label {
+  margin-bottom: 0.25rem;
+  white-space: normal;
+}
+
+.browse-form-params .label span:not(.glyphicons) {
+  cursor: pointer;
+  border-bottom: 1px dashed #999;
+}
+
+.browse-form-params .label .glyphicons {
+  margin-right: 0.25rem;
+}
+
+.browse-form-params .date .glyphicons {
+  color: slateblue;
+}
+
+.browse-form-params .textfield .glyphicons {
+  color: black;
+}
+
+.browse-form-params .textarea .glyphicons {
+  color: teal;
+}
+
+.browse-form-params .number .glyphicons {
+  color: salmon;
+}
+
+.browse-form-params .checkbox .glyphicons {
+  color: royalblue;
+}
+
+.browse-form-params .one .glyphicons {
+  color: orchid;
+}
+
+input.date {
+  width: 6rem;
+}
+
+input.number {
+  width: 4rem;
+}
+
+.addnew {
+  position: relative;
+  top: -0.5rem;
+  left: 1rem;
+  font-size: 2rem;
+  color: orange;
+}
+
+.found {
+  margin-top: 2rem;
+  font-weight: bold;
+}
+
+ul.elements {
+  margin: 1rem 0;
+}
+
+ul.elements li {
+  border-bottom: 1px solid #eee;
+}
+
+ul.elements li.last {
+  margin-bottom: 1rem;
+  border: none;
+}
+
+ul.elements li div.check {
+  float: right;
+  margin-left: 1rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: #ccc;
+  border-radius: 50%;
+}
+
+ul.elements li.checked {
+  margin-left: -0.5rem;
+  padding-left: 0.5rem;
+  margin-right: -0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 2px;
+  background-color: #eee;
+}
+
+ul.elements li.checked div.check {
+  background-color: tan;
+}
+
+ul.elements li .date {
+  float: right;
+  margin-left: 0.75rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+ul.elements li .date .time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+ul.elements li .edit {
+  float: right;
+  margin-top: -0.25rem;
+  margin-left: 0.75rem;
+  font-size: 1.5rem;
+}
+
+ul.elements li .edit a {
+  color: goldenrod;
+}
+
+ul.elements li img {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 2px;
+  background-color: white;
+}
+
+ul.elements li .label .glyphicons {
+  margin-right: 0.25rem;
+}
+
+ul.elements li .date .glyphicons {
+  color: slateblue;
+}
+
+ul.elements li .textfield .glyphicons {
+  color: black;
+}
+
+ul.elements li .textarea {
+  display: inline;
+}
+
+ul.elements li .textarea .glyphicons {
+  color: teal;
+}
+
+ul.elements li .number .glyphicons {
+  color: salmon;
+}
+
+ul.elements li .checkbox {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+ul.elements li .checkbox .glyphicons {
+  color: #999;
+}
+
+ul.elements li .one .glyphicons {
+  color: orchid;
+}
+
+.bottom-context-menu .button {
+  display: inline-block;
+  width: 7rem;
+}
+
+.button.copy .halflings {
+  color: goldenrod;
+}
+
+.button.move .halflings {
+  color: #64a7a0;
+}
+
+.button.delete .halflings {
+  color: crimson;
+}
+
+.plugin {
+  margin: 1rem -1rem 1rem -1rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.18), 0 1px 7px 0 rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+}

@@ -1,0 +1,49 @@
+.options {
+  margin-left: 0.5rem;
+  font-size: 2rem;
+  color: black;
+}
+
+.bottom-context-menu .button {
+  display: inline-block;
+  width: 7rem;
+}
+
+.bottom-context-menu .button.copy .halflings {
+  color: goldenrod;
+}
+
+.bottom-context-menu .button.move .halflings {
+  color: #64a7a0;
+}
+
+.bottom-context-menu .button.delete .halflings {
+  color: crimson;
+}
+
+.edit-form {
+  margin-top: 1rem;
+}
+
+.edit-form img {
+  max-width: 75%;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 2px;
+  background-color: white;
+}
+
+.edit-form .loadfile {
+  margin-top: 0.5rem;
+}
+
+.edit-form .loadfile .file {
+  display: inline-block;
+  border: 2px solid #ccc;
+  border-radius: 2px;
+  height: 3rem;
+  line-height: 3rem;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0 1rem;
+}
