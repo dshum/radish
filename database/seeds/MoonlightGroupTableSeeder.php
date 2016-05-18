@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Moonlight\Models\Group;
+use Carbon\Carbon;
 
 class MoonlightGroupTableSeeder extends Seeder {
 
@@ -14,6 +15,8 @@ class MoonlightGroupTableSeeder extends Seeder {
 			'permissions' => serialize([
 				'admin' => 1,
 			]),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
 		DB::table('admin_groups')->insert([
@@ -22,6 +25,8 @@ class MoonlightGroupTableSeeder extends Seeder {
 			'permissions' => serialize([
 				'admin' => 0,
 			]),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
 		]);
 
 		DB::table('admin_groups')->insert([
@@ -30,6 +35,8 @@ class MoonlightGroupTableSeeder extends Seeder {
 			'permissions' => serialize([
 				'admin' => 0,
 			]),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
 		]);
 	}
 }

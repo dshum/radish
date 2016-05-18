@@ -33,8 +33,8 @@ class LoginController extends Controller
 			$scope['message'] = 'Неправильный логин или пароль.';
 			return view('moonlight::login', $scope);
 		}
-
-		if ($user->password != $password) {
+        
+		if ( ! password_verify($password, $user->password)) {
 			$scope['message'] = 'Неправильный логин или пароль.';
 			return view('moonlight::login', $scope);
 		}

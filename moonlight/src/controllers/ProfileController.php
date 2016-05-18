@@ -53,6 +53,12 @@ class ProfileController extends Controller
         $loggedUser->last_name = $request->input('last_name');
         $loggedUser->email = $request->input('email');
         
+        $password = $request->input('password');
+        
+        if ($password) {
+            $loggedUser->password = password_hash($password, PASSWORD_DEFAULT);
+        }
+        
         $loggedUser->save();
         
         return redirect()->back();
