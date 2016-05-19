@@ -15,8 +15,38 @@
 @section('css')
 @show
         <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <script src="/packages/moonlight/touch/js/jquery.form.min.js"></script>
         <script>
             $(function() {
+                $.blockUI = function() {
+                    $('.block-ui').fadeIn('fast');
+                };
+                
+                $.unblockUI = function() {
+                    $('.block-ui').fadeOut('fast');
+                };
+                
+                $.alert = function(content) {
+                    $('.alert .alert-container .content').html(content);
+                    $('.alert').fadeIn('fast');
+                };
+                
+                $('.alert .alert-container .cancel').click(function() {
+                    $('.alert').fadeOut('fast');
+                });
+                
+                $('.alert .alert-container .hide').click(function() {
+                    $('.alert').fadeOut('fast');
+                });
+                
+                 $('.alert .alert-container').click(function(e) {
+                    return false;
+                });
+                
+                $('.alert').click(function() {
+                    $('.alert').fadeOut('fast');
+                });
+                
                 $('#hamburger').click(function() {
                     $('.sidebar').fadeToggle('fast');
 
@@ -24,7 +54,7 @@
               });
             });
         </script>
-@section('scripts')
+@section('js')
 @show
     </head>
     <body>
@@ -53,6 +83,11 @@
                 </ul>
             </div>
         </div>
+        <div class="block-ui">
+            <div></div>
+        </div>
+@section('alert')
+@show
         <div class="main">
 @section('main')
 @show

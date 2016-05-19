@@ -14,7 +14,7 @@
         <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/common.css">
         <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/small.css">
         <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-@section('scripts')
+@section('js')
 @show
     </head>
     <body>

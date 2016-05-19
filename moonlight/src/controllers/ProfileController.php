@@ -37,16 +37,20 @@ class ProfileController extends Controller
         ]);
         
         if ($validator->fails()) {
-            $scope['errors'] = $validator->errors();
+            $messages = $validator->errors();
             
-            $scope['login'] = $loggedUser->login;
-            $scope['first_name'] = $request->input('first_name');
-            $scope['last_name'] = $request->input('last_name');
-            $scope['email'] = $request->input('email');
-            $scope['created_at'] = $loggedUser->created_at;
-            $scope['updated_at'] = $loggedUser->updated_at;
+            foreach ([
+                'password',
+                'first_name',
+                'last_name',
+                'email',
+            ] as $field) {
+                if ($messages->has($field)) {
+                    $scope['errors'][$field] = $messages->first($field);
+                }
+            }
 
-            return view('moonlight::profile', $scope);
+            return response()->json($scope);
         }
         
         $loggedUser->first_name = $request->input('first_name');
@@ -61,7 +65,14 @@ class ProfileController extends Controller
         
         $loggedUser->save();
         
-        return redirect()->back();
+        $scope['user'] = [
+            'password' => null,
+            'first_name' => $loggedUser->first_name,
+            'last_name' => $loggedUser->last_name,
+            'email' => $loggedUser->email,
+        ];
+        
+        return response()->json($scope);
     }
     
     /**
@@ -75,12 +86,15 @@ class ProfileController extends Controller
         
         $loggedUser = LoggedUser::getUser();
         
+        $groups = $loggedUser->getGroups();
+        
         $scope['login'] = $loggedUser->login;
         $scope['first_name'] = $loggedUser->first_name;
         $scope['last_name'] = $loggedUser->last_name;
         $scope['email'] = $loggedUser->email;
         $scope['created_at'] = $loggedUser->created_at;
-        $scope['updated_at'] = $loggedUser->updated_at;
+        $scope['last_login'] = $loggedUser->last_login;
+        $scope['groups'] = $loggedUser->groups;
         
         return view('moonlight::profile', $scope);
     }

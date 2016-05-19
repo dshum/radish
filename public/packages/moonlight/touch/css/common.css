@@ -306,16 +306,24 @@ ul.menu li.red a {
   border: none;
 }
 
+.alert .hide {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    font-size: 2rem;
+    color: #ccc;
+}
+
 .alert .content {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem 0;
   font-size: 1.2rem;
-  border-bottom: 1px solid #eee;
 }
 
 .alert .buttons {
   float: right;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
+  border-top: 1px solid #eee;
   white-space: nowrap;
 }
 
@@ -332,12 +340,21 @@ ul.menu li.red a {
 .block-ui {
   display: none;
   position: fixed;
-  z-index: 0;
+  z-index: 1000;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.block-ui div {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 50px;
+   border-bottom: 2px solid orange;
 }
 
 .sidebar {
@@ -391,23 +408,23 @@ ul.menu li.red a {
 }
 
 .next {
-  display: inline-block;
-  margin-bottom: 2rem;
-  padding: 0.5rem 1rem;
-  border: 2px solid gold;
-  border-radius: 2px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    display: inline-block;
+    margin-bottom: 2rem;
+    padding: 0.5rem 1rem;
+    border: 2px solid gold;
+    border-radius: 2px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .next.waiting {
-  background-color: gold;
-  color: black;
+    background-color: gold;
+    color: black;
 }
 
 .autocomplete-suggestions { margin-top: 1px; border: 1px solid #999; border=radius: 2px; background: #FFF; overflow: auto; }
@@ -422,4 +439,13 @@ ul.menu li.red a {
     padding: 1rem;
     background-color: tomato;
     color: white;
+}
+
+input.invalid,
+input.invalid:not([type]):focus:not([readonly]),
+input.invalid[type=text]:focus:not([readonly]),
+input.invalid[type=password]:focus:not([readonly]),
+textarea.invalid:focus:not([readonly]),
+select.invalid:focus:not([readonly]) {
+  border-color: tomato;
 }

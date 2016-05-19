@@ -2,7 +2,7 @@
 
 @section('title', 'Moonlight')
 
-@section('scripts')
+@section('js')
         <script>
             $(function() {
                 if ($('[name="login"]').val()) {
