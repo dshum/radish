@@ -21,7 +21,7 @@
                 @if (isset($message))
                 <div class="error">{{$message}}</div>
                 @endif
-                <form action="{{route('login')}}" method="POST">
+                <form action="{{route('login')}}" autocomplete="off" method="POST">
                     <div class="row">
                         <input type="text" name="login" value="{{$login or ''}}" placeholder="Логин">
                     </div>
