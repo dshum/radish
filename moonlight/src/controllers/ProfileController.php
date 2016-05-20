@@ -21,10 +21,10 @@ class ProfileController extends Controller
         $loggedUser = LoggedUser::getUser();
         
 		$validator = Validator::make($request->all(), [
-            'password' => 'min:6|max:25|confirmed',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email',
+            'password' => 'min:6|max:25|confirmed',
         ], [
             'first_name.required' => 'Введите имя.',
             'first_name.max' => 'Слишком длинное имя.',

@@ -6,45 +6,45 @@
 @endsection
 
 @section('js')
-        <script>
-            $(function() {
-                $('form').submit(function() {
-                    $('[name]').removeClass('invalid');
-                    $.blockUI();
-                    
-                    $(this).ajaxSubmit({
-                        url: this.action,
-                        dataType: 'json',
-                        success: function(data) {
-                            if (data.errors) {
-                                let message = '';
-                                
-                                for (let field in data.errors) {
-                                    $('[name="'+field+'"]').addClass('invalid');
-                                    
-                                    message += data.errors[field]+'<br />';
-                                }
-                                
-                                $.alert(message);  
-                            } else if (data.user) {
-                                for (let field in data.user) {
-                                    $('[name="'+field+'"]').val(data.user[field]).blur();
-                                }
-                                
-                                $('#password-container').slideUp('fast');
-                            }
-                            
-                            $.unblockUI();
-                        },
-                        error: function() {
-                            $.unblockUI();
-                        }
-                    });
+<script>
+    $(function() {
+        $('form').submit(function() {
+            $('[name]').removeClass('invalid');
+            $.blockUI();
 
-                    event.preventDefault();
-                });
+            $(this).ajaxSubmit({
+                url: this.action,
+                dataType: 'json',
+                success: function(data) {
+                    if (data.error) {
+                        $.alert(data.error);
+                    } else if (data.errors) {
+                        let message = '';
+
+                        for (let field in data.errors) {
+                            $('[name="'+field+'"]').addClass('invalid');
+
+                            message += data.errors[field]+'<br />';
+                        }
+
+                        $.alert(message);  
+                    } else if (data.group) {
+                        for (let field in data.group) {
+                            $('[name="'+field+'"]').val(data.group[field]).blur();
+                        }
+                    }
+
+                    $.unblockUI();
+                },
+                error: function() {
+                    $.unblockUI();
+                }
             });
-        </script>
+
+            event.preventDefault();
+        });
+    });
+</script>
 @endsection
 
 @section('body')
@@ -78,17 +78,17 @@
         <form action="{{route('group', $group->id)}}" autocomplete="off" method="POST">
             <div class="row">
                 <label>Название:</label><br>
-                <input type="text" name="title" value="{{ $group->name }}" placeholder="Название">
+                <input type="text" name="name" value="{{ $group->name }}" placeholder="Название">
             </div>
             <div class="row">
                 <p><input type="checkbox" name="admin" id="admin" value="1"{{ $group->hasAccess('admin') ? ' checked' : '' }}> <label for="admin">Управление пользователями</label></p>
             </div>
             <div class="row">
                 Доступ к элементам по умолчанию:
-                <p><input type="radio" name="permission" id="permission_denied" value="denied"{{ $group->default_permission == 'deny' ? ' checked' : '' }}> <label for="permission_denied">Доступ закрыт</label></p>
-                <p><input type="radio" name="permission" id="permission_view" value="view"{{ $group->default_permission == 'view' ? ' checked' : '' }}> <label for="permission_view">Просмотр</label></p>
-                <p><input type="radio" name="permission" id="permission_update" value="update"{{ $group->default_permission == 'update' ? ' checked' : '' }}> <label for="permission_update">Изменение</label></p>
-                <p><input type="radio" name="permission" id="permission_delete" value="delete"{{ $group->default_permission == 'delete' ? ' checked' : '' }}> <label for="permission_delete">Удаление</label></p>
+                <p><input type="radio" name="default_permission" id="permission_deny" value="deny"{{ $group->default_permission == 'deny' ? ' checked' : '' }}> <label for="permission_deny">Доступ закрыт</label></p>
+                <p><input type="radio" name="default_permission" id="permission_view" value="view"{{ $group->default_permission == 'view' ? ' checked' : '' }}> <label for="permission_view">Просмотр</label></p>
+                <p><input type="radio" name="default_permission" id="permission_update" value="update"{{ $group->default_permission == 'update' ? ' checked' : '' }}> <label for="permission_update">Изменение</label></p>
+                <p><input type="radio" name="default_permission" id="permission_delete" value="delete"{{ $group->default_permission == 'delete' ? ' checked' : '' }}> <label for="permission_delete">Удаление</label></p>
             </div>
             <div class="row">
                 @if ($group->created_at)

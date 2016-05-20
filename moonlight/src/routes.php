@@ -30,11 +30,15 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         
         Route::get('/users/{id}', ['as' => 'user', 'uses' => 'Moonlight\Controllers\UserController@edit']);
         
+        Route::post('/users/{id}', ['as' => 'user', 'uses' => 'Moonlight\Controllers\UserController@save']);
+        
         Route::get('/users/create', ['as' => 'user.create', 'uses' => 'Moonlight\Controllers\UserController@create']);
         
         Route::post('/users/delete/{id}', ['as' => 'user.delete', 'uses' => 'Moonlight\Controllers\UserController@delete']);
         
         Route::get('/groups/{id}', ['as' => 'group', 'uses' => 'Moonlight\Controllers\GroupController@edit']);
+        
+        Route::post('/groups/{id}', ['as' => 'group', 'uses' => 'Moonlight\Controllers\GroupController@save']);
         
         Route::get('/groups/create', ['as' => 'group.create', 'uses' => 'Moonlight\Controllers\GroupController@create']);
         

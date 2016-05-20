@@ -13,7 +13,9 @@
                 url: this.action,
                 dataType: 'json',
                 success: function(data) {
-                    if (data.errors) {
+                    if (data.error) {
+                        $.alert(data.error);
+                    } else if (data.errors) {
                         let message = '';
 
                         for (let field in data.errors) {
@@ -27,8 +29,6 @@
                         for (let field in data.user) {
                             $('[name="'+field+'"]').val(data.user[field]).blur();
                         }
-
-                        $('#password-container').slideUp('fast');
                     }
 
                     $.unblockUI();

@@ -47,22 +47,43 @@ class UserController extends Controller
     }
     
     /**
-     * Save the profile of the logged user.
+     * Save group.
      *
      * @return Response
      */
-    public function save(Request $request)
+    public function save(Request $request, $id)
     {
         $scope = [];
         
         $loggedUser = LoggedUser::getUser();
         
-		$validator = Validator::make($request->all(), [
-            'password' => 'min:6|max:25|confirmed',
+		$user = User::find($id);
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            $scope['error'] = 'У вас нет прав на управление пользователями.';
+        } elseif ( ! $user) {
+            $scope['error'] = 'Пользователь не найден.';
+        } elseif ($user->id == $loggedUser->id) {
+            $scope['error'] = 'Нельзя редактировать самого себя.';
+        } elseif ($user->isSuperUser()) {
+            $scope['error'] = 'Нельзя редактировать суперпользователя.';
+        } else {
+            $scope['error'] = null;
+        }
+        
+        if ($scope['error']) {
+            return response()->json($scope);
+        }
+        
+        $validator = Validator::make($request->all(), [
+            'login' => 'required|max:25',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email',
+            'password' => 'min:6|max:25',
         ], [
+            'login.required' => 'Введите логин.',
+            'login.max' => 'Слишком длинный логин.',
             'first_name.required' => 'Введите имя.',
             'first_name.max' => 'Слишком длинное имя.',
             'last_name.required' => 'Введите фамилию.',
@@ -71,13 +92,13 @@ class UserController extends Controller
             'email.email' => 'Некорректный адрес электронной почты.',
             'password.min' => 'Минимальная длина пароля 6 символов.',
             'password.max' => 'Максимальная длина пароля 25 символов.',
-            'password.confirmed' => 'Введенные пароли должны совпадать.',
         ]);
         
         if ($validator->fails()) {
             $messages = $validator->errors();
             
             foreach ([
+                'login',
                 'first_name',
                 'last_name',
                 'email',
@@ -89,43 +110,35 @@ class UserController extends Controller
             }
         }
         
-        $password_old = $request->input('password_old');
-        $password = $request->input('password');
-        
-        if (
-            ($password || $password_old) 
-            && ! password_verify($password_old, $loggedUser->password)) {
-            $scope['errors']['password_old'] = 'Неправильный текущий пароль.';
-        }
-        
         if (isset($scope['errors'])) {
             return response()->json($scope);
         }
-        
-        $loggedUser->first_name = $request->input('first_name');
-        $loggedUser->last_name = $request->input('last_name');
-        $loggedUser->email = $request->input('email');
+
+        $password = $request->input('password');
+
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
         
         if ($password) {
-            $loggedUser->password = password_hash($password, PASSWORD_DEFAULT);
+            $user->password = password_hash($password, PASSWORD_DEFAULT);
         }
         
-        $loggedUser->save();
+        $user->save();
         
         $scope['user'] = [
-            'first_name' => $loggedUser->first_name,
-            'last_name' => $loggedUser->last_name,
-            'email' => $loggedUser->email,
-            'password_old' => null,
+            'login' => $user->login,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
             'password' => null,
-            'password_confirmation' => null,
         ];
         
         return response()->json($scope);
     }
     
     /**
-     * Show the list of groups and users.
+     * Edit user.
      * @return Response
      */
     public function edit(Request $request, $id)
