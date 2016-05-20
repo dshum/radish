@@ -9,6 +9,10 @@
 @section('js')
         <script>
             $(function() {
+                $('#password-toggler').click(function() {
+                    $('#password-container').slideToggle('fast');
+                });
+                
                 $('form').submit(function() {
                     $('[name]').removeClass('invalid');
                     $.blockUI();
@@ -26,9 +30,15 @@
                                     message += data.errors[field]+'<br />';
                                 }
                                 
-                                $.alert(message);
+                                $.alert(message);  
+                            } else if (data.user) {
+                                for (let field in data.user) {
+                                    $('[name="'+field+'"]').val(data.user[field]).blur();
+                                }
+                                
+                                $('#password-container').slideUp('fast');
                             }
-
+                            
                             $.unblockUI();
                         },
                         error: function() {
@@ -73,12 +83,19 @@
             <div class="profile-form">
                 <form action="{{route('profile')}}" autocomplete="off" method="POST">
                     <div class="row">
-                        <label>Логин:</label><br>
-                        <input type="text" name="login" value="{{$login}}" readonly>
-                    </div>
-                    <div class="row">
-                        <label>Новый пароль:</label><br>
-                        <input type="password" name="password">
+                        Логин: {{$login}}<br>
+                        @if ($loggedUser->isSuperUser())
+                        <b>Суперпользователь</b><br>
+                        @endif
+                        Состоит в группах:
+                        @if (sizeof($groups))
+                            @foreach ($groups as $k => $group)
+                            <a href="">{{ $group->name }}</a>{{ $k < sizeof($groups) - 1 ? ', ' : '' }}
+                            @endforeach
+                            <br>
+                        @endif
+                        Дата создания: {{$created_at->format('d.m.Y')}} <small>{{$created_at->format('H:i:s')}}</small><br>
+                        Последний логин: {{$last_login->format('d.m.Y')}} <small>{{$last_login->format('H:i:s')}}</small>
                     </div>
                     <div class="row">
                         <label>Имя:</label><br>
@@ -92,22 +109,22 @@
                         <label>E-mail:</label><br>
                         <input type="text" name="email" value="{{$email}}" placeholder="E-mail">
                     </div>
-                    @if (sizeof($groups))
                     <div class="row">
-                        Состоит в группах:
-                        @foreach ($groups as $k => $group)
-                            {{ $group->name }}{{ $k < sizeof($groups) - 1 ? ', ' : '' }}
-                        @endforeach
+                        <span id="password-toggler" class="dashed hand">Сменить пароль</span>
                     </div>
-                    @endif
-                    @if ($loggedUser->isSuperUser())
-                    <div class="row">
-                        <b>Суперпользователь</b>
-                    </div>
-                    @endif
-                    <div class="row">
-                        Дата создания: {{$created_at->format('d.m.Y')}} <small>{{$created_at->format('H:i:s')}}</small><br>
-                        Последний логин: {{$last_login->format('d.m.Y')}} <small>{{$last_login->format('H:i:s')}}</small>
+                    <div id="password-container" class="dnone">
+                        <div class="row">
+                            <label>Текущий пароль:</label><br>
+                            <input type="password" name="password_old">
+                        </div>
+                        <div class="row">
+                            <label>Новый пароль:</label><br>
+                            <input type="password" name="password">
+                        </div>
+                        <div class="row">
+                            <label>Подтверждение:</label><br>
+                            <input type="password" name="password_confirmation">
+                        </div>
                     </div>
                     <div class="row">
                         <input type="submit" value="Сохранить" class="btn">

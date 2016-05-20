@@ -284,32 +284,34 @@ ul.menu li.red a {
 }
 
 .alert {
-  display: none;
-  position: fixed;
-  z-index: 110;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+    display: none;
+    position: fixed;
+    z-index: 110;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .alert-container {
-  position: absolute;
-  z-index: 111;
-  top: 1rem;
-  left: 1rem;
-  right: 1rem;
-  padding: 1rem 1.5rem;
-  background-color: white;
-  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
-  border: none;
+    display: none;
+    position: absolute;
+    z-index: 111;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    padding: 1rem 1.5rem;
+    background-color: white;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    border: none;
 }
 
 .alert .hide {
     position: absolute;
     top: 0;
     right: 1rem;
+    cursor: pointer;
     font-size: 2rem;
     color: #ccc;
 }
@@ -340,12 +342,12 @@ ul.menu li.red a {
 .block-ui {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 99;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .block-ui div {

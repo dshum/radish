@@ -28,15 +28,21 @@
                 
                 $.alert = function(content) {
                     $('.alert .alert-container .content').html(content);
-                    $('.alert').fadeIn('fast');
+                    $('.alert').fadeIn('fast', function() {
+                        $('.alert .alert-container').fadeIn('fast');
+                    });
                 };
                 
                 $('.alert .alert-container .cancel').click(function() {
-                    $('.alert').fadeOut('fast');
+                    $('.alert .alert-container').fadeOut('fast', function() {
+                       $('.alert').fadeOut('fast'); 
+                    });
                 });
                 
                 $('.alert .alert-container .hide').click(function() {
-                    $('.alert').fadeOut('fast');
+                    $('.alert .alert-container').fadeOut('fast', function() {
+                       $('.alert').fadeOut('fast'); 
+                    });
                 });
                 
                  $('.alert .alert-container').click(function(e) {
@@ -44,7 +50,9 @@
                 });
                 
                 $('.alert').click(function() {
-                    $('.alert').fadeOut('fast');
+                    $('.alert .alert-container').fadeOut('fast', function() {
+                       $('.alert').fadeOut('fast'); 
+                    });
                 });
                 
                 $('#hamburger').click(function() {
