@@ -11,6 +11,42 @@ use Moonlight\Models\User;
 class UserController extends Controller
 {
     /**
+     * Delete user.
+     *
+     * @return Response
+     */
+    public function delete(Request $request, $id)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+		$user = User::find($id);
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            $scope['error'] = 'У вас нет прав на управление пользователями.';
+        } elseif ( ! $user) {
+            $scope['error'] = 'Пользователь не найден.';
+        } elseif ($user->id == $loggedUser->id) {
+            $scope['error'] = 'Нельзя удалить самого себя.';
+        } elseif ($user->isSuperUser()) {
+            $scope['error'] = 'Нельзя удалить суперпользователя.';
+        } else {
+            $scope['error'] = null;
+        }
+        
+        if ($scope['error']) {
+            return response()->json($scope);
+        }
+        
+        $user->delete();
+        
+        $scope['user'] = $user->id;
+        
+        return response()->json($scope);
+    }
+    
+    /**
      * Save the profile of the logged user.
      *
      * @return Response
@@ -97,6 +133,10 @@ class UserController extends Controller
         $scope = [];
         
         $loggedUser = LoggedUser::getUser();
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            return redirect()->route('users');
+        }
         
         $user = User::find($id);
         

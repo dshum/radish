@@ -11,7 +11,7 @@ use Moonlight\Models\User;
 class GroupController extends Controller
 {
     /**
-     * Delete user.
+     * Delete group.
      *
      * @return Response
      */
@@ -23,16 +23,17 @@ class GroupController extends Controller
         
 		$group = Group::find($id);
         
-        if ( ! $group) {
+        if ( ! $loggedUser->hasAccess('admin')) {
+            $scope['error'] = 'У вас нет прав на управление пользователями.';
+        } elseif ( ! $group) {
             $scope['error'] = 'Группа не найдена.';
-            
-            return response()->json($scope);
+        } elseif ($loggedUser->inGroup($group)) {
+            $scope['error'] = 'Нельзя удалить группу, в которой вы состоите.';
+        } else {
+            $scope['error'] = null;
         }
         
-        if ($loggedUser->inGroup($group)) {
-            $scope['error'] = 'Нельзя удалить группу, в которой вы состоите.';
-            usleep(300000);
-            
+        if ($scope['error']) {
             return response()->json($scope);
         }
         
@@ -53,6 +54,10 @@ class GroupController extends Controller
         $scope = [];
         
         $loggedUser = LoggedUser::getUser();
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            return redirect()->route('users');
+        }
         
         $group = Group::find($id);
         
