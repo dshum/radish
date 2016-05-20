@@ -37,6 +37,13 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         Route::get('/groups/create', ['as' => 'group.create', 'uses' => 'Moonlight\Controllers\GroupController@create']);
         
         Route::post('/groups/delete/{id}', ['as' => 'group.delete', 'uses' => 'Moonlight\Controllers\GroupController@delete']);
+        
+        Route::get('/search', ['as' => 'search', 'uses' => 'Moonlight\Controllers\SearchController@show']);
+        
+        Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@show']);
+        
+        Route::get('/trash', ['as' => 'trash', 'uses' => 'Moonlight\Controllers\TrashController@show']);
+        
+        Route::get('/log', ['as' => 'log', 'uses' => 'Moonlight\Controllers\LogController@show']);
     });
-
 });

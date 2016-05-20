@@ -14,6 +14,6 @@ class HomeController extends Controller
      */
     public function show()
     {
-        return view('moonlight::index');
+        return view('moonlight::home');
     }
 }

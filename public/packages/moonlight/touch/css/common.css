@@ -44,39 +44,41 @@ nav {
   color: black;
 }
 
-nav ul {
-  margin: 0;
-}
-
-nav ul li {
-  transition: background-color .3s;
-  float: left;
-  margin: 0;
-  padding: 0 0.5rem;
-}
-
 nav a {
-  color: black;
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: black;
 }
 
-nav li span {
+nav span {
   font-size: 1.25rem;
 }
 
-nav .brand-logo {
-  position: absolute;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  display: inline-block;
-  font-size: 1.25rem;
-  padding: 0;
-  white-space: nowrap;
-  text-decoration: none;
+nav left {
+    display: inline;
+    float: left;
+    font-size: 1.25rem;
+    padding: 0 0.5rem;
 }
 
-nav .brand-logo a {
-  text-decoration: none;
+nav center {
+    display: inline;
+    float: left;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    font-size: 1.25rem;
+    padding: 0;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+nav right {
+    display: inline;
+    float: right;
+    font-size: 1.25rem;
+    padding: 0 0.5rem;
 }
 
 .main {
@@ -473,4 +475,8 @@ input.invalid[type=password]:focus:not([readonly]),
 textarea.invalid:focus:not([readonly]),
 select.invalid:focus:not([readonly]) {
   border-color: tomato;
+}
+
+.form {
+  margin-top: 0.5rem;
 }
