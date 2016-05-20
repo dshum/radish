@@ -5,6 +5,10 @@
 @section('js')
 <script>
     $(function() {
+        $('#password-toggler').click(function() {
+            $('#password-container').slideToggle('fast');
+        });
+        
         $('form').submit(function() {
             $('[name]').removeClass('invalid');
             $.blockUI();
@@ -78,10 +82,6 @@
                 <input type="text" name="login" value="{{$user->login}}" placeholder="Логин">
             </div>
             <div class="row">
-                <label>Новый пароль:</label><br>
-                <input type="password" name="password">
-            </div>
-            <div class="row">
                 <label>Имя:</label><br>
                 <input type="text" name="first_name" value="{{$user->first_name}}" placeholder="Имя">
             </div>
@@ -92,6 +92,15 @@
             <div class="row">
                 <label>E-mail:</label><br>
                 <input type="text" name="email" value="{{$user->email}}" placeholder="E-mail">
+            </div>
+            <div class="row">
+                <span id="password-toggler" class="dashed hand">Сменить пароль</span>
+            </div>
+            <div id="password-container" class="dnone">
+                <div class="row">
+                    <label>Новый пароль:</label><br>
+                    <input type="password" name="password">
+                </div>
             </div>
             <div class="row">
                 @if ($loggedUser->isSuperUser())
