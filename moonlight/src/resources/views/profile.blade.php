@@ -87,8 +87,8 @@
                         @if ($loggedUser->isSuperUser())
                         <b>Суперпользователь</b><br>
                         @endif
-                        Состоит в группах:
                         @if (sizeof($groups))
+                            Состоит в группах:
                             @foreach ($groups as $k => $group)
                             <a href="">{{ $group->name }}</a>{{ $k < sizeof($groups) - 1 ? ', ' : '' }}
                             @endforeach
