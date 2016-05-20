@@ -283,7 +283,7 @@ ul.menu li.red a {
   cursor: pointer;
 }
 
-.alert {
+.confirm {
     display: none;
     position: fixed;
     z-index: 110;
@@ -294,7 +294,7 @@ ul.menu li.red a {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.alert-container {
+.confirm .container {
     position: absolute;
     z-index: 111;
     top: 1rem;
@@ -306,6 +306,52 @@ ul.menu li.red a {
     border: none;
 }
 
+.confirm .content {
+    border-bottom: 1px solid #eee;
+    padding: 0.5rem 0 1rem 0;
+    font-size: 1.2rem;
+}
+
+.confirm .buttons {
+    float: right;
+    padding: 1rem 0 0.5rem 0;
+    white-space: nowrap;
+}
+
+.confirm .buttons .btn {
+  margin-left: 1rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 0.8rem;
+}
+
+.alert {
+    display: none;
+    position: fixed;
+    z-index: 110;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.alert .container {
+    position: absolute;
+    z-index: 111;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    padding: 1rem 1.5rem;
+    background-color: white;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    border: none;
+}
+
+.alert .content {
+    padding: 0.5rem 0;
+    font-size: 1.2rem;
+}
+
 .alert .hide {
     position: absolute;
     top: 0;
@@ -313,29 +359,6 @@ ul.menu li.red a {
     cursor: pointer;
     font-size: 2rem;
     color: #ccc;
-}
-
-.alert .content {
-  padding: 1rem 0;
-  font-size: 1.2rem;
-}
-
-.alert .buttons {
-  float: right;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  border-top: 1px solid #eee;
-  white-space: nowrap;
-}
-
-.alert .buttons .btn {
-  height: 2rem;
-  line-height: 2rem;
-  font-size: 0.8rem;
-}
-
-.alert .btn {
-  margin-left: 1rem;
 }
 
 .block-ui {

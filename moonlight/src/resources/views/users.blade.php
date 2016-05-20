@@ -26,39 +26,39 @@
                 
                 $('#message .hide').click(function() {
                     $('#message').fadeOut('fast');
+                    $('.block-ui').fadeOut('fast');
                 });
                 
-                 $('#confirm .alert-container').click(function(e) {
+                 $('#confirm .container').click(function(e) {
                     return false;
                 });
                 
                 $('#message').click(function() {
                     $('#message').fadeOut('fast');
+                    $('.block-ui').fadeOut('fast');
                 });
 
-                $('.alert .remove').click(function() {
+                $('#confirm .remove').click(function() {
                     let url = $(this).attr('url');
                     
                     if ( ! url) return false;
                     
-                    $('#confirm .alert-container').fadeOut('fast', function() {
-                        $.post(
-                            url,
-                            {},
-                            function(data) {
-                                if (data.error) {
-                                    $('#message .alert-container .content').html(data.error);
-                                    $('#message').fadeIn('fast');
-                                } else if (data.group) {
-                                    $('li[group="'+data.group+'"]').slideUp('fast');
-                                }
-
-                                $('#confirm').fadeOut('fast', function() {
-                                    $('#confirm .alert-container').show();
-                                });
+                    $('#confirm').fadeOut('fast');
+                    $('.block-ui').fadeIn('fast');
+  
+                    $.post(
+                        url,
+                        {},
+                        function(data) {
+                            if (data.error) {
+                                $('#message .content').html(data.error);
+                                $('#message').fadeIn('fast');
+                            } else if (data.group) {
+                                $('li[group="'+data.group+'"]').slideUp('fast');
+                                $('.block-ui').fadeOut('fast');
                             }
-                        );
-                    });
+                        }
+                    );
                 });
             });
         </script>
@@ -74,8 +74,8 @@
 @endsection
 
 @section('alert')
-            <div id="confirm" class="alert">
-                <div class="alert-container">
+            <div id="confirm" class="confirm">
+                <div class="container">
                     <div class="content"></div>
                     <div class="buttons">
                         <input type="button" value="Удалить" class="btn danger remove">
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div id="message" class="alert">
-                <div class="alert-container">
+                <div class="container">
                     <div class="hide">&#215;</div>
                     <div class="content"></div>
                 </div>
