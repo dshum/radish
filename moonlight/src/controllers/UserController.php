@@ -5,9 +5,10 @@ namespace Moonlight\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Models\Group;
 use Moonlight\Models\User;
 
-class ProfileController extends Controller
+class UserController extends Controller
 {
     /**
      * Save the profile of the logged user.
@@ -88,26 +89,26 @@ class ProfileController extends Controller
     }
     
     /**
-     * Show the profile of the logged user.
-     * 
+     * Show the list of groups and users.
      * @return Response
      */
-    public function show(Request $request)
+    public function edit(Request $request, $id)
     {
         $scope = [];
         
         $loggedUser = LoggedUser::getUser();
         
-        $groups = $loggedUser->getGroups();
+        $user = User::find($id);
         
-        $scope['login'] = $loggedUser->login;
-        $scope['first_name'] = $loggedUser->first_name;
-        $scope['last_name'] = $loggedUser->last_name;
-        $scope['email'] = $loggedUser->email;
-        $scope['created_at'] = $loggedUser->created_at;
-        $scope['last_login'] = $loggedUser->last_login;
-        $scope['groups'] = $loggedUser->groups;
+        if ( ! $user) {
+            return redirect()->route('users');
+        }
         
-        return view('moonlight::profile', $scope);
+        $userGroups = $user->getGroups();
+        
+        $scope['user'] = $user;
+        $scope['userGroups'] = $userGroups;
+        
+        return view('moonlight::user', $scope);
     }
 }

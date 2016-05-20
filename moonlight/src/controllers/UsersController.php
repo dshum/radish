@@ -5,9 +5,10 @@ namespace Moonlight\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Models\Group;
 use Moonlight\Models\User;
 
-class ProfileController extends Controller
+class UsersController extends Controller
 {
     /**
      * Save the profile of the logged user.
@@ -88,8 +89,7 @@ class ProfileController extends Controller
     }
     
     /**
-     * Show the profile of the logged user.
-     * 
+     * Show the list of groups and users.
      * @return Response
      */
     public function show(Request $request)
@@ -98,16 +98,17 @@ class ProfileController extends Controller
         
         $loggedUser = LoggedUser::getUser();
         
-        $groups = $loggedUser->getGroups();
+        $groups = Group::orderBy('name', 'asc')->get();
+        $users = User::orderBy('login', 'asc')->get();
         
-        $scope['login'] = $loggedUser->login;
-        $scope['first_name'] = $loggedUser->first_name;
-        $scope['last_name'] = $loggedUser->last_name;
-        $scope['email'] = $loggedUser->email;
-        $scope['created_at'] = $loggedUser->created_at;
-        $scope['last_login'] = $loggedUser->last_login;
-        $scope['groups'] = $loggedUser->groups;
+        foreach ($users as $user) {
+            $userGroups[$user->id] = $user->getGroups();
+        }
         
-        return view('moonlight::profile', $scope);
+        $scope['groups'] = $groups;
+        $scope['users'] = $users;
+        $scope['userGroups'] = $userGroups;
+        
+        return view('moonlight::users', $scope);
     }
 }

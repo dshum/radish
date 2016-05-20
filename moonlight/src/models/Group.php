@@ -27,6 +27,13 @@ class Group extends Model {
 	 * @var array
 	 */
 	protected $groupUsers;
+    
+    private $permissionTitles = [
+        'deny' => 'Доступ к элементам закрыт',
+        'view' => 'Просмотр элементов',
+        'update' => 'Изменение элементов',
+        'delete' => 'Удаление элементов',
+    ];
 
     public function getDates()
 	{
@@ -62,7 +69,7 @@ class Group extends Model {
 		return $this->belongsToMany('Moonlight\Models\User', $this->pivotTable);
 	}
 
-  public function getUsers()
+    public function getUsers()
 	{
 		return $this->users()->get();
 	}
@@ -103,6 +110,15 @@ class Group extends Model {
 
 		return $this;
 	}
+    
+    public function getPermissionTitle()
+    {
+        $name = $this->default_permission;
+        
+        return isset($this->permissionTitles[$name])
+            ? $this->permissionTitles[$name]
+            : null;
+    }
 
 	public function itemPermissions()
 	{

@@ -295,7 +295,6 @@ ul.menu li.red a {
 }
 
 .alert-container {
-    display: none;
     position: absolute;
     z-index: 111;
     top: 1rem;

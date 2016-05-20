@@ -1,6 +1,6 @@
 @extends('moonlight::base')
 
-@section('title', 'Профиль')
+@section('title', $user->login)
 
 @section('css')
         <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/profile.css">
@@ -9,10 +9,6 @@
 @section('js')
         <script>
             $(function() {
-                $('#password-toggler').click(function() {
-                    $('#password-container').slideToggle('fast');
-                });
-                
                 $('form').submit(function() {
                     $('[name]').removeClass('invalid');
                     $.blockUI();
@@ -52,6 +48,18 @@
         </script>
 @endsection
 
+@section('nav')
+        <nav>
+            <ul>
+                <li><a href="{{ route('users') }}"><span class="halflings halflings-menu-left"></span></a></li>
+            </ul>
+            <a href="{{ route('home') }}" class="brand-logo">{{ $user->login }}</a>
+            <ul class="right">
+                <li><a href="search.html"><span class="glyphicons glyphicons-search"></span></a></li>
+            </ul>
+        </nav>
+@endsection
+
 @section('sidebar')
                     <li><a href="">Пользователь</a></li>
                     <li><a href="">Безналичный счет</a></li>
@@ -72,50 +80,44 @@
 
 @section('main')
             <div class="profile-form">
-                <form action="{{route('profile')}}" autocomplete="off" method="POST">
+                <form action="{{route('user', $user->id)}}" autocomplete="off" method="POST">
                     <div class="row">
-                        Логин: {{$login}}<br>
-                        @if ($loggedUser->isSuperUser())
-                        <b>Суперпользователь</b><br>
-                        @endif
-                        @if (sizeof($groups))
-                            Состоит в группах:
-                            @foreach ($groups as $k => $group)
-                            <a href="">{{ $group->name }}</a>{{ $k < sizeof($groups) - 1 ? ', ' : '' }}
-                            @endforeach
-                            <br>
-                        @endif
-                        Дата создания: {{$created_at->format('d.m.Y')}} <small>{{$created_at->format('H:i:s')}}</small><br>
-                        Последний логин: {{$last_login->format('d.m.Y')}} <small>{{$last_login->format('H:i:s')}}</small>
+                        <label>Логин:</label><br>
+                        <input type="text" name="login" value="{{$user->login}}" placeholder="Логин">
+                    </div>
+                    <div class="row">
+                        <label>Новый пароль:</label><br>
+                        <input type="password" name="password">
                     </div>
                     <div class="row">
                         <label>Имя:</label><br>
-                        <input type="text" name="first_name" value="{{$first_name}}" placeholder="Имя">
+                        <input type="text" name="first_name" value="{{$user->first_name}}" placeholder="Имя">
                     </div>
                     <div class="row">
                         <label>Фамилия:</label><br>
-                        <input type="text" name="last_name" value="{{$last_name}}" placeholder="Фамилия">
+                        <input type="text" name="last_name" value="{{$user->last_name}}" placeholder="Фамилия">
                     </div>
                     <div class="row">
                         <label>E-mail:</label><br>
-                        <input type="text" name="email" value="{{$email}}" placeholder="E-mail">
+                        <input type="text" name="email" value="{{$user->email}}" placeholder="E-mail">
                     </div>
                     <div class="row">
-                        <span id="password-toggler" class="dashed hand">Сменить пароль</span>
-                    </div>
-                    <div id="password-container" class="dnone">
-                        <div class="row">
-                            <label>Текущий пароль:</label><br>
-                            <input type="password" name="password_old">
-                        </div>
-                        <div class="row">
-                            <label>Новый пароль:</label><br>
-                            <input type="password" name="password">
-                        </div>
-                        <div class="row">
-                            <label>Подтверждение:</label><br>
-                            <input type="password" name="password_confirmation">
-                        </div>
+                        @if ($loggedUser->isSuperUser())
+                        <b>Суперпользователь</b><br>
+                        @endif
+                        @if (sizeof($userGroups))
+                            Состоит в группах:
+                            @foreach ($userGroups as $k => $group)
+                            <a href="">{{ $group->name }}</a>{{ $k < sizeof($userGroups) - 1 ? ', ' : '' }}
+                            @endforeach
+                            <br>
+                        @endif
+                        @if ($user->created_at)
+                        Дата создания: {{$user->created_at->format('d.m.Y')}} <small>{{$user->created_at->format('H:i:s')}}</small><br>
+                        @endif
+                        @if ($user->last_login)
+                        Последний логин: {{$user->last_login->format('d.m.Y')}} <small>{{$user->last_login->format('H:i:s')}}</small><br>
+                        @endif
                     </div>
                     <div class="row">
                         <input type="submit" value="Сохранить" class="btn">

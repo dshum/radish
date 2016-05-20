@@ -1,6 +1,6 @@
 @extends('moonlight::base')
 
-@section('title', 'Профиль')
+@section('title', $group->name)
 
 @section('css')
         <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/profile.css">
@@ -9,10 +9,6 @@
 @section('js')
         <script>
             $(function() {
-                $('#password-toggler').click(function() {
-                    $('#password-container').slideToggle('fast');
-                });
-                
                 $('form').submit(function() {
                     $('[name]').removeClass('invalid');
                     $.blockUI();
@@ -52,6 +48,18 @@
         </script>
 @endsection
 
+@section('nav')
+        <nav>
+            <ul>
+                <li><a href="{{ route('users') }}"><span class="halflings halflings-menu-left"></span></a></li>
+            </ul>
+            <a href="{{ route('home') }}" class="brand-logo">{{ $group->name }}</a>
+            <ul class="right">
+                <li><a href="search.html"><span class="glyphicons glyphicons-search"></span></a></li>
+            </ul>
+        </nav>
+@endsection
+
 @section('sidebar')
                     <li><a href="">Пользователь</a></li>
                     <li><a href="">Безналичный счет</a></li>
@@ -72,50 +80,28 @@
 
 @section('main')
             <div class="profile-form">
-                <form action="{{route('profile')}}" autocomplete="off" method="POST">
+                <form action="{{route('group', $group->id)}}" autocomplete="off" method="POST">
                     <div class="row">
-                        Логин: {{$login}}<br>
-                        @if ($loggedUser->isSuperUser())
-                        <b>Суперпользователь</b><br>
+                        <label>Название:</label><br>
+                        <input type="text" name="title" value="{{ $group->name }}" placeholder="Название">
+                    </div>
+                    <div class="row">
+                        <p><input type="checkbox" name="admin" id="admin" value="1"{{ $group->hasAccess('admin') ? ' checked' : '' }}> <label for="admin">Управление пользователями</label></p>
+                    </div>
+                    <div class="row">
+                        Доступ к элементам по умолчанию:
+                        <p><input type="radio" name="permission" id="permission_denied" value="denied"{{ $group->default_permission == 'deny' ? ' checked' : '' }}> <label for="permission_denied">Доступ закрыт</label></p>
+                        <p><input type="radio" name="permission" id="permission_view" value="view"{{ $group->default_permission == 'view' ? ' checked' : '' }}> <label for="permission_view">Просмотр</label></p>
+                        <p><input type="radio" name="permission" id="permission_update" value="update"{{ $group->default_permission == 'update' ? ' checked' : '' }}> <label for="permission_update">Изменение</label></p>
+                        <p><input type="radio" name="permission" id="permission_delete" value="delete"{{ $group->default_permission == 'delete' ? ' checked' : '' }}> <label for="permission_delete">Удаление</label></p>
+                    </div>
+                    <div class="row">
+                        @if ($group->created_at)
+                        Дата создания: {{$group->created_at->format('d.m.Y')}} <small>{{$group->created_at->format('H:i:s')}}</small><br>
                         @endif
-                        @if (sizeof($groups))
-                            Состоит в группах:
-                            @foreach ($groups as $k => $group)
-                            <a href="">{{ $group->name }}</a>{{ $k < sizeof($groups) - 1 ? ', ' : '' }}
-                            @endforeach
-                            <br>
+                        @if ($group->updated_at)
+                        Последнее изменение: {{$group->updated_at->format('d.m.Y')}} <small>{{$group->updated_at->format('H:i:s')}}</small><br>
                         @endif
-                        Дата создания: {{$created_at->format('d.m.Y')}} <small>{{$created_at->format('H:i:s')}}</small><br>
-                        Последний логин: {{$last_login->format('d.m.Y')}} <small>{{$last_login->format('H:i:s')}}</small>
-                    </div>
-                    <div class="row">
-                        <label>Имя:</label><br>
-                        <input type="text" name="first_name" value="{{$first_name}}" placeholder="Имя">
-                    </div>
-                    <div class="row">
-                        <label>Фамилия:</label><br>
-                        <input type="text" name="last_name" value="{{$last_name}}" placeholder="Фамилия">
-                    </div>
-                    <div class="row">
-                        <label>E-mail:</label><br>
-                        <input type="text" name="email" value="{{$email}}" placeholder="E-mail">
-                    </div>
-                    <div class="row">
-                        <span id="password-toggler" class="dashed hand">Сменить пароль</span>
-                    </div>
-                    <div id="password-container" class="dnone">
-                        <div class="row">
-                            <label>Текущий пароль:</label><br>
-                            <input type="password" name="password_old">
-                        </div>
-                        <div class="row">
-                            <label>Новый пароль:</label><br>
-                            <input type="password" name="password">
-                        </div>
-                        <div class="row">
-                            <label>Подтверждение:</label><br>
-                            <input type="password" name="password_confirmation">
-                        </div>
                     </div>
                     <div class="row">
                         <input type="submit" value="Сохранить" class="btn">

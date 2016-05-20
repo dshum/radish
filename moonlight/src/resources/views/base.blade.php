@@ -18,43 +18,6 @@
         <script src="/packages/moonlight/touch/js/jquery.form.min.js"></script>
         <script>
             $(function() {
-                $.blockUI = function() {
-                    $('.block-ui').fadeIn('fast');
-                };
-                
-                $.unblockUI = function() {
-                    $('.block-ui').fadeOut('fast');
-                };
-                
-                $.alert = function(content) {
-                    $('.alert .alert-container .content').html(content);
-                    $('.alert').fadeIn('fast', function() {
-                        $('.alert .alert-container').fadeIn('fast');
-                    });
-                };
-                
-                $('.alert .alert-container .cancel').click(function() {
-                    $('.alert .alert-container').fadeOut('fast', function() {
-                       $('.alert').fadeOut('fast'); 
-                    });
-                });
-                
-                $('.alert .alert-container .hide').click(function() {
-                    $('.alert .alert-container').fadeOut('fast', function() {
-                       $('.alert').fadeOut('fast'); 
-                    });
-                });
-                
-                 $('.alert .alert-container').click(function(e) {
-                    return false;
-                });
-                
-                $('.alert').click(function() {
-                    $('.alert .alert-container').fadeOut('fast', function() {
-                       $('.alert').fadeOut('fast'); 
-                    });
-                });
-                
                 $('#hamburger').click(function() {
                     $('.sidebar').fadeToggle('fast');
 
@@ -66,15 +29,17 @@
 @show
     </head>
     <body>
+@section('nav')
         <nav>
             <ul>
                 <li><a href="menu.html" id="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></a></li>
             </ul>
-            <a href="index.html" class="brand-logo">@yield('title')</a>
+            <a href="{{ route('home') }}" class="brand-logo">@yield('title')</a>
             <ul class="right">
                 <li><a href="search.html"><span class="glyphicons glyphicons-search"></span></a></li>
             </ul>
         </nav>
+@show
         <div class="sidebar">
             <div class="sidebar-container">
                 <ul class="menu">
@@ -83,7 +48,7 @@
                     <li><a href="browse.html">Корень сайта</a></li>
                     <li><a href="trash.html">Корзина</a></li>
                     <li><hr></li>
-                    <li><a href="users.html">Пользователи</a></li>
+                    <li><a href="{{route('users')}}">Пользователи</a></li>
                     <li><a href="log.html">Журнал</a></li>
                     <li><hr></li>
                     <li><a href="{{route('profile')}}">{{$loggedUser->first_name}} {{$loggedUser->last_name}}</a></li>
