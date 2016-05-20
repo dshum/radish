@@ -31,6 +31,7 @@ class GroupController extends Controller
         
         if ($loggedUser->inGroup($group)) {
             $scope['error'] = 'Нельзя удалить группу, в которой вы состоите.';
+            usleep(300000);
             
             return response()->json($scope);
         }

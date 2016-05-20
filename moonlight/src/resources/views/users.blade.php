@@ -26,16 +26,18 @@
                 
                 $('#message .hide').click(function() {
                     $('#message').fadeOut('fast');
-                    $('.block-ui').fadeOut('fast');
                 });
                 
-                 $('#confirm .container').click(function(e) {
+                $('#confirm .container').click(function(e) {
+                    return false;
+                });
+                
+                $('#message .container').click(function(e) {
                     return false;
                 });
                 
                 $('#message').click(function() {
                     $('#message').fadeOut('fast');
-                    $('.block-ui').fadeOut('fast');
                 });
 
                 $('#confirm .remove').click(function() {
@@ -50,13 +52,13 @@
                         url,
                         {},
                         function(data) {
+                            $('.block-ui').fadeOut('fast');
+                            
                             if (data.error) {
                                 $('#message .content').html(data.error);
                                 $('#message').fadeIn('fast');
-                                $('.block-ui').fadeOut('fast');
                             } else if (data.group) {
                                 $('li[group="'+data.group+'"]').slideUp('fast');
-                                $('.block-ui').fadeOut('fast');
                             }
                         }
                     );
