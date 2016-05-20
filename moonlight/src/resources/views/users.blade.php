@@ -53,6 +53,7 @@
                             if (data.error) {
                                 $('#message .content').html(data.error);
                                 $('#message').fadeIn('fast');
+                                $('.block-ui').fadeOut('fast');
                             } else if (data.group) {
                                 $('li[group="'+data.group+'"]').slideUp('fast');
                                 $('.block-ui').fadeOut('fast');
