@@ -47,7 +47,113 @@ class UserController extends Controller
     }
     
     /**
-     * Save group.
+     * Add user.
+     *
+     * @return Response
+     */
+    public function add(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            $scope['error'] = 'У вас нет прав на управление пользователями.';
+        } else {
+            $scope['error'] = null;
+        }
+        
+        if ($scope['error']) {
+            return response()->json($scope);
+        }
+        
+        $validator = Validator::make($request->all(), [
+            'login' => 'required|max:25',
+            'password' => 'required|min:6|max:25',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|email',
+            'groups' => 'array',
+        ], [
+            'login.required' => 'Введите логин.',
+            'login.max' => 'Слишком длинный логин.',
+            'password.required' => 'Введите пароль.',
+            'password.min' => 'Минимальная длина пароля 6 символов.',
+            'password.max' => 'Максимальная длина пароля 25 символов.',
+            'first_name.required' => 'Введите имя.',
+            'first_name.max' => 'Слишком длинное имя.',
+            'last_name.required' => 'Введите фамилию.',
+            'last_name.max' => 'Слишком длинная фамилия.',
+            'email.required' => 'Введите адрес электронной почты.',
+            'email.email' => 'Некорректный адрес электронной почты.',
+            'groups.array' => 'Некорректные группы.',
+        ]);
+        
+        if ($validator->fails()) {
+            $messages = $validator->errors();
+            
+            foreach ([
+                'login',
+                'password',
+                'first_name',
+                'last_name',
+                'email',
+            ] as $field) {
+                if ($messages->has($field)) {
+                    $scope['errors'][$field] = $messages->first($field);
+                }
+            }
+        }
+        
+        if (isset($scope['errors'])) {
+            return response()->json($scope);
+        }   
+        
+        $user = new User;
+
+        $user->login = $request->input('login');
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        
+        /*
+         * Set password
+         */
+        
+        $password = $request->input('password');
+        $user->password = password_hash($password, PASSWORD_DEFAULT);
+        
+        $user->save();
+        
+        /*
+         * Set groups
+         */
+        
+        $groups = $request->input('groups');
+
+        if ($groups) {
+            foreach ($groups as $id) {
+                $group = Group::find($id); 
+                
+                if ($group) {
+                    $user->addGroup($group);
+                }
+            }
+        }
+        
+        $scope['added'] = [
+            'login' => $user->login,
+            'password' => null,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+        ];
+        
+        return response()->json($scope);
+    }
+    
+    /**
+     * Save user.
      *
      * @return Response
      */
@@ -77,14 +183,16 @@ class UserController extends Controller
         
         $validator = Validator::make($request->all(), [
             'login' => 'required|max:25',
+            'password' => 'min:6|max:25',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email',
             'groups' => 'array',
-            'password' => 'min:6|max:25|confirmed',
         ], [
             'login.required' => 'Введите логин.',
             'login.max' => 'Слишком длинный логин.',
+            'password.min' => 'Минимальная длина пароля 6 символов.',
+            'password.max' => 'Максимальная длина пароля 25 символов.',
             'first_name.required' => 'Введите имя.',
             'first_name.max' => 'Слишком длинное имя.',
             'last_name.required' => 'Введите фамилию.',
@@ -92,9 +200,6 @@ class UserController extends Controller
             'email.required' => 'Введите адрес электронной почты.',
             'email.email' => 'Некорректный адрес электронной почты.',
             'groups.array' => 'Некорректные группы.',
-            'password.min' => 'Минимальная длина пароля 6 символов.',
-            'password.max' => 'Максимальная длина пароля 25 символов.',
-            'password.confirmed' => 'Введенные пароли должны совпадать.',
         ]);
         
         if ($validator->fails()) {
@@ -102,10 +207,10 @@ class UserController extends Controller
             
             foreach ([
                 'login',
+                'password',
                 'first_name',
                 'last_name',
                 'email',
-                'password',
             ] as $field) {
                 if ($messages->has($field)) {
                     $scope['errors'][$field] = $messages->first($field);
@@ -115,14 +220,17 @@ class UserController extends Controller
         
         if (isset($scope['errors'])) {
             return response()->json($scope);
-        }
-
-        $groups = $request->input('groups');
-        $password = $request->input('password');
+        }        
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
+        
+        /*
+         * Set groups
+         */
+        
+        $groups = $request->input('groups');
         
         $userGroups = $user->getGroups();
         
@@ -142,22 +250,50 @@ class UserController extends Controller
             }
         }
         
+        /*
+         * Set password
+         */
+        
+        $password = $request->input('password');
+        
         if ($password) {
             $user->password = password_hash($password, PASSWORD_DEFAULT);
         }
         
         $user->save();
         
-        $scope['user'] = [
+        $scope['saved'] = [
             'login' => $user->login,
+            'password' => null,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
-            'password' => null,
-            'password_confirmation' => null,
         ];
         
         return response()->json($scope);
+    }
+    
+    /**
+     * Create user.
+     * @return Response
+     */
+    public function create(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            return redirect()->route('users');
+        }
+        
+        $groups = Group::orderBy('name', 'asc')->get();
+        
+        $scope['user'] = null;
+        $scope['groups'] = $groups;
+        $scope['userGroups'] = [];
+        
+        return view('moonlight::user', $scope);
     }
     
     /**

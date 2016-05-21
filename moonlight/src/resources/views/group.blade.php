@@ -1,6 +1,6 @@
 @extends('moonlight::base')
 
-@section('title', $group->name)
+@section('title', $group ? $group->name : 'Новая группа')
 
 @section('css')
 @endsection
@@ -16,6 +16,8 @@
                 url: this.action,
                 dataType: 'json',
                 success: function(data) {
+                    $.unblockUI();
+                    
                     if (data.error) {
                         $.alert(data.error);
                     } else if (data.errors) {
@@ -28,13 +30,13 @@
                         }
 
                         $.alert(message);  
-                    } else if (data.group) {
+                    } else if (data.saved) {
                         for (let field in data.group) {
-                            $('[name="'+field+'"]').val(data.group[field]).blur();
+                            $('[name="'+field+'"]').val(data.group[field]);
                         }
+                    } else if (data.added) {
+                        document.location.href = "{{ route('users') }}";
                     }
-
-                    $.unblockUI();
                 },
                 error: function() {
                     $.unblockUI();
@@ -75,27 +77,27 @@
 </div>
 <div class="main">
     <div class="form">
-        <form action="{{route('group', $group->id)}}" autocomplete="off" method="POST">
+        <form action="{{ $group ? route('group.save', $group->id) : route('group.add') }}" autocomplete="off" method="POST">
             <div class="row">
                 <label>Название:</label><br>
-                <input type="text" name="name" value="{{ $group->name }}" placeholder="Название">
+                <input type="text" name="name" value="{{ $group ? $group->name : '' }}" placeholder="Название">
             </div>
             <div class="row">
-                <p><input type="checkbox" name="admin" id="admin" value="1"{{ $group->hasAccess('admin') ? ' checked' : '' }}> <label for="admin">Управление пользователями</label></p>
+                <p><input type="checkbox" name="admin" id="admin" value="1"{{ $group && $group->hasAccess('admin') ? ' checked' : '' }}> <label for="admin">Управление пользователями</label></p>
             </div>
             <div class="row">
                 Доступ к элементам по умолчанию:
-                <p><input type="radio" name="default_permission" id="permission_deny" value="deny"{{ $group->default_permission == 'deny' ? ' checked' : '' }}> <label for="permission_deny">Доступ закрыт</label></p>
-                <p><input type="radio" name="default_permission" id="permission_view" value="view"{{ $group->default_permission == 'view' ? ' checked' : '' }}> <label for="permission_view">Просмотр</label></p>
-                <p><input type="radio" name="default_permission" id="permission_update" value="update"{{ $group->default_permission == 'update' ? ' checked' : '' }}> <label for="permission_update">Изменение</label></p>
-                <p><input type="radio" name="default_permission" id="permission_delete" value="delete"{{ $group->default_permission == 'delete' ? ' checked' : '' }}> <label for="permission_delete">Удаление</label></p>
+                <p><input type="radio" name="default_permission" id="permission_deny" value="deny"{{ $group && $group->default_permission == 'deny' ? ' checked' : '' }}> <label for="permission_deny">Доступ закрыт</label></p>
+                <p><input type="radio" name="default_permission" id="permission_view" value="view"{{ $group && $group->default_permission == 'view' ? ' checked' : '' }}> <label for="permission_view">Просмотр</label></p>
+                <p><input type="radio" name="default_permission" id="permission_update" value="update"{{ $group && $group->default_permission == 'update' ? ' checked' : '' }}> <label for="permission_update">Изменение</label></p>
+                <p><input type="radio" name="default_permission" id="permission_delete" value="delete"{{ $group && $group->default_permission == 'delete' ? ' checked' : '' }}> <label for="permission_delete">Удаление</label></p>
             </div>
             <div class="row">
-                @if ($group->created_at)
-                Дата создания: {{$group->created_at->format('d.m.Y')}} <small>{{$group->created_at->format('H:i:s')}}</small><br>
+                @if ($group && $group->created_at)
+                Дата создания: {{ $group->created_at->format('d.m.Y') }} <small>{{ $group->created_at->format('H:i:s') }}</small><br>
                 @endif
-                @if ($group->updated_at)
-                Последнее изменение: {{$group->updated_at->format('d.m.Y')}} <small>{{$group->updated_at->format('H:i:s')}}</small><br>
+                @if ($group && $group->updated_at)
+                Последнее изменение: {{ $group->updated_at->format('d.m.Y') }} <small>{{ $group->updated_at->format('H:i:s') }}</small><br>
                 @endif
             </div>
             <div class="row">

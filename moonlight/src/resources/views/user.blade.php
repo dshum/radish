@@ -1,15 +1,11 @@
 @extends('moonlight::base')
 
-@section('title', $user->login)
+@section('title', $user ? $user->login : 'Новый пользователь')
 
 @section('js')
 <script>
     $(function() {
-        $('#password-toggler').click(function() {
-            $('#password-container').slideToggle('fast');
-        });
-        
-        $('[name="email"]').val('{{ $user->email }}');
+        $('[name="login"]').val('{{ $user ? $user->login : null }}');
         $('[name="password"]').val('');
         
         $('form').submit(function() {
@@ -20,6 +16,8 @@
                 url: this.action,
                 dataType: 'json',
                 success: function(data) {
+                    $.unblockUI();
+                    
                     if (data.error) {
                         $.alert(data.error);
                     } else if (data.errors) {
@@ -32,13 +30,13 @@
                         }
 
                         $.alert(message);  
-                    } else if (data.user) {
+                    } else if (data.saved) {
                         for (let field in data.user) {
-                            $('[name="'+field+'"]').val(data.user[field]).blur();
+                            $('[name="'+field+'"]').val(data.user[field]);
                         }
+                    } else if (data.added) {
+                        document.location.href = "{{ route('users') }}";
                     }
-
-                    $.unblockUI();
                 },
                 error: function() {
                     $.unblockUI();
@@ -79,22 +77,26 @@
 </div>
 <div class="main">
    <div class="form">
-        <form action="{{ route('user', $user->id )}}" autocomplete="off" method="POST">
+        <form action="{{ $user ? route('user.save', $user->id ) : route('user.add') }}" autocomplete="off" method="POST">
             <div class="row">
                 <label>Логин:</label><br>
-                <input type="text" name="login" value="{{ $user->login }}" placeholder="Логин">
+                <input type="text" name="login" value="{{ $user ? $user->login : '' }}" placeholder="Логин">
+            </div>
+            <div class="row">
+                <label>Пароль:</label><br>
+                <input type="password" name="password">
             </div>
             <div class="row">
                 <label>Имя:</label><br>
-                <input type="text" name="first_name" value="{{ $user->first_name }}" placeholder="Имя">
+                <input type="text" name="first_name" value="{{ $user ? $user->first_name : '' }}" placeholder="Имя">
             </div>
             <div class="row">
                 <label>Фамилия:</label><br>
-                <input type="text" name="last_name" value="{{ $user->last_name }}" placeholder="Фамилия">
+                <input type="text" name="last_name" value="{{ $user ? $user->last_name : '' }}" placeholder="Фамилия">
             </div>
             <div class="row">
                 <label>E-mail:</label><br>
-                <input type="text" name="email" value="{{ $user->email }}" placeholder="E-mail">
+                <input type="text" name="email" value="{{ $user ? $user->email : '' }}" placeholder="E-mail">
             </div>
             <div class="row">
                 Группы:<br>
@@ -106,26 +108,13 @@
                 @endforeach
             </div>
             <div class="row">
-                <span id="password-toggler" class="dashed hand">Сменить пароль</span>
-            </div>
-            <div id="password-container" class="dnone">
-                <div class="row">
-                    <label>Новый пароль:</label><br>
-                    <input type="password" name="password">
-                </div>
-                <div class="row">
-                    <label>Подтверждение:</label><br>
-                    <input type="password" name="password_confirmation">
-                </div>
-            </div>
-            <div class="row">
-                @if ($loggedUser->isSuperUser())
+                @if ($user && $user->isSuperUser())
                 <b>Суперпользователь</b><br>
                 @endif
-                @if ($user->created_at)
+                @if ($user && $user->created_at)
                 Дата создания: {{$user->created_at->format('d.m.Y')}} <small>{{$user->created_at->format('H:i:s')}}</small><br>
                 @endif
-                @if ($user->last_login)
+                @if ($user && $user->last_login)
                 Последний логин: {{$user->last_login->format('d.m.Y')}} <small>{{$user->last_login->format('H:i:s')}}</small><br>
                 @endif
             </div>
