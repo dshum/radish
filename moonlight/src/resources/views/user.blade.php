@@ -9,6 +9,9 @@
             $('#password-container').slideToggle('fast');
         });
         
+        $('[name="email"]').val($('[name="email"]').val());
+        $('[name="password"]').val('');
+        
         $('form').submit(function() {
             $('[name]').removeClass('invalid');
             $.blockUI();
@@ -97,10 +100,6 @@
                 <span id="password-toggler" class="dashed hand">Сменить пароль</span>
             </div>
             <div id="password-container" class="dnone">
-                <div class="row">
-                    <label>Текущий пароль:</label><br>
-                    <input type="password" name="password_old">
-                </div>
                 <div class="row">
                     <label>Новый пароль:</label><br>
                     <input type="password" name="password">
