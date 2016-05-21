@@ -123,6 +123,7 @@
 </div>
 <div class="main">
     <form action="{{ route('log.search') }}" autocomplete="off">
+        <input type="submit" class="phantom">
         <div class="log-form">
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
             <input type="text" name="comments" placeholder="Поиск">
