@@ -101,6 +101,10 @@
                     <label>Новый пароль:</label><br>
                     <input type="password" name="password">
                 </div>
+                <div class="row">
+                    <label>Подтверждение:</label><br>
+                    <input type="password" name="password_confirmation">
+                </div>
             </div>
             <div class="row">
                 @if ($loggedUser->isSuperUser())

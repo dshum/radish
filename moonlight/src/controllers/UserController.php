@@ -80,7 +80,7 @@ class UserController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email',
-            'password' => 'min:6|max:25',
+            'password' => 'min:6|max:25|confirmed',
         ], [
             'login.required' => 'Введите логин.',
             'login.max' => 'Слишком длинный логин.',
@@ -92,6 +92,7 @@ class UserController extends Controller
             'email.email' => 'Некорректный адрес электронной почты.',
             'password.min' => 'Минимальная длина пароля 6 символов.',
             'password.max' => 'Максимальная длина пароля 25 символов.',
+            'password.confirmed' => 'Введенные пароли должны совпадать.',
         ]);
         
         if ($validator->fails()) {
@@ -132,6 +133,7 @@ class UserController extends Controller
             'last_name' => $user->last_name,
             'email' => $user->email,
             'password' => null,
+            'password_confirmation' => null,
         ];
         
         return response()->json($scope);
