@@ -55,5 +55,7 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         Route::get('/trash', ['as' => 'trash', 'uses' => 'Moonlight\Controllers\TrashController@show']);
         
         Route::get('/log', ['as' => 'log', 'uses' => 'Moonlight\Controllers\LogController@show']);
+        
+        Route::get('/log/search', ['as' => 'log.search', 'uses' => 'Moonlight\Controllers\LogController@search']);
     });
 });

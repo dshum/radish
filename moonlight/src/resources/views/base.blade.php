@@ -10,19 +10,27 @@
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/glyphicons.css">
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/glyphicons-halflings.css">
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/glyphicons-bootstrap.css">
+<link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/loader.css">
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/default.css">
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/common.css">
+<link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/js/calendarview/jquery.calendar.css">
 @section('css')
 @show
 <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="/packages/moonlight/touch/js/jquery.form.min.js"></script>
+<script src="/packages/moonlight/touch/js/calendarview/jquery.calendar.js"></script>
+<script src="/packages/moonlight/touch/js/addclear.min.js"></script>
 <script src="/packages/moonlight/touch/js/common.js"></script>
 @section('js')
 @show
 </head>
 <body>
 <div class="block-ui">
-    <div></div>
+    <div class="block-ui-container">
+        <div class="wrapper">
+            <div class="cssload-loader"></div>
+        </div>
+    </div>
 </div>
 <div class="alert">
     <div class="container">

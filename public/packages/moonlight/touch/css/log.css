@@ -29,12 +29,35 @@ div.log-form-params .row:after {
   clear: both;
 }
 
+.list-container .empty {
+    padding: 0.5rem 0;
+}
+
+.list-container .count {
+    padding: 0.5rem 0;
+}
+
+.list-container .page {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: #999;
+}
+
 ul.log {
   margin-bottom: 1rem;
 }
 
 ul.log li {
   border-bottom: 1px solid #eee;
+}
+
+ul.log li .user {
+  color: midnightblue;
+}
+
+ul.log li .title {
+  color: maroon;
 }
 
 ul.log li .date {

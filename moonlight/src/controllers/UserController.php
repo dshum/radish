@@ -5,8 +5,10 @@ namespace Moonlight\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Main\UserActionType;
 use Moonlight\Models\Group;
 use Moonlight\Models\User;
+use Moonlight\Models\UserAction;
 
 class UserController extends Controller
 {
@@ -40,6 +42,11 @@ class UserController extends Controller
         }
         
         $user->delete();
+        
+        UserAction::log(
+			UserActionType::ACTION_TYPE_DROP_USER_ID,
+			'ID '.$user->id.' ('.$user->login.')'
+		);
         
         $scope['user'] = $user->id;
         
@@ -141,13 +148,12 @@ class UserController extends Controller
             }
         }
         
-        $scope['added'] = [
-            'login' => $user->login,
-            'password' => null,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email,
-        ];
+        UserAction::log(
+			UserActionType::ACTION_TYPE_ADD_USER_ID,
+			'ID '.$user->id.' ('.$user->login.')'
+		);
+        
+        $scope['added'] = $user->id;
         
         return response()->json($scope);
     }
@@ -262,13 +268,12 @@ class UserController extends Controller
         
         $user->save();
         
-        $scope['saved'] = [
-            'login' => $user->login,
-            'password' => null,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email,
-        ];
+        UserAction::log(
+			UserActionType::ACTION_TYPE_SAVE_USER_ID,
+			'ID '.$user->id.' ('.$user->login.')'
+		);
+        
+        $scope['saved'] = $user->id;
         
         return response()->json($scope);
     }

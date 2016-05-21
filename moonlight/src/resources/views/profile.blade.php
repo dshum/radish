@@ -32,11 +32,7 @@
                         }
 
                         $.alert(message);  
-                    } else if (data.user) {
-                        for (let field in data.user) {
-                            $('[name="'+field+'"]').val(data.user[field]).blur();
-                        }
-
+                    } else if (data.saved) {
                         $('#password-container').slideUp('fast');
                     }
                 },

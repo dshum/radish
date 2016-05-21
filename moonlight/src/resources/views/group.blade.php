@@ -30,10 +30,6 @@
                         }
 
                         $.alert(message);  
-                    } else if (data.saved) {
-                        for (let field in data.group) {
-                            $('[name="'+field+'"]').val(data.group[field]);
-                        }
                     } else if (data.added) {
                         document.location.href = "{{ route('users') }}";
                     }

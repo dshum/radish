@@ -49,24 +49,19 @@ class UserAction extends Model {
 	{
 		$loggedUser = LoggedUser::getUser();
 
-    $method =
-      isset($_SERVER['REQUEST_METHOD'])
-      ? $_SERVER['REQUEST_METHOD']
-      : '';
+        $method = isset($_SERVER['REQUEST_METHOD'])
+            ? $_SERVER['REQUEST_METHOD'] : '';
 
-    $uri =
-      isset($_SERVER['REQUEST_URI'])
-      ? $_SERVER['REQUEST_URI']
-      : '';
+        $uri = isset($_SERVER['REQUEST_URI'])
+            ? $_SERVER['REQUEST_URI'] : '';
 
-		$userAction = new UserAction;
+        $userAction = new UserAction;
 
-		$userAction->user_id = $loggedUser->id;
-		$userAction->action_type_id = $actionTypeId;
-		$userAction->comments = $comments;
-		$userAction->url = $method.' '.$uri;
+        $userAction->user_id = $loggedUser->id;
+        $userAction->action_type_id = $actionTypeId;
+        $userAction->comments = $comments;
+        $userAction->url = $method.' '.$uri;
 
-		$userAction->save();
+        $userAction->save();
 	}
-
 }

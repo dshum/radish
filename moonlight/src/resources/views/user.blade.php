@@ -30,10 +30,6 @@
                         }
 
                         $.alert(message);  
-                    } else if (data.saved) {
-                        for (let field in data.user) {
-                            $('[name="'+field+'"]').val(data.user[field]);
-                        }
                     } else if (data.added) {
                         document.location.href = "{{ route('users') }}";
                     }

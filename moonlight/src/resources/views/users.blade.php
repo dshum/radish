@@ -118,20 +118,20 @@
         @if ($user->isSuperUser() || $user->id == $loggedUser->id)
             <div class="remove disabled"><span class="halflings halflings-remove-circle"></span></div>
             <div class="date">{{ $user->created_at->format('d.m.Y') }}<br><span class="time">{{ $user->created_at->format('H:i:s') }}</span></div>
-            {{ $user->login }}
+            <span class="user">{{ $user->login }}</span>
         @else
             <div class="remove" user url="{{ route('user.delete', $user->id) }}" name="{{ $user->first_name }} {{ $user->last_name }}"><span class="halflings halflings-remove-circle"></span></div>
             <div class="date">{{ $user->created_at->format('d.m.Y') }}<br><span class="time">{{ $user->created_at->format('H:i:s') }}</span></div>
             <a href="{{ route('user', $user->id) }}">{{ $user->login }}</a>
         @endif
             {{ $user->first_name }} {{ $user->last_name }}<br>
-            <span>{{ $user->email }}</span><br>
+            <span class="email">{{ $user->email }}</span><br>
         @if ($user->isSuperUser())
             <small>Суперпользователь</small><br>
         @endif
         @if (isset($userGroups[$user->id]))
-            @foreach ($userGroups[$user->id] as $group)
-            <small>{{ $group->name }}</small>
+            @foreach ($userGroups[$user->id] as $k => $group)
+            <small>{{ $group->name }}</small>{{ $k < sizeof($userGroups[$user->id]) - 1 ? ',' : '' }}
             @endforeach
         @endif
         </li>

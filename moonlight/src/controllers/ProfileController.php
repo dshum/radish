@@ -5,7 +5,9 @@ namespace Moonlight\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Main\UserActionType;
 use Moonlight\Models\User;
+use Moonlight\Models\UserAction;
 
 class ProfileController extends Controller
 {
@@ -75,14 +77,12 @@ class ProfileController extends Controller
         
         $loggedUser->save();
         
-        $scope['user'] = [
-            'first_name' => $loggedUser->first_name,
-            'last_name' => $loggedUser->last_name,
-            'email' => $loggedUser->email,
-            'password_old' => null,
-            'password' => null,
-            'password_confirmation' => null,
-        ];
+        UserAction::log(
+			UserActionType::ACTION_TYPE_SAVE_PROFILE_ID,
+			'ID '.$loggedUser->id.' ('.$loggedUser->login.')'
+		);
+        
+        $scope['saved'] = $loggedUser->id;
         
         return response()->json($scope);
     }

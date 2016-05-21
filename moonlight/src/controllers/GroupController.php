@@ -5,8 +5,10 @@ namespace Moonlight\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Main\UserActionType;
 use Moonlight\Models\Group;
 use Moonlight\Models\User;
+use Moonlight\Models\UserAction;
 
 class GroupController extends Controller
 {
@@ -38,6 +40,11 @@ class GroupController extends Controller
         }
         
         $group->delete();
+        
+        UserAction::log(
+			UserActionType::ACTION_TYPE_DROP_GROUP_ID,
+			'ID '.$group->id.' ('.$group->name.')'
+		);
         
         $scope['group'] = $group->id;
         
@@ -102,10 +109,12 @@ class GroupController extends Controller
         
         $group->save();
         
-        $scope['added'] = [
-            'name' => $group->name,
-            'default_permission' => $group->default_permission,
-        ];
+        UserAction::log(
+			UserActionType::ACTION_TYPE_ADD_GROUP_ID,
+			'ID '.$group->id.' ('.$group->name.')'
+		);
+        
+        $scope['added'] = $group->id;
         
         return response()->json($scope);
     }
@@ -172,10 +181,12 @@ class GroupController extends Controller
         
         $group->save();
         
-        $scope['saved'] = [
-            'name' => $group->name,
-            'default_permission' => $group->default_permission,
-        ];
+        UserAction::log(
+			UserActionType::ACTION_TYPE_SAVE_GROUP_ID,
+			'ID '.$group->id.' ('.$group->name.')'
+		);
+        
+        $scope['saved'] = $group->id;
         
         return response()->json($scope);
     }

@@ -29,6 +29,7 @@ class UserActionType {
 	const ACTION_TYPE_DROP_USER_ID = 421;
 	const ACTION_TYPE_SAVE_PROFILE_ID = 501;
 	const ACTION_TYPE_LOGIN_ID = 601;
+    const ACTION_TYPE_LOGOUT_ID = 602;
 
 	public static $actionTypeNameList = array(
 		self::ACTION_TYPE_ADD_ELEMENT_ID => 'Добавление элемента',
@@ -58,6 +59,7 @@ class UserActionType {
 		self::ACTION_TYPE_DROP_USER_ID => 'Удаление пользователя',
 		self::ACTION_TYPE_SAVE_PROFILE_ID => 'Сохранение профиля',
 		self::ACTION_TYPE_LOGIN_ID => 'Авторизация',
+        self::ACTION_TYPE_LOGOUT_ID => 'Выход',
 	);
 
 	public static function getActionTypeNameList()

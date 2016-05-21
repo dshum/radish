@@ -4,7 +4,9 @@ namespace Moonlight\Controllers;
 
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Main\UserActionType;
 use Moonlight\Models\User;
+use Moonlight\Models\UserAction;
 
 class LoginController extends Controller
 {
@@ -45,12 +47,24 @@ class LoginController extends Controller
 		}
 
         LoggedUser::login($user);
+        
+        UserAction::log(
+			UserActionType::ACTION_TYPE_LOGIN_ID,
+			'ID '.$user->id.' ('.$user->login.')'
+		);
 
         return redirect()->route('home')->withCookie(cookie()->forever('login', $user->login));
     }
     
     public function logout(Request $request)
     {
+        $loggedUser = LoggedUser::getUser();
+        
+        UserAction::log(
+			UserActionType::ACTION_TYPE_LOGOUT_ID,
+			'ID '.$loggedUser->id.' ('.$loggedUser->login.')'
+		);
+        
         LoggedUser::logout();
         
         return redirect()->route('login');

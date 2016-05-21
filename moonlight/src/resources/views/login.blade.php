@@ -5,11 +5,7 @@
 @section('js')
         <script>
             $(function() {
-                if ($('[name="login"]').val()) {
-                    $('[name="password"]').focus();
-                } else {
-                    $('[name="login"]').focus();
-                }
+                
             });
         </script>
 @endsection
