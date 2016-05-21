@@ -126,7 +126,6 @@
         <div class="log-form">
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
             <input type="text" name="comments" placeholder="Поиск">
-            <input type="submit" value="Найти" class="hidden">
         </div>
         <div id="form-container" class="dnone log-form-params">
             <div class="row">
