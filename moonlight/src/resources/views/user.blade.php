@@ -98,8 +98,11 @@
             </div>
             <div id="password-container" class="dnone">
                 <div class="row">
+                    <label>Текущий пароль:</label><br>
+                    <input type="password" name="password_old">
+                </div>
+                <div class="row">
                     <label>Новый пароль:</label><br>
-                    <input type="hidden" name="prevent" value="autofill">
                     <input type="password" name="password">
                 </div>
                 <div class="row">
