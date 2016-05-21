@@ -1,33 +1,37 @@
 .dashed {
-  border-bottom: 1px dashed #999;
+    border-bottom: 1px dashed #999;
 }
 
 .hand {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .red {
-  color: orangered;
+    color: orangered;
 }
 
 .relative {
-  position: relative;
+    position: relative;
 }
 
 .dnone {
-  display: none;
+    display: none;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 .left {
-  float: left;
+    float: left;
 }
 
 .right {
-  float: right;
+    float: right;
 }
 
 .grey, .grey a {
-  color: #ccc;
+    color: #ccc;
 }
 
 nav {

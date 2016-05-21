@@ -126,6 +126,7 @@
         <div class="log-form">
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
             <input type="text" name="comments" placeholder="Поиск">
+            <input type="submit" value="Найти" class="hidden">
         </div>
         <div id="form-container" class="dnone log-form-params">
             <div class="row">
@@ -146,8 +147,8 @@
                     </select>
                 </div>
                 <div class="block">
-                    <input type="text" name="date-from" value="" class="date" readonly> &#151;
-                    <input type="text" name="date-to" value="" class="date" readonly>
+                    <input type="text" name="date-from" value="" class="date" placeholder="Дата от" readonly> &#151;
+                    <input type="text" name="date-to" value="" class="date" placeholder="Дата до" readonly>
                     <span class="reset">&#215;</span>
                 </div>
             </div>
