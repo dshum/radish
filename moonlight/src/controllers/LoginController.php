@@ -12,8 +12,8 @@ class LoginController extends Controller
     {
         $scope = [];
 
-		$login = $request->input('login');
-		$password = $request->input('password');
+		$login = $request->input('username');
+		$password = $request->input('userpass');
 
 		if ( ! $login) {
 			$scope['message'] = 'Введите логин.';
