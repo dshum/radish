@@ -80,6 +80,7 @@ class UserController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email',
+            'groups' => 'array',
             'password' => 'min:6|max:25|confirmed',
         ], [
             'login.required' => 'Введите логин.',
@@ -90,6 +91,7 @@ class UserController extends Controller
             'last_name.max' => 'Слишком длинная фамилия.',
             'email.required' => 'Введите адрес электронной почты.',
             'email.email' => 'Некорректный адрес электронной почты.',
+            'groups.array' => 'Некорректные группы.',
             'password.min' => 'Минимальная длина пароля 6 символов.',
             'password.max' => 'Максимальная длина пароля 25 символов.',
             'password.confirmed' => 'Введенные пароли должны совпадать.',
@@ -115,11 +117,30 @@ class UserController extends Controller
             return response()->json($scope);
         }
 
+        $groups = $request->input('groups');
         $password = $request->input('password');
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
+        
+        $userGroups = $user->getGroups();
+        
+        foreach ($userGroups as $group) {
+			if ( ! $groups || ! in_array($group->id, $groups)) {
+				$user->removeGroup($group);
+			}
+		}
+
+        if ($groups) {
+            foreach ($groups as $id) {
+                $group = Group::find($id); 
+                
+                if ($group) {
+                    $user->addGroup($group);
+                }
+            }
+        }
         
         if ($password) {
             $user->password = password_hash($password, PASSWORD_DEFAULT);
@@ -159,9 +180,16 @@ class UserController extends Controller
             return redirect()->route('users');
         }
         
-        $userGroups = $user->getGroups();
+        $groups = Group::orderBy('name', 'asc')->get();
+
+        $userGroups = [];
+        
+        foreach ($user->getGroups() as $group) {
+            $userGroups[$group->id] = $group->id;
+        }
         
         $scope['user'] = $user;
+        $scope['groups'] = $groups;
         $scope['userGroups'] = $userGroups;
         
         return view('moonlight::user', $scope);

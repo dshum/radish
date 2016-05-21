@@ -9,7 +9,7 @@
             $('#password-container').slideToggle('fast');
         });
         
-        $('[name="email"]').val('{{$user->email}}');
+        $('[name="email"]').val('{{ $user->email }}');
         $('[name="password"]').val('');
         
         $('form').submit(function() {
@@ -79,22 +79,31 @@
 </div>
 <div class="main">
    <div class="form">
-        <form action="{{route('user', $user->id)}}" autocomplete="off" method="POST">
+        <form action="{{ route('user', $user->id )}}" autocomplete="off" method="POST">
             <div class="row">
                 <label>Логин:</label><br>
-                <input type="text" name="login" value="{{$user->login}}" placeholder="Логин">
+                <input type="text" name="login" value="{{ $user->login }}" placeholder="Логин">
             </div>
             <div class="row">
                 <label>Имя:</label><br>
-                <input type="text" name="first_name" value="{{$user->first_name}}" placeholder="Имя">
+                <input type="text" name="first_name" value="{{ $user->first_name }}" placeholder="Имя">
             </div>
             <div class="row">
                 <label>Фамилия:</label><br>
-                <input type="text" name="last_name" value="{{$user->last_name}}" placeholder="Фамилия">
+                <input type="text" name="last_name" value="{{ $user->last_name }}" placeholder="Фамилия">
             </div>
             <div class="row">
                 <label>E-mail:</label><br>
-                <input type="text" name="email" value="{{$user->email}}" placeholder="E-mail">
+                <input type="text" name="email" value="{{ $user->email }}" placeholder="E-mail">
+            </div>
+            <div class="row">
+                Группы:<br>
+                @foreach ($groups as $group)
+                <p>
+                    <input type="checkbox" name="groups[]" id="group_{{ $group->id }}" value="{{ $group->id }}"{{ isset($userGroups[$group->id]) ? ' checked' : '' }}>
+                    <label for="group_{{ $group->id }}">{{ $group->name }}</label>
+                </p>
+                @endforeach
             </div>
             <div class="row">
                 <span id="password-toggler" class="dashed hand">Сменить пароль</span>
@@ -112,13 +121,6 @@
             <div class="row">
                 @if ($loggedUser->isSuperUser())
                 <b>Суперпользователь</b><br>
-                @endif
-                @if (sizeof($userGroups))
-                    Состоит в группах:
-                    @foreach ($userGroups as $k => $group)
-                    <a href="">{{ $group->name }}</a>{{ $k < sizeof($userGroups) - 1 ? ', ' : '' }}
-                    @endforeach
-                    <br>
                 @endif
                 @if ($user->created_at)
                 Дата создания: {{$user->created_at->format('d.m.Y')}} <small>{{$user->created_at->format('H:i:s')}}</small><br>
