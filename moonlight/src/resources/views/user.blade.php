@@ -9,7 +9,7 @@
             $('#password-container').slideToggle('fast');
         });
         
-        $('[name="email"]').val($('[name="email"]').val());
+        $('[name="email"]').val('{{$user->email}}');
         $('[name="password"]').val('');
         
         $('form').submit(function() {
