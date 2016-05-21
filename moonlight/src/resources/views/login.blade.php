@@ -23,10 +23,10 @@
                 @endif
                 <form action="{{route('login')}}" autocomplete="off" method="POST">
                     <div class="row">
-                        <input type="text" name="username" value="{{$login or ''}}" placeholder="Логин">
+                        <input type="text" name="login" value="{{$login or ''}}" placeholder="Логин">
                     </div>
                     <div class="row">
-                        <input type="password" name="userpass" placeholder="Пароль">
+                        <input type="password" name="password" placeholder="Пароль">
                     </div>
                     <div class="row">
                         <input type="submit" value="Войти" class="btn">
