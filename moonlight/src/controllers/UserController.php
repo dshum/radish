@@ -90,9 +90,9 @@ class UserController extends Controller
             'last_name.max' => 'Слишком длинная фамилия.',
             'email.required' => 'Введите адрес электронной почты.',
             'email.email' => 'Некорректный адрес электронной почты.',
-            'password.min' => 'Минимальная длина пароля 6 символов.',
-            'password.max' => 'Максимальная длина пароля 25 символов.',
-            'password.confirmed' => 'Введенные пароли должны совпадать.',
+            'pass.min' => 'Минимальная длина пароля 6 символов.',
+            'pass.max' => 'Максимальная длина пароля 25 символов.',
+            'pass.confirmed' => 'Введенные пароли должны совпадать.',
         ]);
         
         if ($validator->fails()) {
@@ -103,7 +103,7 @@ class UserController extends Controller
                 'first_name',
                 'last_name',
                 'email',
-                'password',
+                'pass',
             ] as $field) {
                 if ($messages->has($field)) {
                     $scope['errors'][$field] = $messages->first($field);
@@ -115,7 +115,7 @@ class UserController extends Controller
             return response()->json($scope);
         }
 
-        $password = $request->input('password');
+        $password = $request->input('pass');
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
@@ -132,8 +132,8 @@ class UserController extends Controller
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
-            'password' => null,
-            'password_confirmation' => null,
+            'pass' => null,
+            'pass_confirmation' => null,
         ];
         
         return response()->json($scope);

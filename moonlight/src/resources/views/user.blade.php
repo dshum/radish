@@ -99,11 +99,11 @@
             <div id="password-container" class="dnone">
                 <div class="row">
                     <label>Новый пароль:</label><br>
-                    <input type="password" name="password">
+                    <input type="password" name="pass">
                 </div>
                 <div class="row">
                     <label>Подтверждение:</label><br>
-                    <input type="password" name="password_confirmation">
+                    <input type="password" name="pass_confirmation">
                 </div>
             </div>
             <div class="row">
