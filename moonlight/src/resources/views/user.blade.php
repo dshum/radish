@@ -5,7 +5,7 @@
 @section('js')
 <script>
     $(function() {
-        $('[name="login"]').val('{{ $user ? $user->login : null }}');
+        $('[name="email"]').val('{{ $user ? $user->email : null }}');
         $('[name="password"]').val('');
         
         $('form').submit(function() {
