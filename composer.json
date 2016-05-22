@@ -22,7 +22,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Moonlight\\": "moonlight/src/"
+            "Moonlight\\": "moonlight/src/",
+            "Moonlight\\Main\\": "moonlight/src/main/"
         }
     },
     "autoload-dev": {
