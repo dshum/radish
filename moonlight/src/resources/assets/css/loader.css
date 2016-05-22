@@ -19,11 +19,11 @@
 .cssload-loader,
 .cssload-loader:before,
 .cssload-loader:after {
-    animation: 1.15s infinite ease-in-out;
-    -o-animation: 1.15s infinite ease-in-out;
-    -ms-animation: 1.15s infinite ease-in-out;
-    -webkit-animation: 1.15s infinite ease-in-out;
-    -moz-animation: 1.15s infinite ease-in-out;
+    animation: 0.5s infinite ease-in-out;
+    -o-animation: 0.5s infinite ease-in-out;
+    -ms-animation: 0.5s infinite ease-in-out;
+    -webkit-animation: 0.5s infinite ease-in-out;
+    -moz-animation: 0.5s infinite ease-in-out;
 }
 .cssload-loader:before,
 .cssload-loader:after {
