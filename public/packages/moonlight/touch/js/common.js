@@ -1,11 +1,11 @@
 $(function() {
     $.blockUI = function(handle) {
-        $('.block-ui').fadeIn('fast', handle);
+        $('.block-ui').fadeIn(200, handle);
     };
     
     $.unblockUI = function(handle) {
         setTimeout(function() {
-            $('.block-ui').fadeOut('fast', handle); 
+            $('.block-ui').fadeOut(200, handle); 
         }, 300);
     };
     
