@@ -1,12 +1,14 @@
-<?php namespace Moonlight\Main;
+<?php 
+
+namespace Moonlight\Main;
 
 use Moonlight\Main\ElementInterface;
 use Moonlight\Properties\FileProperty;
 use Moonlight\Properties\ImageProperty;
 use Moonlight\Properties\OrderProperty;
 
-final class Element {
-
+final class Element 
+{
 	const ID_SEPARATOR = '.';
 
 	public static function getClassId(ElementInterface $element)
@@ -301,5 +303,4 @@ final class Element {
 
 		return true;
 	}
-
 }

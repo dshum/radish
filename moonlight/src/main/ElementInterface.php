@@ -1,7 +1,9 @@
-<?php namespace Carrot\Admin\Main;
+<?php
 
-interface ElementInterface {
+namespace Moonlight\Main;
 
+interface ElementInterface 
+{
 	public function getItem();
 
 	public function getClass();
@@ -21,21 +23,4 @@ interface ElementInterface {
 	public function getFolder();
 
 	public function getHref();
-
-	public function getBrowseUrl();
-
-	public function getBrowseUrlAddTab();
-
-	public function getEditUrl();
-
-	public function getEditUrlAddTab();
-
-	public function getCopyUrl();
-
-	public function getDeleteUrl();
-
-	public function getTrashUrl();
-
-	public function getRestoreUrl();
-
 }

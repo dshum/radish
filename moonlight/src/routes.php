@@ -51,7 +51,17 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         Route::post('/groups/{id}', ['as' => 'group.save', 'uses' => 'Moonlight\Controllers\GroupController@save'])->
             where(['id' => '[0-9]+']);
         
-        Route::post('/groups/delete/{id}', ['as' => 'group.delete', 'uses' => 'Moonlight\Controllers\GroupController@delete']);
+        Route::post('/groups/delete/{id}', ['as' => 'group.delete', 'uses' => 'Moonlight\Controllers\GroupController@delete'])->
+            where(['id' => '[0-9]+']);
+        
+        Route::get('/groups/{id}/items', ['as' => 'group.items', 'uses' => 'Moonlight\Controllers\GroupController@items'])->
+            where(['id' => '[0-9]+']);
+        
+        Route::post('/groups/{id}/items', ['as' => 'group.items.save', 'uses' => 'Moonlight\Controllers\GroupController@saveItems'])->
+            where(['id' => '[0-9]+']);
+        
+        Route::get('/groups/{id}/{item}/elements', ['as' => 'group.elements', 'uses' => 'Moonlight\Controllers\GroupController@elements'])->
+            where(['id' => '[0-9]+', 'item' => '[A-Za-z0-9\.]+']);
         
         Route::get('/search', ['as' => 'search', 'uses' => 'Moonlight\Controllers\SearchController@show']);
         

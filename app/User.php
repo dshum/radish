@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Moonlight\Main\ElementInterface;
+use Moonlight\Main\ElementTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements ElementInterface
 {
+    use ElementTrait; 
+    
     /**
      * The attributes that are mass assignable.
      *

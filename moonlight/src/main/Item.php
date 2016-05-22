@@ -1,11 +1,13 @@
-<?php namespace Carrot\Admin\Main;
+<?php 
 
-use Carrot\Admin\Properties\OrderProperty;
-use Carrot\Admin\Properties\DatetimeProperty;
-use Carrot\Admin\Properties\BaseProperty;
+namespace Moonlight\Main;
 
-class Item {
+use Moonlight\Properties\OrderProperty;
+use Moonlight\Properties\DatetimeProperty;
+use Moonlight\Properties\BaseProperty;
 
+class Item 
+{
 	public $properties = [];
 
 	protected $name = null;
@@ -37,19 +39,19 @@ class Item {
 	{
 		$implements = class_implements($name);
 
-		if ( ! isset($implements['Carrot\Admin\Main\ElementInterface'])) {
+		if ( ! isset($implements['Moonlight\Main\ElementInterface'])) {
 			throw new \Exception(
 				"Class $name must implement interface"
-				." Carrot\Admin\Main\ElementInterface."
+				." Moonlight\Main\ElementInterface."
 			);
 		}
 
 		$traits = class_uses($name);
 
-		if ( ! isset($traits['Carrot\Admin\Main\ElementTrait'])) {
+		if ( ! isset($traits['Moonlight\Main\ElementTrait'])) {
 			throw new \Exception(
 				"Class $name must use trait"
-				." Carrot\Admin\Main\ElementTrait."
+				." Moonlight\Main\ElementTrait."
 			);
 		}
 	}
@@ -248,5 +250,4 @@ class Item {
 			? $this->properties[$name]
 			: null;
 	}
-
 }

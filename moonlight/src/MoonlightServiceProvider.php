@@ -3,6 +3,8 @@
 namespace Moonlight;
 
 use Illuminate\Support\ServiceProvider;
+use Moonlight\Main\Site;
+use Illuminate\Support\Facades\DB;
 
 class MoonlightServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,14 @@ class MoonlightServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $site = \App::make('site');
+
+		$site->initMicroTime();
+
+		if (file_exists($path = app_path().'/Http/site.php')) {
+			include $path;
+		}
+        
         $this->loadViewsFrom(__DIR__.'/resources/views', 'moonlight');
         
         $this->publishes([
@@ -20,6 +30,8 @@ class MoonlightServiceProvider extends ServiceProvider
             __DIR__.'/database/seeds' => $this->app->databasePath().'/seeds',
             __DIR__.'/resources/assets' => public_path('packages/moonlight/touch'),
         ]);
+        
+        DB::enableQueryLog(); 
         
         include __DIR__.'/routes.php';
     }
@@ -31,6 +43,8 @@ class MoonlightServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        \App::singleton('site', function($app) {
+			return new Site;
+		}); 
     }
 }

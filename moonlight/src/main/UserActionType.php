@@ -1,7 +1,9 @@
-<?php namespace Moonlight\Main;
+<?php 
 
-class UserActionType {
+namespace Moonlight\Main;
 
+class UserActionType 
+{
 	const ACTION_TYPE_ADD_ELEMENT_ID = 1;
 	const ACTION_TYPE_SAVE_ELEMENT_ID = 11;
 	const ACTION_TYPE_SAVE_ELEMENT_LIST_ID = 12;
@@ -31,7 +33,7 @@ class UserActionType {
 	const ACTION_TYPE_LOGIN_ID = 601;
     const ACTION_TYPE_LOGOUT_ID = 602;
 
-	public static $actionTypeNameList = array(
+	public static $actionTypeNameList = [
 		self::ACTION_TYPE_ADD_ELEMENT_ID => 'Добавление элемента',
 		self::ACTION_TYPE_SAVE_ELEMENT_ID => 'Сохранение элемента',
 		self::ACTION_TYPE_SAVE_ELEMENT_LIST_ID => 'Сохранение списка элементов',
@@ -60,7 +62,7 @@ class UserActionType {
 		self::ACTION_TYPE_SAVE_PROFILE_ID => 'Сохранение профиля',
 		self::ACTION_TYPE_LOGIN_ID => 'Авторизация',
         self::ACTION_TYPE_LOGOUT_ID => 'Выход',
-	);
+	];
 
 	public static function getActionTypeNameList()
 	{
@@ -79,5 +81,4 @@ class UserActionType {
 	{
 		return isset(static::$actionTypeNameList[$actionTypeId]);
 	}
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Carrot\Admin\Models;
+<?php 
+
+namespace Moonlight\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,7 +34,7 @@ class GroupItemPermission extends Model {
 
 	public function flush()
 	{
-		\Cache::tags('GroupItemPermission.'.$this->group_id)->flush();
+//		\Cache::tags('GroupItemPermission.'.$this->group_id)->flush();
 	}
 
 }

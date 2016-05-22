@@ -34,7 +34,7 @@ ul.items li.checked {
   font-size: 0.9rem;
 }
 
-.permission.denied {
+.permission.deny {
   background-color: darkorchid;
 }
 
@@ -55,7 +55,7 @@ ul.items li.checked {
   width: 5rem;
 }
 
-.button.denied .halflings {
+.button.deny .halflings {
   color: darkorchid;
 }
 

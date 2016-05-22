@@ -8,103 +8,103 @@
 
 @section('js')
 <script>
-    $(function() {
-        $('[name="comments"]').addClear({
-            right: 10,
-            paddingRight: "25px"
-        });
+$(function() {
+    $('[name="comments"]').addClear({
+        right: 10,
+        paddingRight: "25px"
+    });
 
-        $('[name="date-from"]').calendar({
-            dateFormat: '%Y-%m-%d',
-            selectHandler: function() {
-                $('[name="date-from"]').val(this.date.print(this.dateFormat));
-            }
-        });
+    $('[name="date-from"]').calendar({
+        dateFormat: '%Y-%m-%d',
+        selectHandler: function() {
+            $('[name="date-from"]').val(this.date.print(this.dateFormat));
+        }
+    });
 
-        $('[name="date-to"]').calendar({
-            dateFormat: '%Y-%m-%d',
-            selectHandler: function() {
-                $('[name="date-to"]').val(this.date.print(this.dateFormat));
-            }
-        });
+    $('[name="date-to"]').calendar({
+        dateFormat: '%Y-%m-%d',
+        selectHandler: function() {
+            $('[name="date-to"]').val(this.date.print(this.dateFormat));
+        }
+    });
 
-        $('#form-toggler').click(function() {
-            $('#form-container').slideToggle('fast');
-        });
+    $('#form-toggler').click(function() {
+        $('#form-container').slideToggle('fast');
+    });
 
-        $('.reset').click(function() {
-            $('[name="date-from"]').val(null);
-            $('[name="date-to"]').val(null);
-        });
-        
-        $('form').submit(function() {
-            let url = $(this).attr('action');
-            let comments = $('[name="comments"]').val();
-            let user = $('[name="user"]').val();
-            let type = $('[name="type"]').val();
-            let dateFrom = $('[name="date-from"]').val();
-            let dateTo = $('[name="date-to"]').val();
-            
-            $('#form-container').slideUp('fast', function() {
-                $.blockUI();
-                
-                $.getJSON(url, {
-                    comments: comments,
-                    user: user,
-                    type: type,
-                    dateFrom: dateFrom,
-                    dateTo: dateTo
-                }, function(data) {
-                    $.unblockUI();
+    $('.reset').click(function() {
+        $('[name="date-from"]').val(null);
+        $('[name="date-to"]').val(null);
+    });
 
-                    if (data.html) {
-                        $('.list-container').html(data.html);
-                    }
-                }).fail(function() {
-                    $.unblockUI();
+    $('form').submit(function() {
+        let url = $(this).attr('action');
+        let comments = $('[name="comments"]').val();
+        let user = $('[name="user"]').val();
+        let type = $('[name="type"]').val();
+        let dateFrom = $('[name="date-from"]').val();
+        let dateTo = $('[name="date-to"]').val();
 
-                    $.alertDefaultError();
-                });
-            });
-            
-            event.preventDefault();
-        });
-
-        $('body').on('click', '.next', function() {
-            let next = $(this);
-            let page = next.attr('page');
-            let url = $('form').attr('action');
-            let comments = $('[name="comments"]').val();
-            let user = $('[name="user"]').val();
-            let type = $('[name="type"]').val();
-            let dateFrom = $('[name="date-from"]').val();
-            let dateTo = $('[name="date-to"]').val();
-            
-            next.addClass('waiting');
+        $('#form-container').slideUp('fast', function() {
             $.blockUI();
-            
+
             $.getJSON(url, {
                 comments: comments,
                 user: user,
                 type: type,
                 dateFrom: dateFrom,
-                dateTo: dateTo,
-                page: page
+                dateTo: dateTo
             }, function(data) {
                 $.unblockUI();
-                
-                next.remove();
 
                 if (data.html) {
-                    $('.list-container').append(data.html);
+                    $('.list-container').html(data.html);
                 }
             }).fail(function() {
                 $.unblockUI();
-                
+
                 $.alertDefaultError();
             });
         });
+
+        event.preventDefault();
     });
+
+    $('body').on('click', '.next', function() {
+        let next = $(this);
+        let page = next.attr('page');
+        let url = $('form').attr('action');
+        let comments = $('[name="comments"]').val();
+        let user = $('[name="user"]').val();
+        let type = $('[name="type"]').val();
+        let dateFrom = $('[name="date-from"]').val();
+        let dateTo = $('[name="date-to"]').val();
+
+        next.addClass('waiting');
+        $.blockUI();
+
+        $.getJSON(url, {
+            comments: comments,
+            user: user,
+            type: type,
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            page: page
+        }, function(data) {
+            $.unblockUI();
+
+            next.remove();
+
+            if (data.html) {
+                $('.list-container').append(data.html);
+            }
+        }).fail(function() {
+            $.unblockUI();
+
+            $.alertDefaultError();
+        });
+    });
+});
 </script>
 @endsection
 

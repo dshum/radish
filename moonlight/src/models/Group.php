@@ -132,22 +132,12 @@ class Group extends Model {
 
 	public function getItemPermission($class)
 	{
-		return \Cache::tags("GroupItemPermission.{$this->id}")->rememberForever(
-			"Group.{$this->id}.itemPermission.$class",
-			function () use ($class) {
-				return $this->itemPermissions()->where('class', $class)->first();
-			}
-		);
+		return $this->itemPermissions()->where('class', $class)->first();
 	}
 
 	public function getElementPermission($classId)
 	{
-		return \Cache::tags("GroupElementPermission.{$this->id}")->rememberForever(
-			"Group.{$this->id}.elementPermission.$classId",
-			function () use ($classId) {
-				return $this->elementPermissions()->where('class_id', $classId)->first();
-			}
-		);
+		return $this->elementPermissions()->where('class_id', $classId)->first();
 	}
 
 	public function getItemAccess(Item $item)

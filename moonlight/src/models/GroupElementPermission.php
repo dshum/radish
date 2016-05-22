@@ -1,4 +1,6 @@
-<?php namespace Carrot\Admin\Models;
+<?php 
+
+namespace Moonlight\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

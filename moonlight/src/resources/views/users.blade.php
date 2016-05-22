@@ -105,7 +105,7 @@
             @if ($group->hasAccess('admin'))
             <small>Управление пользователями</small><br>
             @endif
-            <a href="group-item-permissions.html" class="perms">Доступ по умолчанию</a>
+            <a href="{{ route('group.items', $group->id) }}" class="perms">Доступ по умолчанию</a>
         </li>
     @endforeach
     </ul>
