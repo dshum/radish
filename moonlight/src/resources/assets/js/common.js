@@ -12,7 +12,7 @@ $(function() {
         $('.alert').fadeIn('fast', handle);
     };
     
-    $.alertDefautError = function(handle) {
+    $.alertDefaultError = function(handle) {
         $('.alert .content').html('Произошла какая-то ошибка.<br>Обновите страницу.');
         $('.alert').fadeIn('fast', handle);
     };
