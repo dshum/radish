@@ -8,7 +8,7 @@ use Moonlight\Properties\DatetimeProperty;
 use Moonlight\Properties\FloatProperty;
 use Moonlight\Properties\ImageProperty;
 use Moonlight\Properties\IntegerProperty;
-use Moonlight\Properties\OnetoOneProperty;
+use Moonlight\Properties\OneToOneProperty;
 use Moonlight\Properties\RichtextProperty;
 use Moonlight\Properties\TextareaProperty;
 use Moonlight\Properties\TextfieldProperty;
