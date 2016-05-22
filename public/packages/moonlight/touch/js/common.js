@@ -1,6 +1,6 @@
 $(function() {
     $.blockUI = function(handle) {
-        $('.block-ui').show(handle);
+        $('.block-ui').fadeIn('fast', handle);
     };
     
     $.unblockUI = function(handle) {
