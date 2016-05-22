@@ -79,7 +79,6 @@ class LogController extends Controller
 		$criteria->orderBy('created_at', 'desc');
 
 		$userActions = $criteria->paginate(10);
-        sleep(1);
         
         $total = $userActions->total();
 		$currentPage = $userActions->currentPage();

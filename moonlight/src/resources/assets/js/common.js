@@ -4,7 +4,9 @@ $(function() {
     };
     
     $.unblockUI = function(handle) {
-        $('.block-ui').fadeOut('fast', handle);
+        setTimeout(function() {
+            $('.block-ui').fadeOut('fast', handle); 
+        }, 300);
     };
     
     $.alert = function(content, handle) {
