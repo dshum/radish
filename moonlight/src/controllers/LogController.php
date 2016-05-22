@@ -79,6 +79,8 @@ class LogController extends Controller
 		$criteria->orderBy('created_at', 'desc');
 
 		$userActions = $criteria->paginate(10);
+        sleep(1);
+        
         $total = $userActions->total();
 		$currentPage = $userActions->currentPage();
         $hasMorePages = $userActions->hasMorePages();
@@ -88,7 +90,9 @@ class LogController extends Controller
         $scope['hasMorePages'] = $hasMorePages;
         $scope['userActions'] = $userActions;
         
-        return view('moonlight::logList', $scope);
+        $html = view('moonlight::logList', $scope)->render();
+        
+        return response()->json(['html' => $html]);
     }
     
     /**

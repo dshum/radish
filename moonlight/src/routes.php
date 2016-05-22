@@ -32,19 +32,24 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         
         Route::post('/users/create', ['as' => 'user.add', 'uses' => 'Moonlight\Controllers\UserController@add']);
         
-        Route::get('/users/{id}', ['as' => 'user', 'uses' => 'Moonlight\Controllers\UserController@edit']);
+        Route::get('/users/{id}', ['as' => 'user', 'uses' => 'Moonlight\Controllers\UserController@edit'])->
+            where(['id' => '[0-9]+']);
         
-        Route::post('/users/{id}', ['as' => 'user.save', 'uses' => 'Moonlight\Controllers\UserController@save']);
+        Route::post('/users/{id}', ['as' => 'user.save', 'uses' => 'Moonlight\Controllers\UserController@save'])->
+            where(['id' => '[0-9]+']);
         
-        Route::post('/users/delete/{id}', ['as' => 'user.delete', 'uses' => 'Moonlight\Controllers\UserController@delete']);
+        Route::post('/users/delete/{id}', ['as' => 'user.delete', 'uses' => 'Moonlight\Controllers\UserController@delete'])->
+            where(['id' => '[0-9]+']);
         
         Route::get('/groups/create', ['as' => 'group.create', 'uses' => 'Moonlight\Controllers\GroupController@create']);
         
         Route::post('/groups/create', ['as' => 'group.add', 'uses' => 'Moonlight\Controllers\GroupController@add']);
         
-        Route::get('/groups/{id}', ['as' => 'group', 'uses' => 'Moonlight\Controllers\GroupController@edit']);
+        Route::get('/groups/{id}', ['as' => 'group', 'uses' => 'Moonlight\Controllers\GroupController@edit'])->
+            where(['id' => '[0-9]+']);
         
-        Route::post('/groups/{id}', ['as' => 'group.save', 'uses' => 'Moonlight\Controllers\GroupController@save']);
+        Route::post('/groups/{id}', ['as' => 'group.save', 'uses' => 'Moonlight\Controllers\GroupController@save'])->
+            where(['id' => '[0-9]+']);
         
         Route::post('/groups/delete/{id}', ['as' => 'group.delete', 'uses' => 'Moonlight\Controllers\GroupController@delete']);
         

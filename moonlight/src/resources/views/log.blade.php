@@ -48,16 +48,22 @@
             $('#form-container').hide();
             $.blockUI();
             
-            $.get(url, {
+            $.getJSON(url, {
                 comments: comments,
                 user: user,
                 type: type,
                 dateFrom: dateFrom,
                 dateTo: dateTo
-            }, function(html) {
+            }, function(data) {
                 $.unblockUI();
                 
-                $('.list-container').html(html);
+                if (data.html) {
+                    $('.list-container').html(data.html);
+                }
+            }).fail(function() {
+                $.unblockUI();
+                
+                $.alertDefaultError();
             });
             
             event.preventDefault();
@@ -76,19 +82,25 @@
             next.addClass('waiting');
             $.blockUI();
             
-            $.get(url, {
+            $.getJSON(url, {
                 comments: comments,
                 user: user,
                 type: type,
                 dateFrom: dateFrom,
                 dateTo: dateTo,
                 page: page
-            }, function(html) {
+            }, function(data) {
                 $.unblockUI();
                 
                 next.remove();
 
-                $('.list-container').append(html);
+                if (data.html) {
+                    $('.list-container').append(data.html);
+                }
+            }).fail(function() {
+                $.unblockUI();
+                
+                $.alertDefaultError();
             });
         });
     });

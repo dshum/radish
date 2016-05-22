@@ -6,6 +6,7 @@ use Log;
 use Closure;
 use Session;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Models\User;
 
 class GuestMiddleware
 {

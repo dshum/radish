@@ -12,6 +12,11 @@ $(function() {
         $('.alert').fadeIn('fast', handle);
     };
     
+    $.alertDefautError = function(handle) {
+        $('.alert .content').html('Произошла какая-то ошибка.<br>Обновите страницу.');
+        $('.alert').fadeIn('fast', handle);
+    };
+    
     $.alertClose = function(content, handle) {
         $('.alert .content').html('');
         $('.alert').fadeOut('fast', handle);
