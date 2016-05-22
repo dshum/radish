@@ -1,12 +1,12 @@
 $(function() {
     $.blockUI = function(handle) {
-        $('.block-ui').fadeIn(200, handle);
+        $('.block-ui').fadeIn(100, handle);
     };
     
     $.unblockUI = function(handle) {
         setTimeout(function() {
-            $('.block-ui').fadeOut(200, handle); 
-        }, 300);
+            $('.block-ui').fadeOut(100, handle); 
+        }, 200);
     };
     
     $.alert = function(content, handle) {
