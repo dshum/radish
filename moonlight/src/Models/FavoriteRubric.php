@@ -1,7 +1,8 @@
-<?php namespace Carrot\Admin\Models;
+<?php 
+
+namespace Moonlight\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carrot\Admin\Main\Element;
 
 class FavoriteRubric extends Model {
 

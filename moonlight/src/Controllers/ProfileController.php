@@ -90,7 +90,7 @@ class ProfileController extends Controller
     /**
      * Show the profile of the logged user.
      * 
-     * @return Response
+     * @return View
      */
     public function show(Request $request)
     {

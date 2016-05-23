@@ -232,7 +232,7 @@ class GroupController extends Controller
     }
     
     /**
-     * Save group.
+     * Add group.
      *
      * @return Response
      */
@@ -374,7 +374,7 @@ class GroupController extends Controller
     /**
      * Group elements permissions.
      * 
-     * @return Response
+     * @return View
      */
     public function elements(Request $request, $id, $class)
     {
@@ -383,7 +383,7 @@ class GroupController extends Controller
         $loggedUser = LoggedUser::getUser();
         
         if ( ! $loggedUser->hasAccess('admin')) {
-            return redirect()->route('users');
+            return redirect()->route('home');
         }
         
         $group = Group::find($id);
@@ -444,7 +444,7 @@ class GroupController extends Controller
     /**
      * Group items permissions.
      * 
-     * @return Response
+     * @return View
      */
     public function items(Request $request, $id)
     {
@@ -453,7 +453,7 @@ class GroupController extends Controller
         $loggedUser = LoggedUser::getUser();
         
         if ( ! $loggedUser->hasAccess('admin')) {
-            return redirect()->route('users');
+            return redirect()->route('home');
         }
         
         $group = Group::find($id);
@@ -494,7 +494,7 @@ class GroupController extends Controller
     /**
      * Create group.
      * 
-     * @return Response
+     * @return View
      */
     public function create(Request $request)
     {
@@ -503,7 +503,7 @@ class GroupController extends Controller
         $loggedUser = LoggedUser::getUser();
         
         if ( ! $loggedUser->hasAccess('admin')) {
-            return redirect()->route('users');
+            return redirect()->route('home');
         }
         
         $scope['group'] = null;
@@ -514,7 +514,7 @@ class GroupController extends Controller
     /**
      * Edit group.
      * 
-     * @return Response
+     * @return View
      */
     public function edit(Request $request, $id)
     {
@@ -523,7 +523,7 @@ class GroupController extends Controller
         $loggedUser = LoggedUser::getUser();
         
         if ( ! $loggedUser->hasAccess('admin')) {
-            return redirect()->route('users');
+            return redirect()->route('home');
         }
         
         $group = Group::find($id);

@@ -12,13 +12,17 @@ class UsersController extends Controller
     /**
      * Show the list of groups and users.
      * 
-     * @return Response
+     * @return View
      */
     public function show(Request $request)
     {
         $scope = [];
         
         $loggedUser = LoggedUser::getUser();
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            return redirect()->route('home');
+        }
         
         $groups = Group::orderBy('name', 'asc')->get();
         $users = User::orderBy('login', 'asc')->get();

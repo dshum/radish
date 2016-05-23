@@ -1,14 +1,32 @@
 @extends('moonlight::base')
 
-@section('title', 'Moonlight')
+@section('title', 'Корень сайта')
 
 @section('css')
+<link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/browse.css">
 @endsection
 
 @section('js')
 <script>
     $(function() {
-        
+        $('ul.items li').each(function() {
+            var li = $(this);
+            var item = $(this).attr('item');
+
+            $.getJSON(
+                '{{ route('elements.count') }}',
+                {item: item},
+                function(data) {
+                   if (data && data.count) {
+                        var span = $('<span class="total">'+data.count+'</span>');
+
+                        li.append(span);
+                    } else {
+                        li.addClass('grey');
+                    }
+                }
+            );
+        });
     });
 </script>
 @endsection
@@ -40,19 +58,12 @@
     </div>
 </div>
 <div class="main">
-@if ($favoriteRubrics)
-    @foreach ($favoriteRubrics as $favoriteRubric)
-    <div class="block-elements">
-        <h2>{{ $favoriteRubric->name }}</h2>
-        <ul class="elements">
-        @foreach ($favorites as $favorite)
-            @if ($favorite->rubric_id == $favoriteRubric->id)
-            <li><a href="">{{ $favorite->getElement()->name }}</a></li>
-            @endif
+    @if ($items)
+    <ul class="items">
+        @foreach ($items as $item)
+        <li item="{{ $item->getNameId() }}"><span><a href="{{ route('browse.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span></li>
         @endforeach
-        </ul>
-    </div>
-    @endforeach
-@endif
+    </ul>
+    @endif
 </div>
 @endsection

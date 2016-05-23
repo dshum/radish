@@ -10,6 +10,12 @@ use Moonlight\Models\UserAction;
 
 class LoginController extends Controller
 {
+    /**
+     * Login.
+     * 
+     * @return Response
+     */
+    
     public function login(Request $request)
     {
         $scope = [];
@@ -56,6 +62,12 @@ class LoginController extends Controller
         return redirect()->route('home')->withCookie(cookie()->forever('login', $user->login));
     }
     
+    /**
+     * Logout.
+     * 
+     * @return Response
+     */
+    
     public function logout(Request $request)
     {
         $loggedUser = LoggedUser::getUser();
@@ -69,6 +81,12 @@ class LoginController extends Controller
         
         return redirect()->route('login');
     }
+    
+    /**
+     * Login form.
+     * 
+     * @return View
+     */
     
     public function show(Request $request)
     {

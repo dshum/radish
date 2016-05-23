@@ -97,13 +97,17 @@ class LogController extends Controller
     /**
      * Search user actions.
      * 
-     * @return Response
+     * @return View
      */
     public function show(Request $request)
     {
         $scope = [];
         
         $loggedUser = LoggedUser::getUser();
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            return redirect()->route('home');
+        }
         
         $users = User::orderBy('login', 'asc')->get();
         

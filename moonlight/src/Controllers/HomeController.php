@@ -2,18 +2,30 @@
 
 namespace Moonlight\Controllers;
 
+use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
+use Moonlight\Models\FavoriteRubric;
+use Moonlight\Models\Favorite;
 
 class HomeController extends Controller
 {
     /**
-     * Show the profile for the given user.
+     * Show the home.
      *
-     * @param  int  $id
-     * @return Response
+     * @return View
      */
-    public function show()
+    public function show(Request $request)
     {
-        return view('moonlight::home');
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $favoriteRubrics = FavoriteRubric::where('user_id', $loggedUser->id)->orderBy('id')->get();
+        $favorites = Favorite::where('user_id', $loggedUser->id)->orderBy('id')->get();
+        
+        $scope['favoriteRubrics'] = $favoriteRubrics;
+        $scope['favorites'] = $favorites;
+            
+        return view('moonlight::home', $scope);
     }
 }

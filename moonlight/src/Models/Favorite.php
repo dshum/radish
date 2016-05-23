@@ -1,7 +1,9 @@
-<?php namespace Carrot\Admin\Models;
+<?php 
+
+namespace Moonlight\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carrot\Admin\Main\Element;
+use Moonlight\Main\Element;
 
 class Favorite extends Model {
 
@@ -38,12 +40,7 @@ class Favorite extends Model {
 	{
 		if ( ! $this->class_id) return null;
 
-		return \Cache::rememberForever(
-			'Favorite.'.$this->class_id,
-			function() {
-				return Element::getWithTrashedByClassId($this->class_id);
-			}
-		);
+		return Element::getWithTrashedByClassId($this->class_id);
 	}
 
 }

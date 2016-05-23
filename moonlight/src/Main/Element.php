@@ -28,18 +28,11 @@ final class Element
 		if ( ! strpos($classId, static::ID_SEPARATOR)) return null;
 
 		try {
-
 			$array = explode(static::ID_SEPARATOR, $classId);
 			$id = array_pop($array);
 			$class = implode('\\', $array);
 
-			return \Cache::rememberForever(
-				"getByClassId($classId)",
-				function () use ($class, $id) {
-					return $class::find($id);
-				}
-			);
-
+			return $class::find($id);
 		} catch (\Exception $e) {}
 
 		return null;

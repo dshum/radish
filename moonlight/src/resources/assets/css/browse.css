@@ -104,26 +104,41 @@ input.number {
   font-weight: bold;
 }
 
+.list-container .empty {
+    padding: 0.5rem 0;
+}
+
+.list-container .count {
+    padding: 0.5rem 0;
+}
+
+.list-container .page {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: #999;
+}
+
 ul.elements {
-  margin: 1rem 0;
+  margin-bottom: 1rem;
 }
 
 ul.elements li {
+  min-height: 3rem;
   border-bottom: 1px solid #eee;
 }
 
-ul.elements li.last {
-  margin-bottom: 1rem;
+ul.elements li:last-child {
   border: none;
 }
 
 ul.elements li div.check {
-  float: right;
-  margin-left: 1rem;
-  width: 2rem;
-  height: 2rem;
-  background-color: #ccc;
-  border-radius: 50%;
+    float: right;
+    margin-left: 1rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: #ccc;
+    border-radius: 50%;
 }
 
 ul.elements li.checked {

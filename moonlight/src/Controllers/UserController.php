@@ -280,7 +280,8 @@ class UserController extends Controller
     
     /**
      * Create user.
-     * @return Response
+     * 
+     * @return View
      */
     public function create(Request $request)
     {
@@ -289,7 +290,7 @@ class UserController extends Controller
         $loggedUser = LoggedUser::getUser();
         
         if ( ! $loggedUser->hasAccess('admin')) {
-            return redirect()->route('users');
+            return redirect()->route('home');
         }
         
         $groups = Group::orderBy('name', 'asc')->get();
@@ -303,7 +304,8 @@ class UserController extends Controller
     
     /**
      * Edit user.
-     * @return Response
+     * 
+     * @return View
      */
     public function edit(Request $request, $id)
     {
@@ -312,7 +314,7 @@ class UserController extends Controller
         $loggedUser = LoggedUser::getUser();
         
         if ( ! $loggedUser->hasAccess('admin')) {
-            return redirect()->route('users');
+            return redirect()->route('home');
         }
         
         $user = User::find($id);
