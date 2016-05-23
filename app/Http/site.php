@@ -16,6 +16,138 @@ use Moonlight\Properties\TextfieldProperty;
 $site = \App::make('site');
 
 $site->
+    
+    /*
+	 * Раздел сайта
+	 */
+
+	addItem(
+		Item::create('App\Section')->
+		setTitle('Раздел сайта')->
+		setMainProperty('name')->
+		setRoot(true)->
+		setElementPermissions(true)->
+		addOrder()->
+		addProperty(
+			TextfieldProperty::create('name')->
+			setTitle('Название')->
+			setRequired(true)->
+			setShow(true)
+		)->
+		addProperty(
+			TextfieldProperty::create('url')->
+			setTitle('Адрес страницы')->
+			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис')
+		)->
+		addProperty(
+			TextfieldProperty::create('title')->
+			setTitle('Title')
+		)->
+		addProperty(
+			TextfieldProperty::create('h1')->
+			setTitle('H1')
+		)->
+		addProperty(
+			TextfieldProperty::create('meta_keywords')->
+			setTitle('META Keywords')
+		)->
+		addProperty(
+			TextareaProperty::create('meta_description')->
+			setTitle('META Description')
+		)->
+		addProperty(
+			TextareaProperty::create('shortcontent')->
+			setTitle('Краткий текст')
+		)->
+		addProperty(
+			RichtextProperty::create('fullcontent')->
+			setTitle('Текст раздела')
+		)->
+		addProperty(
+			OneToOneProperty::create('section_id')->
+			setTitle('Раздел сайта')->
+			setRelatedClass('App\Section')->
+			setParent(true)->
+			bind(Site::ROOT, 'App\Section')->
+			bind('App\Section', 'App\Section')
+		)->
+		addTimestamps()->
+		addSoftDeletes()
+	)->
+
+	/*
+	 * Служебный раздел
+	 */
+
+	addItem(
+		Item::create('App\ServiceSection')->
+		setTitle('Служебный раздел')->
+		setMainProperty('name')->
+		setRoot(true)->
+		setElementPermissions(true)->
+		addOrder()->
+		setPerPage(2)->
+		addProperty(
+			TextfieldProperty::create('name')->
+			setTitle('Название')->
+			setRequired(true)->
+			setShow(true)
+		)->
+		addProperty(
+			OneToOneProperty::create('service_section_id')->
+			setTitle('Служебный раздел')->
+			setRelatedClass('App\ServiceSection')->
+			setParent(true)->
+			bind(Site::ROOT, 'App\ServiceSection')->
+			bind('App\ServiceSection', 'App\ServiceSection')
+		)->
+		addTimestamps()->
+		addSoftDeletes()
+	)->
+
+	/*
+	 * Настройки сайта
+	 */
+
+	addItem(
+		Item::create('App\SiteSettings')->
+		setTitle('Настройки сайта')->
+		setMainProperty('name')->
+		setRoot(true)->
+		addProperty(
+			TextfieldProperty::create('name')->
+			setTitle('Название')->
+			setRequired(true)->
+			setShow(true)
+		)->
+		addProperty(
+			TextfieldProperty::create('title')->
+			setTitle('Title')->
+			setRequired(true)
+		)->
+		addProperty(
+			TextfieldProperty::create('h1')->
+			setTitle('H1')
+		)->
+		addProperty(
+			TextareaProperty::create('description')->
+			setTitle('META Description')
+		)->
+		addProperty(
+			TextfieldProperty::create('keywords')->
+			setTitle('META Keywords')
+		)->
+		addProperty(
+			RichtextProperty::create('text')->
+			setTitle('Текст')
+		)->
+		addProperty(
+			TextfieldProperty::create('copyright')->
+			setTitle('Copyright')
+		)->
+		addTimestamps()->
+		addSoftDeletes()
+	)->
 
 	/*
 	 * Категория товаров
@@ -217,138 +349,6 @@ $site->
 			setRelatedClass('App\Subcategory')->
 			bind('App\Category')->
 			bind('App\Category', 'App\Subcategory')
-		)->
-		addTimestamps()->
-		addSoftDeletes()
-	)->
-
-	/*
-	 * Раздел сайта
-	 */
-
-	addItem(
-		Item::create('App\Section')->
-		setTitle('Раздел сайта')->
-		setMainProperty('name')->
-		setRoot(true)->
-		setElementPermissions(true)->
-		addOrder()->
-		addProperty(
-			TextfieldProperty::create('name')->
-			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
-		)->
-		addProperty(
-			TextfieldProperty::create('url')->
-			setTitle('Адрес страницы')->
-			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис')
-		)->
-		addProperty(
-			TextfieldProperty::create('title')->
-			setTitle('Title')
-		)->
-		addProperty(
-			TextfieldProperty::create('h1')->
-			setTitle('H1')
-		)->
-		addProperty(
-			TextfieldProperty::create('meta_keywords')->
-			setTitle('META Keywords')
-		)->
-		addProperty(
-			TextareaProperty::create('meta_description')->
-			setTitle('META Description')
-		)->
-		addProperty(
-			TextareaProperty::create('shortcontent')->
-			setTitle('Краткий текст')
-		)->
-		addProperty(
-			RichtextProperty::create('fullcontent')->
-			setTitle('Текст раздела')
-		)->
-		addProperty(
-			OneToOneProperty::create('section_id')->
-			setTitle('Раздел сайта')->
-			setRelatedClass('App\Section')->
-			setParent(true)->
-			bind(Site::ROOT, 'App\Section')->
-			bind('App\Section', 'App\Section')
-		)->
-		addTimestamps()->
-		addSoftDeletes()
-	)->
-
-	/*
-	 * Служебный раздел
-	 */
-
-	addItem(
-		Item::create('App\ServiceSection')->
-		setTitle('Служебный раздел')->
-		setMainProperty('name')->
-		setRoot(true)->
-		setElementPermissions(true)->
-		addOrder()->
-		setPerPage(2)->
-		addProperty(
-			TextfieldProperty::create('name')->
-			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
-		)->
-		addProperty(
-			OneToOneProperty::create('service_section_id')->
-			setTitle('Служебный раздел')->
-			setRelatedClass('App\ServiceSection')->
-			setParent(true)->
-			bind(Site::ROOT, 'App\ServiceSection')->
-			bind('App\ServiceSection', 'App\ServiceSection')
-		)->
-		addTimestamps()->
-		addSoftDeletes()
-	)->
-
-	/*
-	 * Настройки сайта
-	 */
-
-	addItem(
-		Item::create('App\SiteSettings')->
-		setTitle('Настройки сайта')->
-		setMainProperty('name')->
-		setRoot(true)->
-		addProperty(
-			TextfieldProperty::create('name')->
-			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
-		)->
-		addProperty(
-			TextfieldProperty::create('title')->
-			setTitle('Title')->
-			setRequired(true)
-		)->
-		addProperty(
-			TextfieldProperty::create('h1')->
-			setTitle('H1')
-		)->
-		addProperty(
-			TextareaProperty::create('description')->
-			setTitle('META Description')
-		)->
-		addProperty(
-			TextfieldProperty::create('keywords')->
-			setTitle('META Keywords')
-		)->
-		addProperty(
-			RichtextProperty::create('text')->
-			setTitle('Текст')
-		)->
-		addProperty(
-			TextfieldProperty::create('copyright')->
-			setTitle('Copyright')
 		)->
 		addTimestamps()->
 		addSoftDeletes()

@@ -29,6 +29,98 @@ class GroupController extends Controller
     ];
     
     /**
+     * Save group elements permissions.
+     * 
+     * @return Response
+     */
+    public function saveElements(Request $request, $id, $class)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $site = \App::make('site');
+        
+		$group = Group::find($id);
+        $item = $site->getItemByName($class);
+        
+        if ( ! $loggedUser->hasAccess('admin')) {
+            $scope['error'] = 'У вас нет прав на управление пользователями.';
+        } elseif ( ! $group) {
+            $scope['error'] = 'Группа не найдена.';
+        } elseif ($loggedUser->inGroup($group)) {
+            $scope['error'] = 'Нельзя редактировать права группы, в которой вы состоите.';
+        } elseif ( ! $item) {
+            $scope['error'] = 'Класс не найден.';
+        } else {
+            $scope['error'] = null;
+        }
+        
+        if ($scope['error']) {
+            return response()->json($scope);
+        }
+        
+        $checked = $request->input('checked');
+        $permission = $request->input('permission');
+        
+        if (
+            is_array($checked) 
+            && in_array($permission, static::$permissions)
+        ) {
+            $site = \App::make('site');
+            
+            $defaultPermission = $group->default_permission;
+            $itemPermissions = $group->itemPermissions;
+
+            $permissions = [];
+
+            foreach ($itemPermissions as $itemPermission) {
+                $class = $itemPermission->class;
+                $permissions[$class] = $itemPermission->permission;
+            }
+            
+            foreach ($checked as $classId) {
+                $class = $item->getNameId();
+                $groupElementPermission = $group->getElementPermission($classId);
+                
+                if (
+                    $groupElementPermission 
+                    && isset($permissions[$class]) 
+                    && $permission == $permissions[$class]
+                ) {
+                    $groupElementPermission->delete();
+                } elseif (
+                    $groupElementPermission 
+                    && $permission == $defaultPermission
+                ) {
+                    $groupElementPermission->delete();
+                } elseif (
+                    $groupElementPermission
+                ) {
+                    $groupElementPermission->permission = $permission;
+                    
+					$groupElementPermission->save();
+                } else {
+                    $groupElementPermission = new GroupElementPermission;
+                    
+                    $groupElementPermission->group_id = $group->id;
+                    $groupElementPermission->class_id = $classId;
+                    $groupElementPermission->permission = $permission;
+                    
+                    $groupElementPermission->save();
+                }
+                
+                $scope['permissions'][$classId] = [
+                    'permission' => $permission,
+                    'title' => static::$permissionTitles[$permission],
+                ];
+            }
+        }
+        
+        return response()->json($scope);
+    }
+    
+    /**
      * Save group items permissions.
      * 
      * @return Response
@@ -69,9 +161,14 @@ class GroupController extends Controller
             foreach ($checked as $class) {
                 $groupItemPermission = $group->getItemPermission($class);
                 
-                if ($groupItemPermission && $permission == $defaultPermission) {
+                if (
+                    $groupItemPermission 
+                    && $permission == $defaultPermission
+                ) {
                     $groupItemPermission->delete();
-                } elseif ($groupItemPermission) {
+                } elseif (
+                    $groupItemPermission
+                ) {
                     $groupItemPermission->permission = $permission;
                     
 					$groupItemPermission->save();
@@ -296,12 +393,21 @@ class GroupController extends Controller
         }
         
         $site = \App::make('site');
-
-		$items = $site->getItemList();
+        
+        $item = $site->getItemByName($class);
+        
+        if ( ! $item) {
+            return redirect()->route('group.items', $group->id);
+        }
+        
+        $elements =
+            $item->getClass()->
+            orderBy($item->getMainProperty())->
+            get();
 
 		$defaultPermission = $group->default_permission;
-
 		$itemPermissions = $group->itemPermissions;
+        $elementsPermissions = $group->elementPermissions;
 
 		$permissions = [];
 
@@ -311,17 +417,28 @@ class GroupController extends Controller
 			$permissions[$class] = $permission;
 		}
         
-        foreach ($items as $item) {
-            if ( ! isset($permissions[$item->getName()])) {
-                $permissions[$item->getName()] = $defaultPermission;
-            }
+        foreach ($elementsPermissions as $elementsPermission) {
+			$classId = $elementsPermission->class_id;
+			$permission = $elementsPermission->permission;
+			$permissions[$classId] = $permission;
+		}
+        
+        foreach ($elements as $element) {
+            $class = $item->getNameId();
+            $classId = $element->getClassId();
+            
+            if (isset($permissions[$classId])) continue;
+            
+            $permissions[$classId] = isset($permissions[$class])
+                ? $permissions[$class] : $defaultPermission;
         }
         
         $scope['group'] = $group;
-        $scope['items'] = $items;
+        $scope['item'] = $item;
+        $scope['elements'] = $elements;
 		$scope['permissions'] = $permissions;
         
-        return view('moonlight::groupItems', $scope);
+        return view('moonlight::groupElements', $scope);
     }
     
     /**

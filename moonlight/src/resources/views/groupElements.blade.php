@@ -1,6 +1,6 @@
 @extends('moonlight::base')
 
-@section('title', $group->name)
+@section('title', $item->getTitle())
 
 @section('css')
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/permissions.css">
@@ -15,7 +15,7 @@ jQuery.expr[':'].contains = function(a, i, m) {
 $(function() {
     var checked = [];
     var cancelSelection = function() {
-        $('left').html('<a href="{{ route('users') }}"><span class="halflings halflings-menu-left"></span></a>');
+        $('left').html('<a href="{{ route('group.items', $group->id) }}"><span class="halflings halflings-menu-left"></span></a>');
         $('center').html('<a href="{{ route('home') }}">@yield('title')</a>');
         $('right').html('<a href="{{ route('search') }}"><span class="glyphicons glyphicons-search"></span></a>');
         $('.bottom-context-menu').fadeOut('fast');
@@ -93,7 +93,7 @@ $(function() {
     });
     
     $('.button[permission]').click(function() {
-        let url = '{{ route('group.items.save', $group->id) }}';
+        let url = '{{ route('group.elements.save', [$group->id, $item->getNameId()]) }}';
         let permission = $(this).attr('permission');
         
         $.blockUI();
@@ -122,7 +122,7 @@ $(function() {
 
 @section('body')
 <nav>
-    <left><a href="{{ route('users') }}"><span class="halflings halflings-menu-left"></span></a></left>
+    <left><a href="{{ route('group.items', $group->id) }}"><span class="halflings halflings-menu-left"></span></a></left>
     <center><a href="{{ route('home') }}">@yield('title')</a></center>
     <right><a href="{{ route('search') }}"><span class="glyphicons glyphicons-search"></span></a></right>
 </nav>
@@ -156,41 +156,22 @@ $(function() {
     <div class="search-field">
         <input type="text" id="filter" placeholder="Введите название">
     </div>
-    @if ($items)
+    @if ($elements)
     <ul class="items">
-        @foreach ($items as $item)
-            @if ($item->getElementPermissions())
-            <li item="{{ $item->getNameId() }}">
-                @if ($permissions[$item->getNameId()] == 'deny')
-                <div class="permission deny">Закрыто</div>
-                @elseif ($permissions[$item->getNameId()] == 'view')
-                <div class="permission view">Просмотр</div>
-                @elseif ($permissions[$item->getNameId()] == 'update')
-                <div class="permission update">Изменение</div>
-                @elseif ($permissions[$item->getNameId()] == 'delete')
-                <div class="permission delete">Удаление</div>
-                @endif
-                <a href="{{ route('group.elements', [$group->id, $item->getNameId()]) }}">{{ $item->getTitle() }}</a><br>
-                <small>{{ $item->getNameId() }}</small>
-            </li>
+        @foreach ($elements as $element)
+        <li item="{{ $element->getClassId() }}">
+            @if ($permissions[$element->getClassId()] == 'deny')
+            <div class="permission deny">Закрыто</div>
+            @elseif ($permissions[$element->getClassId()] == 'view')
+            <div class="permission view">Просмотр</div>
+            @elseif ($permissions[$element->getClassId()] == 'update')
+            <div class="permission update">Изменение</div>
+            @elseif ($permissions[$element->getClassId()] == 'delete')
+            <div class="permission delete">Удаление</div>
             @endif
-        @endforeach
-        @foreach ($items as $item)
-            @if ( ! $item->getElementPermissions())
-            <li item="{{ $item->getNameId() }}">
-                @if ($permissions[$item->getNameId()] == 'deny')
-                <div class="permission deny">Закрыто</div>
-                @elseif ($permissions[$item->getNameId()] == 'view')
-                <div class="permission view">Просмотр</div>
-                @elseif ($permissions[$item->getNameId()] == 'update')
-                <div class="permission update">Изменение</div>
-                @elseif ($permissions[$item->getNameId()] == 'delete')
-                <div class="permission delete">Удаление</div>
-                @endif
-                {{ $item->getTitle() }}<br>
-                <small>{{ $item->getNameId() }}</small>
-            </li>
-            @endif
+            <a href="{{ route('element', $element->getClassId()) }}">{{ $element->{$item->getMainProperty()} }}</a><br>
+            <small>{{ $element->getClassId() }}</small>
+        </li>
         @endforeach
     </ul>
     @endif
