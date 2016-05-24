@@ -67,7 +67,7 @@ $(function() {
             });
         });
 
-        event.preventDefault();
+        return false;
     });
 
     $('body').on('click', '.next', function() {
