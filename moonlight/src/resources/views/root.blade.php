@@ -18,14 +18,35 @@
                 {item: item},
                 function(data) {
                    if (data && data.count) {
-                        var span = $('<span class="total">'+data.count+'</span>');
+                        let span = $('<span class="total">'+data.count+'</span>');
+                        let div = $('<div item="'+item+'" class="list-container"></div>');
 
-                        li.append(span);
+                        li.append(span).append(div);
                     } else {
-                        li.addClass('grey');
+                        let h = li.find('a').html();
+                        li.addClass('grey').html(h);
                     }
                 }
             );
+        });
+        
+        $('ul.items li').click(function() {
+            var li = $(this);
+            var item = $(this).attr('item');
+            var url = '{{ route('elements.list') }}';
+            
+            $.getJSON(url, {
+                item: item
+            }, function(data) {
+                if (data.html) {
+                    $('.list-container[item!="'+item+'"]').slideUp('fast');
+                    $('.list-container[item="'+item+'"]').html(data.html).slideDown('fast');
+                }
+            }).fail(function() {
+                $.alertDefaultError();
+            });
+        
+            return false;
         });
     });
 </script>
@@ -62,9 +83,12 @@
     @if ($items)
     <ul class="items">
         @foreach ($items as $item)
-        <li item="{{ $item->getNameId() }}"><span><a href="{{ route('browse.root.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span></li>
+        <li item="{{ $item->getNameId() }}">
+            <span><a href="{{ route('browse.root.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span>
+        </li>
         @endforeach
     </ul>
+    <br>
     @endif
 </div>
 @endsection

@@ -99,9 +99,9 @@ input.number {
   color: orange;
 }
 
-.found {
-  margin-top: 2rem;
-  font-weight: bold;
+ul.items li span a {
+    font-size: 1.2rem;
+    color: #999;
 }
 
 .list-container .empty {
@@ -120,7 +120,7 @@ input.number {
 }
 
 ul.elements {
-    margin: 1rem 0;
+    margin: 0;
 }
 
 ul.elements li {
