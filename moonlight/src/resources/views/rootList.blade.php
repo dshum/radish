@@ -116,7 +116,7 @@
         <ul class="menu">
             @if ($items)
             @foreach ($items as $item)
-            <li item="{{ $item->getNameId() }}"><span><a href="{{ route('browse.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span></li>
+            <li item="{{ $item->getNameId() }}"><span><a href="{{ route('browse.root.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span></li>
             @endforeach
             <li><hr></li>
             @endif

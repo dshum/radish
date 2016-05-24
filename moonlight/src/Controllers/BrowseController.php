@@ -149,7 +149,7 @@ class BrowseController extends Controller
     }
     
     /**
-     * Show root element list.
+     * Show element list.
      *
      * @return Response
      */
@@ -231,8 +231,23 @@ class BrowseController extends Controller
 
         $criteria = $currentItem->getClass()->where(
             function($query) use ($propertyList, $element) {
-                foreach ($propertyList as $propertyName => $property) {
-                    if ($property->isOneToOne()) {
+                if ($element) {
+                    $query->orWhere('id', null);
+                }
+
+                foreach ($propertyList as $property) {
+                    if (
+                        $element
+                        && $property->isOneToOne()
+                        && $property->getRelatedClass() == $element->getClass()
+                    ) {
+                        $query->orWhere(
+                            $property->getName(), $element->id
+                        );
+                    } elseif (
+                        ! $element
+                        && $property->isOneToOne()
+                    ) {
                         $query->orWhere(
                             $property->getName(), null
                         );
@@ -269,9 +284,111 @@ class BrowseController extends Controller
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
         
-        $html = view('moonlight::elementList', $scope)->render();
+        $html = view('moonlight::elements', $scope)->render();
         
         return response()->json(['html' => $html]);
+    }
+    
+    /**
+     * Show element list.
+     *
+     * @return View
+     */
+    public function elementList(Request $request, $classId, $class)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $element = Element::getByClassId($classId);
+        
+        if ( ! $element) {
+            return redirect()->route('browse');
+        }
+        
+        $site = \App::make('site');
+        
+        $currentItem = $site->getItemByName($class);
+        
+        if ( ! $currentItem) {
+            return redirect()->route('browse');
+        }
+        
+        $parent = Element::getParent($element);
+        
+        $itemList = $site->getItemList();
+
+		$items = [];
+
+		foreach ($itemList as $item) {
+            $propertyList = $item->getPropertyList();
+
+            foreach ($propertyList as $property) {
+                if (
+                    $property->isOneToOne()
+                    && $property->getRelatedClass() == $element->getClass()
+                ) {
+                    $items[] = $item;
+                    break;
+                }
+            }
+		}
+
+        $scope['element'] = $element;
+        $scope['parent'] = $parent;
+        $scope['currentItem'] = $currentItem;
+		$scope['items'] = $items;
+            
+        return view('moonlight::elementList', $scope);
+    }
+    
+    /**
+     * Show browse element.
+     *
+     * @return View
+     */
+    public function element(Request $request, $classId)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $element = Element::getByClassId($classId);
+        
+        if ( ! $element) {
+            return redirect()->route('browse');
+        }
+        
+        $currentItem = $element->getItem();
+        
+        $parent = Element::getParent($element);
+        
+        $site = \App::make('site');
+        
+        $itemList = $site->getItemList();
+
+		$items = [];
+        
+        foreach ($itemList as $item) {
+            $propertyList = $item->getPropertyList();
+
+            foreach ($propertyList as $property) {
+                if (
+                    $property->isOneToOne()
+                    && $property->getRelatedClass() == $element->getClass()
+                ) {
+                    $items[] = $item;
+                    break;
+                }
+            }
+		}
+
+        $scope['element'] = $element;
+        $scope['parent'] = $parent;
+        $scope['currentItem'] = $currentItem;
+		$scope['items'] = $items;
+            
+        return view('moonlight::element', $scope);
     }
     
     /**

@@ -83,13 +83,13 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         
         Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
         
-        Route::get('/browse/root/{item}', ['as' => 'browse.list', 'uses' => 'Moonlight\Controllers\BrowseController@rootList'])->
+        Route::get('/browse/root/{item}', ['as' => 'browse.root.list', 'uses' => 'Moonlight\Controllers\BrowseController@rootList'])->
             where(['item' => '[A-Za-z0-9\.]+']);
         
-        Route::get('/browse/{classId}', ['as' => 'element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
+        Route::get('/browse/{classId}', ['as' => 'browse.element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
             where(['classId' => '[A-Za-z0-9\.]+']);
         
-        Route::get('/browse/{classId}/{item}', ['as' => 'element.list', 'uses' => 'Moonlight\Controllers\BrowseController@elementList'])->
+        Route::get('/browse/{classId}/{item}', ['as' => 'browse.element.list', 'uses' => 'Moonlight\Controllers\BrowseController@elementList'])->
             where(['classId' => '[A-Za-z0-9\.]+', 'item' => '[A-Za-z0-9\.]+']);
         
         Route::get('/elements/count', ['as' => 'elements.count', 'uses' => 'Moonlight\Controllers\BrowseController@count']);

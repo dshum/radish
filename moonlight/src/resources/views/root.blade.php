@@ -58,10 +58,11 @@
     </div>
 </div>
 <div class="main">
+    <h2>Корень сайта</h2><br>
     @if ($items)
     <ul class="items">
         @foreach ($items as $item)
-        <li item="{{ $item->getNameId() }}"><span><a href="{{ route('browse.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span></li>
+        <li item="{{ $item->getNameId() }}"><span><a href="{{ route('browse.root.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span></li>
         @endforeach
     </ul>
     @endif

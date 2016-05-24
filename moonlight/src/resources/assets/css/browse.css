@@ -120,7 +120,7 @@ input.number {
 }
 
 ul.elements {
-  margin-bottom: 1rem;
+    margin: 1rem 0;
 }
 
 ul.elements li {
