@@ -258,16 +258,6 @@ ul.menu li.red a {
   }
 }
 
-.total {
-  background-color: orangered;
-  color: white;
-  margin-left: 1rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 2px;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
 .bottom-context-menu {
   display: none;
   position: fixed;

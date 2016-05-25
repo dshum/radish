@@ -99,9 +99,38 @@ input.number {
   color: orange;
 }
 
-ul.items li span a {
+ul.items li .a {
     font-size: 1.2rem;
-    color: #999;
+    color: #567;
+    text-decoration: underline;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+ul.items li .total {
+  background-color: orangered;
+  color: white;
+  margin-left: 1rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+ul.items li.grey .a {
+    color: #ccc;
+}
+
+ul.items li.waiting .a {
+    color: #ccc;
+}
+
+ul.items li.waiting .total {
+    background-color: #ccc;
+}
+
+.list-container {
+    margin-top: 0;
 }
 
 .list-container .empty {
@@ -110,6 +139,7 @@ ul.items li span a {
 
 .list-container .count {
     padding: 0.5rem 0;
+    font-size: 0.9rem;
 }
 
 .list-container .page {
@@ -244,3 +274,4 @@ ul.elements li .one .glyphicons {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.18), 0 1px 7px 0 rgba(0, 0, 0, 0.15);
   padding: 1rem;
 }
+

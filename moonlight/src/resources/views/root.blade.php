@@ -12,41 +12,73 @@
         $('ul.items li').each(function() {
             var li = $(this);
             var item = $(this).attr('item');
+            var url = '{{ route('elements.count') }}';
 
-            $.getJSON(
-                '{{ route('elements.count') }}',
-                {item: item},
-                function(data) {
-                   if (data && data.count) {
-                        var span = $('<span class="total">'+data.count+'</span>');
-                        var div = $('<div item="'+item+'" class="list-container"></div>');
+            $.getJSON(url, {
+                item: item
+            }, function(data) {
+                if (data && data.count) {
+                    var span = $('<span class="total">'+data.count+'</span>');
+                    var div = $('<div item="'+item+'" class="dnone list-container"></div>');
 
-                        li.append(span).append(div);
-                    } else {
-                        var  h = li.find('a').html();
-                        li.addClass('grey').html(h);
-                    }
+                    li.append(span).append(div);
+                } else {
+                    li.addClass('grey');
                 }
-            );
+            });
         });
         
-        $('ul.items li').click(function() {
-            var li = $(this);
-            var item = $(this).attr('item');
+        $('ul.items li span.a').click(function() {
+            var li = $(this).parents('li');
+            var item = li.attr('item');
             var url = '{{ route('elements.list') }}';
+            
+            li.addClass('waiting');
             
             $.getJSON(url, {
                 item: item
             }, function(data) {
+                li.removeClass('waiting');
+                
                 if (data.html) {
-                    $('.list-container[item!="'+item+'"]').slideUp('fast');
-                    $('.list-container[item="'+item+'"]').html(data.html).slideDown('fast');
+                    $('.list-container[item!="'+item+'"]').slideUp(200);
+                    $('.list-container[item="'+item+'"]').html(data.html).slideDown(200);
                 }
             }).fail(function() {
+                li.removeClass('waiting');
+                
                 $.alertDefaultError();
             });
         
             return false;
+        });
+        
+        $('body').on('click', '.next', function() {
+            var next = $(this);
+            var page = next.attr('page');
+            var item = next.attr('item');
+            var url = '{{ route('elements.list') }}';
+
+            next.addClass('waiting');
+            $.blockUI();
+
+            $.getJSON(url, {
+                item: item,
+                page: page
+            }, function(data) {
+                $.unblockUI();
+                
+                next.remove();
+
+                if (data.html) {
+                    $('.list-container').append(data.html);
+                }
+            }).fail(function() {
+                $.unblockUI();
+                next.removeClass('waiting');
+                
+                $.alertDefaultError();
+            });
         });
     });
 </script>
@@ -58,6 +90,11 @@
     <center><a href="{{ route('home') }}">@yield('title')</a></center>
     <right><a href="{{ route('search') }}"><span class="glyphicons glyphicons-search"></span></a></right>
 </nav>
+<div class="bottom-context-menu">
+    <div class="button copy"><span class="halflings halflings-duplicate"></span><br>Копировать</div>
+    <div class="button move"><span class="halflings halflings-arrow-right"></span><br>Переместить</div>
+    <div class="button delete"><span class="halflings halflings-trash"></span><br>Удалить</div>
+</div>
 <div class="sidebar">
     <div class="sidebar-container">
         <ul class="menu">
@@ -79,12 +116,11 @@
     </div>
 </div>
 <div class="main">
-    <h2>Корень сайта</h2><br>
     @if ($items)
     <ul class="items">
         @foreach ($items as $item)
         <li item="{{ $item->getNameId() }}">
-            <span><a href="{{ route('browse.root.list', $item->getNameId()) }}">{{ $item->getTitle() }}</a></span>
+            <span class="a">{{ $item->getTitle() }}</span>
         </li>
         @endforeach
     </ul>

@@ -142,6 +142,7 @@ class BrowseController extends Controller
 		}
 
 		$count = $criteria->count();
+        usleep(10000 * $count);
         
         $scope['count'] = $count;
             
@@ -272,7 +273,8 @@ class BrowseController extends Controller
 			}
 		}
 
-		$elements = $criteria->paginate(10);
+		$elements = $criteria->paginate(3);
+        usleep(10000 * $elements->total());
         
         $total = $elements->total();
 		$currentPage = $elements->currentPage();

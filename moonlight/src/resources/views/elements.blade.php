@@ -15,7 +15,7 @@
     @endforeach
     </ul>
     @if ($hasMorePages)
-    <div><span class="next" page="{{ $currentPage + 1 }}">Дальше <span class="halflings halflings-menu-right"></span></span></div>
+    <div><span class="next" page="{{ $currentPage + 1 }}" item="{{ $currentItem->getNameId() }}">Дальше <span class="halflings halflings-menu-right"></span></span></div>
     @endif
 @else
     <div class="empty">Элементов не найдено.</div>
