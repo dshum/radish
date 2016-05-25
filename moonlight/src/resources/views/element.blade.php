@@ -23,7 +23,7 @@
 
                         li.append(span);
                     } else {
-                        let h = li.find('a').html();
+                        var h = li.find('a').html();
                         li.addClass('grey').html(h);
                     }
                 }

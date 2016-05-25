@@ -18,12 +18,12 @@
                 {item: item},
                 function(data) {
                    if (data && data.count) {
-                        let span = $('<span class="total">'+data.count+'</span>');
-                        let div = $('<div item="'+item+'" class="list-container"></div>');
+                        var span = $('<span class="total">'+data.count+'</span>');
+                        var div = $('<div item="'+item+'" class="list-container"></div>');
 
                         li.append(span).append(div);
                     } else {
-                        let h = li.find('a').html();
+                        var  h = li.find('a').html();
                         li.addClass('grey').html(h);
                     }
                 }

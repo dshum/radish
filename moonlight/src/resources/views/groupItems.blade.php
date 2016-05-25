@@ -34,7 +34,7 @@ $(function() {
             $(".items li").show();
         }
     }).keyup(function() {
-        let str = $(this).val()
+        var str = $(this).val()
 
         if (str.length > 0) {
             $(".items li:not(:contains('"+str+"'))").hide();
@@ -43,7 +43,7 @@ $(function() {
             $(".items li").show();
         } 
     }).change(function() {
-        let str = $(this).val()
+        var str = $(this).val()
 
         if (str.length > 0) {
             $(".items li:not(:contains('"+str+"'))").hide();
@@ -58,14 +58,14 @@ $(function() {
     });
 
     $('ul.items li').click(function() {
-        let item = $(this).attr('item');
+        var item = $(this).attr('item');
         
         $(this).toggleClass('checked');
 
         if ($(this).prop('checked') == true) {
             $(this).prop('checked', false);
             
-            let i = checked.indexOf(item);
+            var i = checked.indexOf(item);
             if (i > -1) {
                 checked.splice(i, 1);
             }
@@ -93,8 +93,8 @@ $(function() {
     });
     
     $('.button[permission]').click(function() {
-        let url = '{{ route('group.items.save', $group->id) }}';
-        let permission = $(this).attr('permission');
+        var url = '{{ route('group.items.save', $group->id) }}';
+        var permission = $(this).attr('permission');
         
         $.blockUI();
         
@@ -102,9 +102,9 @@ $(function() {
             $.unblockUI();
             
             if (data.permissions) {
-                for (let item in data.permissions) {
-                    let permission = data.permissions[item].permission;
-                    let title = data.permissions[item].title;
+                for (var item in data.permissions) {
+                    var permission = data.permissions[item].permission;
+                    var title = data.permissions[item].title;
                     
                     $('ul.items li[item="'+item+'"] div.permission').remove();
                     $('ul.items li[item="'+item+'"]').prepend('<div class="permission '+permission+'">'+title+'</div>');

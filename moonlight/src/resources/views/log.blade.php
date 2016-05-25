@@ -38,12 +38,12 @@ $(function() {
     });
 
     $('form').submit(function() {
-        let url = $(this).attr('action');
-        let comments = $('[name="comments"]').val();
-        let user = $('[name="user"]').val();
-        let type = $('[name="type"]').val();
-        let dateFrom = $('[name="date-from"]').val();
-        let dateTo = $('[name="date-to"]').val();
+        var url = $(this).attr('action');
+        var comments = $('[name="comments"]').val();
+        var user = $('[name="user"]').val();
+        var type = $('[name="type"]').val();
+        var dateFrom = $('[name="date-from"]').val();
+        var dateTo = $('[name="date-to"]').val();
 
         $('#form-container').slideUp('fast', function() {
             $.blockUI();
@@ -71,14 +71,14 @@ $(function() {
     });
 
     $('body').on('click', '.next', function() {
-        let next = $(this);
-        let page = next.attr('page');
-        let url = $('form').attr('action');
-        let comments = $('[name="comments"]').val();
-        let user = $('[name="user"]').val();
-        let type = $('[name="type"]').val();
-        let dateFrom = $('[name="date-from"]').val();
-        let dateTo = $('[name="date-to"]').val();
+        var next = $(this);
+        var page = next.attr('page');
+        var url = $('form').attr('action');
+        var comments = $('[name="comments"]').val();
+        var user = $('[name="user"]').val();
+        var type = $('[name="type"]').val();
+        var dateFrom = $('[name="date-from"]').val();
+        var dateTo = $('[name="date-to"]').val();
 
         next.addClass('waiting');
         $.blockUI();

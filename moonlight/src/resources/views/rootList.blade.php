@@ -38,7 +38,7 @@
         });
         
         $('form').submit(function() {
-            let url = $(this).attr('action');
+            var url = $(this).attr('action');
             
             $('#form-container').slideUp('fast', function() {
                 $.blockUI();
@@ -62,9 +62,9 @@
         });
         
         $('body').on('click', '.next', function() {
-            let next = $(this);
-            let page = next.attr('page');
-            let url = $('form').attr('action');
+            var next = $(this);
+            var page = next.attr('page');
+            var url = $('form').attr('action');
 
             next.addClass('waiting');
             $.blockUI();

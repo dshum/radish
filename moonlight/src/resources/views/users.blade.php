@@ -30,7 +30,7 @@
         });
 
         $('.confirm .remove').click(function() {
-            let url = $(this).attr('url');
+            var url = $(this).attr('url');
 
             if ( ! url) return false;
 

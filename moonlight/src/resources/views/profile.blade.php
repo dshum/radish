@@ -23,9 +23,9 @@
                     $.unblockUI();
                     
                     if (data.errors) {
-                        let message = '';
+                        var message = '';
 
-                        for (let field in data.errors) {
+                        for (var field in data.errors) {
                             $('[name="'+field+'"]').addClass('invalid');
 
                             message += data.errors[field]+'<br />';
