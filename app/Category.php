@@ -14,4 +14,15 @@ class Category extends Model implements ElementInterface
 	{
 		return route('catalogue', array('url' => $this->url));
 	}
+    
+    public function getTouchListView()
+    {
+        $str = '';
+        
+        if ($this->image) {
+            $str .= '<div><img src="/assets/categories/'.$this->image.'" width="120" alt="" /></div>';
+        }
+        
+        return $str;
+    }
 }

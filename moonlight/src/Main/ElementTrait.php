@@ -105,4 +105,9 @@ trait ElementTrait
 	{
 		return null;
 	}
+    
+    public function getTouchListView()
+    {
+        return null;
+    }
 }

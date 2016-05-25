@@ -11,6 +11,9 @@
         <div class="date">{{ $element->created_at->format('d.m.Y') }}<br><span class="time">{{ $element->created_at->format('H:i:s') }}</span></div>
         <div class="edit"><a href="{{ route('element.edit', $element->getClassId()) }}"><span class="halflings halflings-pencil"></span></a></div>
         <div><a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$currentItem->getMainProperty()} }}</a></div>
+        @if ($element->getTouchListView())
+        {!! $element->getTouchListView() !!}
+        @endif
     </li>
     @endforeach
     </ul>

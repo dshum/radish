@@ -23,4 +23,6 @@ interface ElementInterface
 	public function getFolder();
 
 	public function getHref();
+    
+    public function getTouchListView();
 }
