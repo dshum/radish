@@ -6,8 +6,8 @@
     @endif
     <ul class="elements">
     @foreach ($elements as $element)
-    <li elementid="Agency.1">
-        <div class="check" elementid="Agency.1"></div>
+    <li classId="{{ $element->getClassId() }}">
+        <div class="check" classId="{{ $element->getClassId() }}"></div>
         <div class="date">{{ $element->created_at->format('d.m.Y') }}<br><span class="time">{{ $element->created_at->format('H:i:s') }}</span></div>
         <div class="edit"><a href="{{ route('element.edit', $element->getClassId()) }}"><span class="halflings halflings-pencil"></span></a></div>
         <div><a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$currentItem->getMainProperty()} }}</a></div>
@@ -18,7 +18,7 @@
     @endforeach
     </ul>
     @if ($hasMorePages)
-    <div><span class="next" page="{{ $currentPage + 1 }}" item="{{ $currentItem->getNameId() }}">Дальше <span class="halflings halflings-menu-right"></span></span></div>
+    <div><span class="next" page="{{ $currentPage + 1 }}" item="{{ $currentItem->getNameId() }}" classId="{{ $currentElement ? $currentElement->getClassId() : null }}">Дальше <span class="halflings halflings-menu-right"></span></span></div>
     @endif
 @else
     <div class="empty">Элементов не найдено.</div>

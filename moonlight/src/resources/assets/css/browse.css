@@ -92,11 +92,11 @@ input.number {
 }
 
 .addnew {
-  position: relative;
-  top: -0.5rem;
-  left: 1rem;
-  font-size: 2rem;
-  color: orange;
+    position: relative;
+    top: -0.5rem;
+    left: 1rem;
+    font-size: 2rem;
+    color: orange;
 }
 
 ul.items li .a {
@@ -108,17 +108,18 @@ ul.items li .a {
 }
 
 ul.items li .total {
-  background-color: orangered;
-  color: white;
-  margin-left: 1rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 2px;
-  font-size: 0.9rem;
-  white-space: nowrap;
+    background-color: orangered;
+    color: white;
+    margin-left: 1rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
 ul.items li.grey .a {
     color: #ccc;
+    text-decoration: none;
 }
 
 ul.items li.waiting .a {

@@ -22,6 +22,22 @@ class Good extends Model implements ElementInterface
             $str .= '<div><img src="/assets/goods/'.$this->image.'" width="120" alt="" /></div>';
         }
         
+        if ($this->novelty) {
+            $str .= '<div class="label checkbox"><span class="glyphicons glyphicons-ok-2"></span>Новинка</div>';
+        }
+        
+        if ($this->special) {
+            $str .= '<div class="label checkbox"><span class="glyphicons glyphicons-ok-2"></span>Спецпредложение</div>';
+        }
+        
+        if ($this->hide) {
+            $str .= '<div class="label checkbox"><span class="glyphicons glyphicons-ok-2"></span>Скрыто</div>';
+        }
+        
+        if ($this->absent) {
+            $str .= '<div class="label checkbox"><span class="glyphicons glyphicons-ok-2"></span>Отсутствует</div>';
+        }
+        
         return $str;
     }
 }

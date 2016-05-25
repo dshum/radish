@@ -1,6 +1,6 @@
 @if (sizeof($userActions))
     @if ($currentPage == 1)
-    <div class="count">Всего {{ $total }} {{ Moonlight\Utils\RussianTextUtils::selectCaseForNumber($total, ['операция', 'операции', 'операций']) }}.</div>
+    <div class="count">Всего {{ $total }} {{ Moonlight\Utils\RussianTextUtils::selectCaseForNumber($total, ['операция', 'операции', 'операций']) }}. Отсортировано по дате.</div>
     @else
     <div class="page">Страница {{ $currentPage }}</div>
     @endif

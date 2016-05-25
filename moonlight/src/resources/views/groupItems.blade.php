@@ -14,6 +14,7 @@ jQuery.expr[':'].contains = function(a, i, m) {
         
 $(function() {
     var checked = [];
+    
     var cancelSelection = function() {
         $('left').html('<a href="{{ route('users') }}"><span class="halflings halflings-menu-left"></span></a>');
         $('center').html('<a href="{{ route('home') }}">@yield('title')</a>');

@@ -273,13 +273,14 @@ class BrowseController extends Controller
 			}
 		}
 
-		$elements = $criteria->paginate(3);
+		$elements = $criteria->paginate(10);
         usleep(10000 * $elements->total());
         
         $total = $elements->total();
 		$currentPage = $elements->currentPage();
         $hasMorePages = $elements->hasMorePages();
 
+        $scope['currentElement'] = $element;
         $scope['currentItem'] = $currentItem;
         $scope['total'] = $total;
         $scope['currentPage'] = $currentPage;
