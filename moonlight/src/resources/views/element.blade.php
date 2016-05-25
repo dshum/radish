@@ -107,7 +107,11 @@
         <li>
             <div class="date">{{ $element->created_at->format('d.m.Y') }}<br><span class="time">{{ $element->created_at->format('H:i:s') }}</span></div>
             <div class="edit"><a href="{{ route('element.edit', $element->getClassId()) }}"><span class="halflings halflings-pencil"></span></a></div>
+            @if ($element->getTouchListView())
+            {!! $element->getTouchListView() !!}
+            @else
             <div>{{ $currentItem->getTitle() }}</div>
+            @endif
         </li>
     </ul>
     @if ($items)
