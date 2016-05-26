@@ -1,0 +1,7 @@
+<span switch="true" name="{{ $name }}" class="dashed hand" style="color: magenta;">{{ $title }}</span>:<br>
+<div id="{{ $name }}_block" style="display: {{ $from || $to ? 'block' : 'none' }};">
+<input type="hidden" id="{{ $name }}_from" name="{{ $name }}_from" value="<?=$from->toString()?>"<?=$open ? '' : ' disabled="true"'?>>
+<input type="hidden" id="{{ $name }}_to" name="{{ $name }}_to" value="<?=$to->toString()?>"<?=$open ? '' : ' disabled="true"'?>>
+от <input class="prop-time" type="text" id="{{ $name }}_from_hour" name="{{ $name }}_from_hour" property="{{ $name }}_from" time="true" max="23" value="<?=sprintf('%02d', $from->getHour())?>" maxlength="2">&nbsp;:&nbsp;<input class="prop-time" type="text" id="{{ $name }}_from_minute" name="{{ $name }}_from_minute" property="{{ $name }}_from" time="true" max="59" value="<?=sprintf('%02d', $from->getMinute())?>" maxlength="2">
+до <input class="prop-time" type="text" id="{{ $name }}_to_hour" name="{{ $name }}_to_hour" property="{{ $name }}_to" time="true" max="23" value="<?=sprintf('%02d', $to->getHour())?>" maxlength="2">&nbsp;:&nbsp;<input class="prop-time" type="text" id="{{ $name }}_to_minute" name="{{ $name }}_to_minute" property="{{ $name }}_to" time="true" max="59" value="<?=sprintf('%02d', $to->getMinute())?>" maxlength="2">
+</div>

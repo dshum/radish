@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Moonlight\Main\ElementInterface;
 use Moonlight\Main\ElementTrait;
+use Illuminate\Support\Facades\URL;
 
 class Section extends Model implements ElementInterface
 {
@@ -12,6 +13,6 @@ class Section extends Model implements ElementInterface
 
     public function getHref()
 	{
-		return URL::route($this->url);
+		return '/'.$this->url;
 	}
 }

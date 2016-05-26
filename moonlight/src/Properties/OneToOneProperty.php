@@ -147,7 +147,7 @@ class OneToOneProperty extends BaseProperty {
 			'relatedClass' => $relatedItem->getNameId(),
 		);
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.edit', $scope)->render();
 	}
 
 	public function getMoveView()

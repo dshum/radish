@@ -257,7 +257,7 @@ abstract class BaseProperty {
 			'readonly' => $this->getReadonly(),
 		);
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.edit', $scope)->render();
 	}
 
 	public function getEditListView()

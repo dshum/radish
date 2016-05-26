@@ -263,11 +263,11 @@ ul.elements li .one .glyphicons {
 }
 
 .button.copy .halflings {
-  color: goldenrod;
+  color: #64a7a0;
 }
 
 .button.move .halflings {
-  color: #64a7a0;
+  color: goldenrod;
 }
 
 .button.delete .halflings {

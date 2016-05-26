@@ -319,59 +319,6 @@ class BrowseController extends Controller
     }
     
     /**
-     * Show element list.
-     *
-     * @return View
-     */
-    public function elementList(Request $request, $classId, $class)
-    {
-        $scope = [];
-        
-        $loggedUser = LoggedUser::getUser();
-        
-        $element = Element::getByClassId($classId);
-        
-        if ( ! $element) {
-            return redirect()->route('browse');
-        }
-        
-        $site = \App::make('site');
-        
-        $currentItem = $site->getItemByName($class);
-        
-        if ( ! $currentItem) {
-            return redirect()->route('browse');
-        }
-        
-        $parent = Element::getParent($element);
-        
-        $itemList = $site->getItemList();
-
-		$items = [];
-
-		foreach ($itemList as $item) {
-            $propertyList = $item->getPropertyList();
-
-            foreach ($propertyList as $property) {
-                if (
-                    $property->isOneToOne()
-                    && $property->getRelatedClass() == $element->getClass()
-                ) {
-                    $items[] = $item;
-                    break;
-                }
-            }
-		}
-
-        $scope['element'] = $element;
-        $scope['parent'] = $parent;
-        $scope['currentItem'] = $currentItem;
-		$scope['items'] = $items;
-            
-        return view('moonlight::elementList', $scope);
-    }
-    
-    /**
      * Show browse element.
      *
      * @return View
@@ -418,41 +365,6 @@ class BrowseController extends Controller
 		$scope['items'] = $items;
             
         return view('moonlight::element', $scope);
-    }
-    
-    /**
-     * Show root element list.
-     *
-     * @return View
-     */
-    public function rootList(Request $request, $class)
-    {
-        $scope = [];
-        
-        $loggedUser = LoggedUser::getUser();
-        
-        $site = \App::make('site');
-        
-        $currentItem = $site->getItemByName($class);
-        
-        if ( ! $currentItem) {
-            return redirect()->route('browse');
-        }
-        
-        $itemList = $site->getItemList();
-
-		$items = [];
-
-		foreach ($itemList as $itemName => $item) {
-			if ( ! $item->getRoot()) continue;
-
-			$items[] = $item;
-		}
-
-        $scope['currentItem'] = $currentItem;
-		$scope['items'] = $items;
-            
-        return view('moonlight::rootList', $scope);
     }
     
     /**

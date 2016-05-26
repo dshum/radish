@@ -10,11 +10,11 @@
 }
 
 .bottom-context-menu .button.copy .halflings {
-  color: goldenrod;
+  color: #64a7a0;
 }
 
 .bottom-context-menu .button.move .halflings {
-  color: #64a7a0;
+  color: goldenrod;
 }
 
 .bottom-context-menu .button.delete .halflings {
