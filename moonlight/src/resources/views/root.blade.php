@@ -24,6 +24,22 @@ $(function() {
 
         checked = [];
     };
+    
+    var loadElements = function(li) {
+        var item = li.attr('item');
+        
+        $.getJSON('{{ route('elements.list') }}', {
+            item: item
+        }, function(data) {
+            if (data.html) {
+                $('.list-container[item="'+item+'"]').html(data.html).slideDown(200);
+                
+                opened = item;
+            }
+        }).fail(function() {
+            $.alertDefaultError();
+        });
+    };
 
     $('ul.items li').each(function() {
         var li = $(this);
@@ -50,35 +66,17 @@ $(function() {
         var item = li.attr('item');
         var url = '{{ route('elements.list') }}';
         
+        if (li.hasClass('grey')) return false;
         if (opened == item) return false;
 
-        li.addClass('waiting');
-
-        $.getJSON(url, {
-            item: item
-        }, function(data) {
-            li.removeClass('waiting');
-
-            if (data.html) {
+        if (opened) {
+            $('.list-container[item="'+opened+'"]').slideUp(200, function() {
                 cancelSelection();
-                
-                $('.list-container[item="'+item+'"]').hide().html(data.html);
-                
-                if (opened) {
-                    $('.list-container[item="'+opened+'"]').slideUp(200, function() {
-                        $('.list-container[item="'+item+'"]').slideDown('fast');
-                    });
-                } else {
-                    $('.list-container[item="'+item+'"]').slideDown('fast');
-                }
-                    
-                opened = item;
-            }
-        }).fail(function() {
-            li.removeClass('waiting');
-
-            $.alertDefaultError();
-        });
+                loadElements(li);
+            });
+        } else {
+            loadElements(li);
+        }
 
         return false;
     });

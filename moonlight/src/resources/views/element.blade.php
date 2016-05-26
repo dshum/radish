@@ -10,6 +10,7 @@
 <script>
 $(function() {
     var checked = [];
+    var opened = null;
 
     var cancelSelection = function() {
         $('left').html('<span class="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></span>');
@@ -24,13 +25,18 @@ $(function() {
         checked = [];
     };
 
-    var loadElements = function(classId, item) {
+    var loadElements = function(li) {
+        var classId = li.attr('classId');
+        var item = li.attr('item');
+        
         $.getJSON('{{ route('elements.list') }}', {
             classId: classId,
             item: item
         }, function(data) {
             if (data.html) {
                 $('.list-container[item="'+item+'"]').html(data.html).slideDown(200);
+                
+                opened = item;
             }
         }).fail(function() {
             $.alertDefaultError();
@@ -66,26 +72,16 @@ $(function() {
         var url = '{{ route('elements.list') }}';
 
         if (li.hasClass('grey')) return false;
+        if (opened == item) return false;
 
-        li.addClass('waiting');
-
-        $.getJSON(url, {
-            classId: classId,
-            item: item
-        }, function(data) {
-            li.removeClass('waiting');
-
-            if (data.html) {
+        if (opened) {
+            $('.list-container[item="'+opened+'"]').slideUp(200, function() {
                 cancelSelection();
-                
-                $('.list-container[item!="'+item+'"]').slideUp(200);
-                $('.list-container[item="'+item+'"]').html(data.html).slideDown(200);
-            }
-        }).fail(function() {
-            li.removeClass('waiting');
-
-            $.alertDefaultError();
-        });
+                loadElements(li);
+            });
+        } else {
+            loadElements(li);
+        }
 
         return false;
     });
