@@ -5,6 +5,9 @@ namespace Moonlight\Controllers;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
+use Moonlight\Properties\OrderProperty;
+use Moonlight\Properties\DateProperty;
+use Moonlight\Properties\DatetimeProperty;
 
 class BrowseController extends Controller
 {
@@ -272,6 +275,28 @@ class BrowseController extends Controller
                 return response()->json(['count' => 0]);
 			}
 		}
+        
+        $orderByList = $currentItem->getOrderByList();
+        
+        $orders = [];
+
+		foreach ($orderByList as $field => $direction) {
+            $criteria->orderBy($field, $direction);
+            $property = $currentItem->getPropertyByName($field);
+            if ($property instanceof OrderProperty) {
+                $orders[$field] = 'порядку';
+            } elseif ($property->getName() == 'created_at') {
+                $orders[$field] = 'дате создания';
+            } elseif ($property->getName() == 'updated_at') {
+                $orders[$field] = 'дате изменения';
+            } elseif ($property->getName() == 'deleted_at') {
+                $orders[$field] = 'дате удаления';
+            } else {
+                $orders[$field] = 'полю &laquo;'.$property->getTitle().'&raquo;';
+            }
+        }
+        
+        $orders = implode(', ', $orders);
 
 		$elements = $criteria->paginate(10);
         usleep(10000 * $elements->total());
@@ -286,6 +311,7 @@ class BrowseController extends Controller
         $scope['currentPage'] = $currentPage;
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
+        $scope['orders'] = $orders;
         
         $html = view('moonlight::elements', $scope)->render();
         

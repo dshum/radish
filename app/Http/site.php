@@ -27,7 +27,7 @@ $site->
 		setMainProperty('name')->
 		setRoot(true)->
 		setElementPermissions(true)->
-		addOrder()->
+		addOrderBy('created_at', 'desc')->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->

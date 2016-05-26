@@ -10,6 +10,7 @@
 <script>
 $(function() {
     var checked = [];
+    var opened = null;
 
     var cancelSelection = function() {
         $('left').html('<span class="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></span>');
@@ -48,6 +49,8 @@ $(function() {
         var li = $(this).parents('li');
         var item = li.attr('item');
         var url = '{{ route('elements.list') }}';
+        
+        if (opened == item) return false;
 
         li.addClass('waiting');
 
@@ -59,8 +62,17 @@ $(function() {
             if (data.html) {
                 cancelSelection();
                 
-                $('.list-container[item!="'+item+'"]').slideUp(200);
-                $('.list-container[item="'+item+'"]').html(data.html).slideDown(200);
+                $('.list-container[item="'+item+'"]').hide().html(data.html);
+                
+                if (opened) {
+                    $('.list-container[item="'+opened+'"]').slideUp(200, function() {
+                        $('.list-container[item="'+item+'"]').slideDown('fast');
+                    });
+                } else {
+                    $('.list-container[item="'+item+'"]').slideDown('fast');
+                }
+                    
+                opened = item;
             }
         }).fail(function() {
             li.removeClass('waiting');

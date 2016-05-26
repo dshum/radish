@@ -33,7 +33,7 @@ $(function() {
         $('.confirm').fadeOut('fast', handle);
     };
     
-    $('.hamburger').click(function() {
+    $('body').on('click', '.hamburger', function() {
         $('.sidebar').fadeToggle('fast');
 
         return false;

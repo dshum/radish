@@ -169,7 +169,7 @@ $(function() {
             @elseif ($permissions[$element->getClassId()] == 'delete')
             <div class="permission delete">Удаление</div>
             @endif
-            <a href="{{ route('element', $element->getClassId()) }}">{{ $element->{$item->getMainProperty()} }}</a><br>
+            <a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$item->getMainProperty()} }}</a><br>
             <small>{{ $element->getClassId() }}</small>
         </li>
         @endforeach

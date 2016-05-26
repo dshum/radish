@@ -1,6 +1,11 @@
 @if (sizeof($elements))
     @if ($currentPage == 1)
-    <div class="count">Всего {{ $total }} {{ Moonlight\Utils\RussianTextUtils::selectCaseForNumber($total, ['элемент', 'элемента', 'элементов']) }}. Отсортировано по порядку.</div>
+    <div class="count">
+        Всего {{ $total }} {{ Moonlight\Utils\RussianTextUtils::selectCaseForNumber($total, ['элемент', 'элемента', 'элементов']) }}.
+        @if ($orders)
+        Отсортировано по {{ $orders }}.
+        @endif
+    </div>
     @else
     <div class="page">Страница {{ $currentPage }}</div>
     @endif
