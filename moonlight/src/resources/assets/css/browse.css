@@ -105,6 +105,10 @@ ul.items li .a {
     text-decoration: underline;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 ul.items li .total {
