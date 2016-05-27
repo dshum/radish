@@ -319,6 +319,119 @@ class BrowseController extends Controller
     }
     
     /**
+     * Show element list for autocomplete.
+     *
+     * @return Response
+     */
+    public function autocomplete(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $class = $request->input('item');
+        $query = $request->input('query');
+        
+        $site = \App::make('site');
+        
+        $currentItem = $site->getItemByName($class);
+        
+        if ( ! $currentItem) {
+            return response()->json($scope);
+        }
+        
+        $mainProperty = $currentItem->getMainProperty();
+
+		if ( ! $loggedUser->isSuperUser()) {
+			$permissionDenied = true;
+			$deniedElementList = [];
+			$allowedElementList = [];
+
+			$groupList = $loggedUser->getGroups();
+
+			foreach ($groupList as $group) {
+				$itemPermission = $group->getItemPermission($currentItem->getNameId())
+					? $group->getItemPermission($currentItem->getNameId())->permission
+					: $group->default_permission;
+
+				if ($itemPermission != 'deny') {
+					$permissionDenied = false;
+					$deniedElementList = [];
+				}
+
+				$elementPermissionList = $group->elementPermissions;
+
+				$elementPermissionMap = [];
+
+				foreach ($elementPermissionList as $elementPermission) {
+					$classId = $elementPermission->class_id;
+					$permission = $elementPermission->permission;
+                    
+					$array = explode(Element::ID_SEPARATOR, $classId);
+                    $id = array_pop($array);
+                    $class = implode(Element::ID_SEPARATOR, $array);
+					
+                    if ($class == $item->getNameId()) {
+						$elementPermissionMap[$id] = $permission;
+					}
+				}
+
+				foreach ($elementPermissionMap as $id => $permission) {
+					if ($permission == 'deny') {
+						$deniedElementList[$id] = $id;
+					} else {
+						$allowedElementList[$id] = $id;
+					}
+				}
+			}
+		}
+
+        $criteria = $currentItem->getClass()->query();
+        
+        if ($query) {
+            $criteria->whereRaw(
+                "cast(id as text) ilike :query or $mainProperty ilike :query",
+                ['query' => '%'.$query.'%']
+            );
+        }
+
+		if ( ! $loggedUser->isSuperUser()) {
+			if (
+				$permissionDenied
+				&& sizeof($allowedElementList)
+			) {
+				$criteria->whereIn('id', $allowedElementList);
+			} elseif (
+				! $permissionDenied
+				&& sizeof($deniedElementList)
+			) {
+				$criteria->whereNotIn('id', $deniedElementList);
+			} elseif ($permissionDenied) {
+                return response()->json(['count' => 0]);
+			}
+		}
+        
+        $orderByList = $currentItem->getOrderByList();
+
+		foreach ($orderByList as $field => $direction) {
+            $criteria->orderBy($field, $direction);
+        }
+
+		$elements = $criteria->limit(10)->get();
+        
+        $scope['suggestions'] = [];
+        
+        foreach ($elements as $element) {
+            $scope['suggestions'][] = [
+                'value' => $element->$mainProperty,
+                'data' => $element->getClassId(),
+            ];
+        }
+        
+        return response()->json($scope);
+    }
+    
+    /**
      * Show browse element.
      *
      * @return View

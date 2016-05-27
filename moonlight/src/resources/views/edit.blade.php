@@ -7,6 +7,7 @@
 @endsection
 
 @section('js')
+<script src="/packages/moonlight/touch/js/jquery.autocomplete.min.js"></script>
 <script>
 $(function() {
     $('#options-toggler').click(function() {

@@ -90,6 +90,8 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         
         Route::get('/elements/list', ['as' => 'elements.list', 'uses' => 'Moonlight\Controllers\BrowseController@elements']);
         
+        Route::get('/elements/autocomplete', ['as' => 'elements.autocomplete', 'uses' => 'Moonlight\Controllers\BrowseController@autocomplete']);
+        
         Route::get('/browse/{classId}/edit', ['as' => 'element.edit', 'uses' => 'Moonlight\Controllers\EditController@edit'])->
             where(['classId' => '[A-Za-z0-9\.]+']);
     });
