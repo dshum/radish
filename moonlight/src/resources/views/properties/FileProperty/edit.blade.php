@@ -7,7 +7,8 @@
     @if ($maxFilesize > 0)
     <small class="red">Максимальный размер файла {{ $maxFilesize }} Кб</small><br />
     @endif
-    <div class="file" property="{{ $name }}">Выберите файл</div>
+    <div class="file" name="{{ $name }}">Выберите файл</div>
+    <span class="reset" name="{{ $name }}" file>&#215;</span>
     <input type="file" name="{{ $name }}">
     <p>
         <input type="checkbox" name="{{ $name }}_drop" id="{{ $name }}_drop_checkbox" value="1">

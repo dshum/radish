@@ -38,11 +38,11 @@
 }
 
 .edit-form .loadfile .file {
-    display: block;
+    display: inline-block;
     max-width: 75%;
     width: 10rem;
     border: 2px solid #ccc;
     border-radius: 2px;
     text-align: center;
-    padding: 1rem;
+    padding: 0.5rem;
 }

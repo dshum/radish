@@ -4,19 +4,25 @@ $(function() {
     );
 
     $(':file').change(function(e) {
-        var fileInput = $(this);
-        var property = $(this).attr('name');
+        var name = $(this).attr('name');
         var path = e.target.files[0] ? e.target.files[0].name : 'Выберите файл';
 
-        $('.file[property="'+property+'"]').html(path);
+        $('.file[name="'+name+'"]').html(path);
         
-        $('[name="'+property+'_drop"]').prop('checked', false);
+        $('[name="'+name+'_drop"]').prop('checked', false);
     });
 
-    $('.file[property]').click(function() {
-        var property = $(this).attr('property');
-        var fileInput = $(':file[name="'+property+'"]');
+    $('.file[name]').click(function() {
+        var name = $(this).attr('name');
+        var fileInput = $(':file[name="'+name+'"]');
 
         fileInput.click();
+    });
+    
+    $('.reset[file]').click(function() {
+        var name = $(this).attr('name');
+        
+        $('.file[name="'+name+'"]').html('Выберите файл');
+        $(':file[name="'+name+'"]').val('');
     });
 });
