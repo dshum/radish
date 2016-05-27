@@ -9,6 +9,7 @@ $(function() {
             $('span[name="{{ $name }}"]').html(suggestion.value);
             $(':text[name="{{ $name }}"]').val(suggestion.data);
         },
+        appendTo: $('span.autocomplete-container[name="{{ $name }}_auto"]'),
         minChars: 0
     });
 });
@@ -23,6 +24,7 @@ $(function() {
 </span>
 @if ( ! $readonly)
 <br>
-<input type="hidden" name="{{ $name }}" value="{{ $value->classId }}">
+<input type="hidden" name="{{ $name }}" value="{{ $value ? $value->classId : null }}">
 <input type="text" name="{{ $name }}_autocomplete" value="" placeholder="ID или название">
+<span name="{{ $name }}_auto" class="autocomplete-container"></span>
 @endif
