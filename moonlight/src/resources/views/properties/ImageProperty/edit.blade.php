@@ -13,7 +13,7 @@
 @endif
 @if ( ! $readonly)
 <div class="error"><span error="{{ $name }}"></span></div>
-{{ Form::file($name, array('class' => 'prop-file')) }}<br />
+<input type="file" name="{{ $name }}"><br />
 <small class="red">Максимальный размер файла {{ $maxFilesize }} Кб</small><br />
 	@if ($maxWidth > 0 and $maxHeight > 0)
 <small class="red">Максимальный размер изображения {{ $maxWidth }}&#215;{{ $maxHeight }} пикселей</small><br />
@@ -35,6 +35,9 @@ $(function() {
 	});
 });
 </script>
-{{ Form::checkbox($name.'_drop', 1, false, array('id' => $name.'_drop')) }} {{ Form::label($name.'_drop', 'Удалить') }}
+    <p>
+        <input type="checkbox" name="{{ $name }}_drop" id="{{ $name }}_drop_checkbox" value="1">
+        <label for="{{ $name }}_drop_checkbox">Удалить</label>
+    </p>
 	@endif
 @endif

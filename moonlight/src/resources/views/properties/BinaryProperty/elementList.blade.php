@@ -1,1 +1,0 @@
-{{ RussianTextUtils::friendlyFileSize(strlen($value)) }}

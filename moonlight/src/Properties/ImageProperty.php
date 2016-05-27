@@ -380,7 +380,7 @@ class ImageProperty extends BaseProperty {
 			];
 		}
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.edit', $scope)->render();
 	}
 
 	public function getElementSearchView()

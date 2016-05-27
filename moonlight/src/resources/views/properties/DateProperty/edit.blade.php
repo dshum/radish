@@ -1,6 +1,6 @@
 <label>{{ $title }}:</label><br>
 @if ($readonly && $value)
-{{ $value->format('d.m.Y, H:i:s') }}
+{{ $value->format('d.m.Y') }}
 @elseif ($readonly)
 <span class="grey">Не определено</span>
 @else
@@ -17,17 +17,11 @@ $(function() {
     
     $('span[name="{{ $name }}"][reset]').click(function() {
         $(':hidden[name="{{ $name }}_date"]').val('');
-        $(':text[name="{{ $name }}_hour"]').val('');
-        $(':text[name="{{ $name }}_minute"]').val('');
-        $(':text[name="{{ $name }}_second"]').val('');
         $('span[name="{{ $name }}_show"]').html('Не определено');
     });
 });
 </script>
 <input type="hidden" name="{{ $name }}_date" value="{{ $value ? $value->format('Y-m-d') : null }}">
-<span class="dashed hand" name="{{ $name }}_show">{{ $value ? $value->format('d.m.Y') : 'Не определено' }}</span>,&nbsp;
-<input type="text" name="{{ $name }}_hour" class="time" value="{{ $value ? $value->format('H') : null }}"> : 
-<input type="text" name="{{ $name }}_minute" class="time" value="{{ $value ? $value->format('i') : null }}"> : 
-<input type="text" name="{{ $name }}_second" class="time" value="{{ $value ? $value->format('s') : null }}">
+<span class="dashed hand" name="{{ $name }}_show">{{ $value ? $value->format('d.m.Y') : 'Не определено' }}</span>
 <span class="reset" name="{{ $name }}" reset>&#215;</span>
 @endif

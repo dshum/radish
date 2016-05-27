@@ -12,7 +12,7 @@ class Category extends Model implements ElementInterface
 
     public function getHref()
 	{
-		return route('catalogue', array('url' => $this->url));
+		return '/'.$this->url;
 	}
     
     public function getTouchListView()

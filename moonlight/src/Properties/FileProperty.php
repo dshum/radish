@@ -222,7 +222,7 @@ class FileProperty extends BaseProperty {
 			'maxFilesize' => $this->getMaxSize(),
 		);
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.edit', $scope)->render();
 	}
 
 }
