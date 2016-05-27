@@ -212,13 +212,14 @@ class Item
 		addProperty(
 			DatetimeProperty::create('created_at')->
 			setTitle('Создан')->
-			setReadonly(true)->
+//			setReadonly(true)->
+            setFillNow()->
 			setShow(true)
 		)->
 		addProperty(
 			DatetimeProperty::create('updated_at')->
 			setTitle('Изменен')->
-			setReadonly(true)->
+//			setReadonly(true)->
 			setShow(true)
 		);
 

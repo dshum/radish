@@ -25,9 +25,9 @@ class DatetimeProperty extends BaseProperty {
 		return new self($name);
 	}
 
-	public function setFillNow($fillNow)
+	public function setFillNow()
 	{
-		$this->fillNow = $fillNow;
+		$this->fillNow = true;
 
 		return $this;
 	}
@@ -49,18 +49,6 @@ class DatetimeProperty extends BaseProperty {
 
 		if ( ! $this->value && $this->getFillNow()) {
 			$this->value = Carbon::now();
-		}
-
-		if ($this->value) {
-			$this->value = [
-				'value' => $this->value->format(static::$format),
-				'date' => $this->value->toDateString(),
-				'time' => $this->value->toTimeString(),
-				'hour' => $this->value->hour,
-				'minute' => $this->value->minute,
-				'second' => $this->value->second,
-				'human' => $this->value->format('d.m.Y, H:i:s')
-			];
 		}
 
 		return $this;
