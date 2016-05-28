@@ -1,0 +1,23 @@
+.edit-favorites-toggler {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: #abc;
+}
+
+.remove {
+    display: none;
+    position: relative;
+    margin-left: 1rem;
+}
+
+.remove span {
+    position: absolute;
+    font-size: 1.3rem;
+    color: crimson;
+}
+
+.remove.small span {
+    font-size: 1rem;
+}

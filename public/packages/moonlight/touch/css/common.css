@@ -207,12 +207,9 @@ input.number {
 
 .reset {
   margin-left: 0.5rem;
-  height: 3rem;
-  line-height: 3rem;
   font-size: 2rem;
   text-align: center;
   vertical-align: middle;
-  border-bottom: 2px solid transparent;
   color: #ccc;
 }
 
@@ -313,6 +310,15 @@ ul.menu li.red a {
     border-bottom: 1px solid #eee;
     padding: 0.5rem 0 1rem 0;
     font-size: 1.2rem;
+}
+
+.confirm .content p {
+    margin: 0;
+    padding: 0 0 1rem 0;
+}
+
+.confirm .content div:last-child {
+    padding-bottom: 0;
 }
 
 .confirm .buttons {
@@ -456,10 +462,10 @@ ul.menu li.red a {
 }
 
 .autocomplete-container {position: relative;}
-.autocomplete-suggestions { margin-top: 1px; border: 1px solid #999; border=radius: 2px; background: #FFF; overflow: auto; }
+.autocomplete-suggestions { margin-top: 1px; border: 1px solid #999; border-radius: 2px; background: #fff; overflow: auto; font-size: 1rem;}
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-.autocomplete-selected { background: #F0F0F0; }
-.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-selected { background: #f0f0f0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399ff; }
 .autocomplete-group { padding: 2px 5px; }
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 

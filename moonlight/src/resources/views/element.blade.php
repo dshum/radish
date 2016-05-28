@@ -7,6 +7,7 @@
 @endsection
 
 @section('js')
+<script src="/packages/moonlight/touch/js/jquery.autocomplete.min.js"></script>
 <script>
 $(function() {
     var checked = [];
@@ -150,6 +151,58 @@ $(function() {
     $('body').on('click', '#cancelSelection', function() {
         cancelSelection();
     });
+    
+    $('#favorite-toggler').click(function() {
+        var enabled = $(this).attr('enabled');
+        var classId = $(this).attr('classId');
+        var url = '{{ route('elements.favorite') }}';
+
+        if (enabled == 'true') {
+            $.post(url, {
+                classId: classId,
+                action: 'drop'
+            }, function(data) {
+                $('#favorite-toggler').attr('enabled', false).removeClass('active'); 
+            });
+        } else {
+            $.confirm();
+        }
+    });
+
+    $(':text[name="rubric"]').autocomplete({
+        serviceUrl: '{{ route('elements.favorites') }}',
+        appendTo: $('span.autocomplete-container[name="rubric_auto"]'),
+        minChars: 0
+    });
+
+    $('.ok').click(function() {
+        var classId = $('#favorite-toggler').attr('classId');
+        var rubric = $(':text[name="rubric"]').val();
+        var url = '{{ route('elements.favorite') }}';
+        
+        $.post(url, {
+            classId: classId,
+            rubric: rubric,
+            action: 'add'
+        }, function(data) {
+            if (data.error) {
+                $.alert(data.error);
+            } else if (data.added) {
+                $('#favorite-toggler').attr('enabled', true).addClass('active');
+            }
+            
+            $(':text[name="rubric"]').val('');
+            $.confirmClose();
+        }).fail(function() {
+            $.alertDefaultError();
+        });
+    });
+
+    $('.cancel').click(function() {
+        $('#favorite-toggler').attr('enabled', false).removeClass('active');
+        $(':text[name="rubric"]').val('');
+        $.confirmClose();
+    });
 });
 </script>
 @endsection
@@ -185,6 +238,21 @@ $(function() {
     <div class="button move"><span class="halflings halflings-arrow-right"></span><br>Переместить</div>
     <div class="button delete"><span class="halflings halflings-trash"></span><br>Удалить</div>
 </div>
+<div class="confirm">
+<div class="container">
+    <div class="content">
+        <p>Добавить на главную страницу?</p>
+        <p>
+            <input type="text" name="rubric" value="" placeholder="Рубрика">
+            <span name="rubric_auto" class="autocomplete-container"></span>
+        </p>
+    </div>
+    <div class="buttons">
+        <input type="button" value="Добавить" class="btn ok">
+        <input type="button" value="Отмена" class="btn cancel">
+    </div>
+</div>
+</div>
 <div class="main">
     @if ($parent)
     <div class="path">
@@ -198,7 +266,7 @@ $(function() {
         <span class="halflings halflings-menu-right"></span>
     </div>
     @endif
-    <div id="favorite-toggler" class="right options active"><span class="glyphicons glyphicons-pushpin"></span></div>
+    <div id="favorite-toggler" classId="{{ $element->getClassId() }}" {!! $favorite ? 'enabled="true" class="right options active"' : 'class="right options"' !!}><span class="glyphicons glyphicons-pushpin"></span></div>
     <h2>{{ $element->{$currentItem->getMainProperty()} }}</h2>
     <ul class="elements">
         <li>

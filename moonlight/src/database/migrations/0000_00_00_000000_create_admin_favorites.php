@@ -17,6 +17,7 @@ class CreateAdminFavorites extends Migration {
 			$table->integer('user_id')->unsigned()->index();
             $table->integer('rubric_id')->unsigned()->index();
 			$table->string('class_id');
+            $table->integer('order');
 			$table->timestamps();
             $table->engine = 'InnoDB';
 		});

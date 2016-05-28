@@ -17,6 +17,7 @@ class CreateAdminFavoriteRubrics extends Migration {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned()->index();
             $table->string('name');
+            $table->integer('order');
 			$table->timestamps();
             $table->engine = 'InnoDB';
 		});

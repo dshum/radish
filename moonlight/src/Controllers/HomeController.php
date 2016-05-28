@@ -23,8 +23,15 @@ class HomeController extends Controller
         $favoriteRubrics = FavoriteRubric::where('user_id', $loggedUser->id)->orderBy('id')->get();
         $favorites = Favorite::where('user_id', $loggedUser->id)->orderBy('id')->get();
         
+        $map = [];
+        
+        foreach ($favorites as $favorite) {
+            $map[$favorite->rubric_id] = $favorite;
+        }
+        
         $scope['favoriteRubrics'] = $favoriteRubrics;
         $scope['favorites'] = $favorites;
+        $scope['map'] = $map;
             
         return view('moonlight::home', $scope);
     }

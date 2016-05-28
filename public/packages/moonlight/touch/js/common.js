@@ -10,7 +10,9 @@ $(function() {
     };
     
     $.alert = function(content, handle) {
-        $('.alert .content').html(content);
+        if (content) {
+            $('.alert .content').html(content);
+        }
         $('.alert').fadeIn('fast', handle);
     };
     
@@ -19,17 +21,18 @@ $(function() {
         $('.alert').fadeIn('fast', handle);
     };
     
-    $.alertClose = function(content, handle) {
-        $('.alert .content').html('');
+    $.alertClose = function(handle) {
         $('.alert').fadeOut('fast', handle);
     };
     
     $.confirm = function(content, handle) {
-        $('.confirm .content').html(content);
+        if (content) {
+            $('.confirm .content').html(content);
+        }
         $('.confirm').fadeIn('fast', handle);
     };
     
-    $.confirmClose = function(content, handle) {
+    $.confirmClose = function(handle) {
         $('.confirm').fadeOut('fast', handle);
     };
     

@@ -8,6 +8,8 @@ use Moonlight\Main\Element;
 use Moonlight\Properties\OrderProperty;
 use Moonlight\Properties\DateProperty;
 use Moonlight\Properties\DatetimeProperty;
+use Moonlight\Models\FavoriteRubric;
+use Moonlight\Models\Favorite;
 
 class BrowseController extends Controller
 {
@@ -432,6 +434,115 @@ class BrowseController extends Controller
     }
     
     /**
+     * Show favorite rubric list for autocomplete.
+     *
+     * @return Response
+     */
+    public function favorites(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $classId = $request->input('classId');
+        
+        $favoriteRubrics = FavoriteRubric::orderBy('order')->get();
+        
+        $scope['suggestions'] = [];
+        
+        foreach ($favoriteRubrics as $favoriteRubric) {
+            $scope['suggestions'][] = [
+                'value' => $favoriteRubric->name,
+                'data' => $favoriteRubric->id,
+            ];
+        }
+        
+        return response()->json($scope);
+    }
+    
+    /**
+     * Add/remove favorite element.
+     *
+     * @return Response
+     */
+    public function favorite(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $classId = $request->input('classId');
+        $rubricId = $request->input('rubricId');
+        $rubric = $request->input('rubric');
+        $action = $request->input('action');
+        
+        if ($action == 'dropRubric' && $rubricId) {
+            $favoriteRubric = FavoriteRubric::find($rubricId);
+            
+            if ($favoriteRubric) {
+                $favoriteRubric->delete();
+                $scope['deleted'] = $favoriteRubric->id;
+            }
+            
+            return response()->json($scope);
+        }
+        
+        $element = Element::getByClassId($classId);
+        
+        if ( ! $element) {
+            return response()->json(['error' => 'Элемент не найден.']);
+        }
+        
+        $favorite = Favorite::where(
+            function($query) use ($loggedUser, $classId) {
+                $query->where('user_id', $loggedUser->id);
+                $query->where('class_id', $classId);
+            }
+        )->first();
+        
+        if ($action == 'drop' && $favorite) {
+            $favorite->delete();
+            $scope['deleted'] = $favorite->id;
+            
+            return response()->json($scope);
+        }
+        
+        if ( ! $rubric) {
+            return response()->json(['error' => 'Рубрика не указана.']);
+        }
+        
+        $favoriteRubric = FavoriteRubric::where(
+            function($query) use ($loggedUser, $rubric) {
+                $query->where('user_id', $loggedUser->id);
+                $query->where('name', $rubric);
+            }
+        )->first();
+        
+        if ( ! $favoriteRubric) {
+            $favoriteRubric = new FavoriteRubric;
+            
+            $favoriteRubric->user_id = $loggedUser->id;
+            $favoriteRubric->name = $rubric;
+            
+            $favoriteRubric->save();
+        }
+
+        if ($action == 'add' && ! $favorite) {
+            $favorite = new Favorite;
+            
+            $favorite->user_id = $loggedUser->id;
+            $favorite->class_id = $classId;
+            $favorite->rubric_id = $favoriteRubric->id;
+            
+            $favorite->save();
+            
+            $scope['added'] = $favorite->id;
+        }
+        
+        return response()->json($scope);
+    }
+    
+    /**
      * Show browse element.
      *
      * @return View
@@ -471,11 +582,14 @@ class BrowseController extends Controller
                 }
             }
 		}
+        
+        $favorite = Favorite::where('class_id', $classId)->first();
 
         $scope['element'] = $element;
         $scope['parent'] = $parent;
         $scope['currentItem'] = $currentItem;
 		$scope['items'] = $items;
+        $scope['favorite'] = $favorite;
             
         return view('moonlight::element', $scope);
     }
