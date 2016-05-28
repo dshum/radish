@@ -13,12 +13,12 @@
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/loader.css">
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/default.css">
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/common.css">
-<link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/js/jquery-ui/jquery-ui.min.css">
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/js/calendarview/jquery.calendar.css">
 @section('css')
 @show
-<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="/packages/moonlight/touch/js/jquery-2.2.4.min.js"></script>
 <script src="/packages/moonlight/touch/js/jquery-ui/jquery-ui.min.js"></script>
+<script src="/packages/moonlight/touch/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/packages/moonlight/touch/js/jquery.form.min.js"></script>
 <script src="/packages/moonlight/touch/js/calendarview/jquery.calendar.js"></script>
 <script src="/packages/moonlight/touch/js/addclear.min.js"></script>

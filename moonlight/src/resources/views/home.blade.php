@@ -8,10 +8,10 @@
 
 @section('js')
 <script>
-    $(function() {
+    $(function() {    
         $('.sortable').sortable();
         $('.sortable').disableSelection();
-    
+            
         $('.remove[rubricId]').click(function() {
             var remove = $(this);
             var rubricId = $(this).attr('rubricId');
@@ -78,12 +78,6 @@
 <div class="main">
 @if ($favoriteRubrics)
     <div class="edit-favorites-toggler"><span class="glyphicons glyphicons-cogwheel"></span></div>
-    <ul class="sortable">
-        <li>Статистика</li>
-        <li>Разделы</li>
-        <li>Магазин</li>
-        <li>Разное</li>
-    </ul>
     <div class="sortable">
     @foreach ($favoriteRubrics as $favoriteRubric)
     <div class="block-elements">
@@ -93,7 +87,7 @@
             <span class="remove" rubricId="{{ $favoriteRubric->id }}"><span><span class="halflings halflings-remove-circle"></span></span></span>
             @endif
         </h2>
-        <ul class="elements">
+        <ul class="elements sortable">
         @foreach ($favorites as $favorite)
             @if ($favorite->rubric_id == $favoriteRubric->id)
             <li>
