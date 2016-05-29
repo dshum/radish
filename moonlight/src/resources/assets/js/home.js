@@ -45,12 +45,12 @@ $(function() {
         var enabled = toggler.attr('enabled');
 
         if (enabled == 'true') {
-            //$('.remove').fadeOut('fast');
+            $('.remove').fadeOut('fast');
             $('.sortable').sortable({ disabled: true });
 
             toggler.attr('enabled', 'false');
         } else {
-            //$('.remove').fadeIn('fast');
+            $('.remove').fadeIn('fast');
             $('.sortable').sortable({ disabled: false });
 
             toggler.attr('enabled', 'true');
