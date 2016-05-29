@@ -46,12 +46,12 @@ $(function() {
 
         if (enabled == 'true') {
             $('.remove').fadeOut('fast');
-            $('.sortable').sortable({ disabled: true });
+            //$('.sortable').sortable({ disabled: true });
 
             toggler.attr('enabled', 'false');
         } else {
             $('.remove').fadeIn('fast');
-            $('.sortable').sortable({ disabled: false });
+            //$('.sortable').sortable({ disabled: false });
 
             toggler.attr('enabled', 'true');
         }
