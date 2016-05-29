@@ -7,57 +7,9 @@
 @endsection
 
 @section('js')
+<script src="/packages/moonlight/touch/js/home.js"></script>
 <script>
-    $(function() {    
-        $('.sortable').disableSelection();
-            
-        $('.remove[rubricId]').click(function() {
-            var remove = $(this);
-            var rubricId = $(this).attr('rubricId');
-            var url = '{{ route('elements.favorite') }}';
-            
-            $.post(url, {
-                rubricId: rubricId,
-                action: 'dropRubric'
-            }, function(data) {
-                if (data.deleted) {
-                    remove.parents('h2').fadeOut('fast').remove();
-                }
-            });
-        });
-        
-        $('.remove[classId]').click(function() {
-            var remove = $(this);
-            var classId = $(this).attr('classId');
-            var url = '{{ route('elements.favorite') }}';
-        
-            $.post(url, {
-                classId: classId,
-                action: 'drop'
-            }, function(data) {
-                if (data.deleted) {
-                    remove.parents('li').fadeOut('fast').remove();
-                }
-            });
-        });
-        
-        $('.edit-favorites-toggler').click(function() {
-            var toggler = $(this);
-            var enabled = toggler.attr('enabled');
-            
-            if (enabled == 'true') {
-                $('.remove').fadeOut('fast');
-                $('.sortable').sortable({ disabled: true });
-                
-                toggler.attr('enabled', 'false');
-            } else {
-                $('.remove').fadeIn('fast');
-                $('.sortable').sortable({ disabled: false });
-                
-                toggler.attr('enabled', 'true');
-            }
-        });
-    });
+var favoriteUrl = '{{ route('elements.favorite') }}';
 </script>
 @endsection
 
@@ -99,7 +51,7 @@
             <span class="remove" rubricId="{{ $favoriteRubric->id }}"><span><span class="halflings halflings-remove-circle"></span></span></span>
             @endif
         </h2>
-        <ul class="elements sortable">
+        <ul class="elements sortable" rubricId="{{ $favoriteRubric->id }}">
         @foreach ($favorites as $favorite)
             @if ($favorite->rubric_id == $favoriteRubric->id)
             <li>

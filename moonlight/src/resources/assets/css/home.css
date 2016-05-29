@@ -9,7 +9,11 @@
 .block-elements {
   float: left;
   display: inline-block;
-  padding: 0 2rem 1rem 0;
+  margin: 0 5rem 1rem 0;
+}
+
+.block-elements h2 {
+    white-space: nowrap;
 }
 
 ul.elements li {
@@ -19,11 +23,12 @@ ul.elements li {
 .remove {
     display: none;
     position: relative;
-    margin-left: 0.5rem;
+    width: 0;
 }
 
 .remove span {
     position: absolute;
+    margin-left: 0.5rem;
     font-size: 1.3rem;
     color: crimson;
 }
