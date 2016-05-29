@@ -34,7 +34,7 @@ $(function() {
                 if ( ! ul.children('li').length) {    
                     ul.remove();
                     h2.append('<span class="remove" rubricId="'+rubricId+'"><div><span class="halflings halflings-remove-circle"></span></div></span>');
-                    $('.remove[rubricId="'+rubricId+'"]').fadeIn('fast');
+                    $('.remove[rubricId="'+rubricId+'"]').children().fadeIn('fast');
                 }
             }
         });
