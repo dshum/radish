@@ -21,13 +21,14 @@ ul.elements li {
 }
 
 .remove {
+    display: inline-block;
     position: relative;
 }
 
 .remove div {
     display: none;
     position: absolute;
-    top: -2px;
+    top: -1.4rem;
     left: 1rem;
     font-size: 1.3rem;
     color: crimson;
@@ -35,4 +36,5 @@ ul.elements li {
 
 .remove.small div {
     font-size: 1rem;
+    top: -1.1rem;
 }
