@@ -27,7 +27,7 @@ ul.elements li {
 
 .remove span {
     position: absolute;
-    margin-left: 0.5rem;
+    left: 0.5rem;
     font-size: 1.3rem;
     color: crimson;
 }
