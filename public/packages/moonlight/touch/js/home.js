@@ -10,7 +10,7 @@ $(function() {
             action: 'dropRubric'
         }, function(data) {
             if (data.deleted) {
-                remove.parents('h2').fadeOut('fast').remove();
+                remove.parents('.block-elements').fadeOut('fast').remove();
             }
         });
     });
