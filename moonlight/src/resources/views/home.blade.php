@@ -47,7 +47,7 @@ var favoriteUrl = '{{ route('elements.favorite') }}';
     <div class="block-elements">
         <h2>
             {{ $favoriteRubric->name }}
-            @if (true || ! isset($map[$favoriteRubric->id]))
+            @if ( ! isset($map[$favoriteRubric->id]))
             <span class="remove" rubricId="{{ $favoriteRubric->id }}"><div><span class="halflings halflings-remove-circle"></span></div></span>
             @endif
         </h2>
