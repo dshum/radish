@@ -9,7 +9,6 @@
 @section('js')
 <script>
     $(function() {    
-        $('.sortable').sortable();
         $('.sortable').disableSelection();
             
         $('.remove[rubricId]').click(function() {
@@ -43,7 +42,20 @@
         });
         
         $('.edit-favorites-toggler').click(function() {
-            $('.remove').fadeToggle('fast');
+            var toggler = $(this);
+            var enabled = toggler.attr('enabled');
+            
+            if (enabled == 'true') {
+                $('.remove').fadeOut('fast');
+                $('.sortable').sortable({ disabled: true });
+                
+                toggler.attr('enabled', 'false');
+            } else {
+                $('.remove').fadeIn('fast');
+                $('.sortable').sortable({ disabled: false });
+                
+                toggler.attr('enabled', 'true');
+            }
         });
     });
 </script>
@@ -77,7 +89,7 @@
 </div>
 <div class="main">
 @if ($favoriteRubrics)
-    <div class="edit-favorites-toggler"><span class="glyphicons glyphicons-cogwheel"></span></div>
+    <div enabled="false" class="edit-favorites-toggler"><span class="glyphicons glyphicons-cogwheel"></span></div>
     <div class="sortable">
     @foreach ($favoriteRubrics as $favoriteRubric)
     <div class="block-elements">

@@ -3,13 +3,35 @@
     top: 1rem;
     right: 1rem;
     font-size: 2rem;
-    color: #abc;
+    color: #cde;
+}
+
+.block-elements {
+  float: left;
+  display: inline-block;
+  padding: 0 2rem 1rem 0;
+}
+
+@media (min-width: 600px) {
+  .block-elements {
+    
+  }
+}
+
+@media (min-width: 900px) {
+  .block-elements {
+    
+  }
+}
+
+ul.elements li {
+    white-space: nowrap;
 }
 
 .remove {
     display: none;
     position: relative;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 .remove span {

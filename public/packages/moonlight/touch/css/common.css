@@ -238,23 +238,6 @@ ul.menu li.red a {
   color: orangered;
 }
 
-.block-elements {
-  float: left;
-  width: 100%;
-}
-
-@media (min-width: 600px) {
-  .block-elements {
-    width: 50%;
-  }
-}
-
-@media (min-width: 900px) {
-  .block-elements {
-    width: 33%;
-  }
-}
-
 .bottom-context-menu {
   display: none;
   position: fixed;
