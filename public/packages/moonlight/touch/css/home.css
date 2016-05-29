@@ -23,7 +23,6 @@ ul.elements li {
 .remove {
     display: none;
     position: relative;
-    width: 0;
 }
 
 .remove span {
