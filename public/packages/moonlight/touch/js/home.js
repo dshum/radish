@@ -44,8 +44,6 @@ $(function() {
         var toggler = $(this);
         var enabled = toggler.attr('enabled');
 
-        console.log($('.remove').length);
-
         if (enabled == 'true') {
             $('.remove').fadeOut('fast');
             $('.sortable').sortable({ disabled: true });
