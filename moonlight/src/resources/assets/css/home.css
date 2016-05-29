@@ -21,17 +21,18 @@ ul.elements li {
 }
 
 .remove {
-    display: none;
     position: relative;
 }
 
-.remove span {
+.remove div {
+    display: none;
     position: absolute;
-    left: 0.5rem;
+    top: -2px;
+    left: 1rem;
     font-size: 1.3rem;
     color: crimson;
 }
 
-.remove.small span {
+.remove.small div {
     font-size: 1rem;
 }

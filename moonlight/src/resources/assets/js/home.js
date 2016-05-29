@@ -33,7 +33,7 @@ $(function() {
 
                 if ( ! ul.children('li').length) {    
                     ul.remove();
-                    h2.append('<span class="remove" rubricId="'+rubricId+'"><span><span class="halflings halflings-remove-circle"></span></span></span>');
+                    h2.append('<span class="remove" rubricId="'+rubricId+'"><div><span class="halflings halflings-remove-circle"></span></div></span>');
                     $('.remove[rubricId="'+rubricId+'"]').fadeIn('fast');
                 }
             }
@@ -45,12 +45,12 @@ $(function() {
         var enabled = toggler.attr('enabled');
 
         if (enabled == 'true') {
-            $('.remove').fadeOut(5000);
+            $('.remove').children().fadeOut(200);
             $('.sortable').sortable({ disabled: true });
 
             toggler.attr('enabled', 'false');
         } else {
-            $('.remove').fadeIn(5000);
+            $('.remove').children().fadeIn(200);
             $('.sortable').sortable({ disabled: false });
 
             toggler.attr('enabled', 'true');

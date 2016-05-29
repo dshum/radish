@@ -47,8 +47,8 @@ var favoriteUrl = '{{ route('elements.favorite') }}';
     <div class="block-elements">
         <h2>
             {{ $favoriteRubric->name }}
-            @if ( ! isset($map[$favoriteRubric->id]))
-            <span class="remove" rubricId="{{ $favoriteRubric->id }}"><span><span class="halflings halflings-remove-circle"></span></span></span>
+            @if (true || ! isset($map[$favoriteRubric->id]))
+            <span class="remove" rubricId="{{ $favoriteRubric->id }}"><div><span class="halflings halflings-remove-circle"></span></div></span>
             @endif
         </h2>
         <ul class="elements sortable" rubricId="{{ $favoriteRubric->id }}">
@@ -56,7 +56,7 @@ var favoriteUrl = '{{ route('elements.favorite') }}';
             @if ($favorite->rubric_id == $favoriteRubric->id)
             <li>
                 <a href="{{ route('browse.element', $favorite->getElement()->getClassId()) }}">{{ $favorite->getElement()->name }}</a>
-                <span class="remove small" classId="{{ $favorite->class_id }}"><span><span class="halflings halflings-remove-circle"></span></span></span>
+                <span class="remove small" classId="{{ $favorite->class_id }}"><div><span class="halflings halflings-remove-circle"></span></div></span>
             </li>
             @endif
         @endforeach
