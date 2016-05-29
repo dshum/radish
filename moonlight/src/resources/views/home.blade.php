@@ -40,7 +40,7 @@ var favoriteUrl = '{{ route('elements.favorite') }}';
     </div>
 </div>
 <div class="main">
-@if ($favoriteRubrics)
+@if (sizeof($favoriteRubrics))
     <div enabled="false" class="edit-favorites-toggler"><span class="glyphicons glyphicons-cogwheel"></span></div>
     <div class="sortable">
     @foreach ($favoriteRubrics as $favoriteRubric)
