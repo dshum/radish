@@ -30,7 +30,7 @@ var open = '{{ $open }}';
     <div class="sidebar-container">
         <ul class="menu">
             <li><a href="{{ route('search') }}">Поиск</a></li>
-            @if ($parent)
+            @if ($parent && $parent->getItem()->getNameId() != $currentItem->getNameId())
             <li><a href="{{ route('search.item', $parent->getItem()->getNameId()) }}">{{ $parent->getItem()->getTitle() }}</a></li>
             @endif
             <li><a href="{{ route('search.item', $currentItem->getNameId()) }}">{{ $currentItem->getTitle() }}</a></li>
