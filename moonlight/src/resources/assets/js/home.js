@@ -51,8 +51,39 @@ $(function() {
             toggler.attr('enabled', 'false');
         } else {
             $('.remove').children().fadeIn(200);
-            $('.sortable').sortable({ disabled: false });
-
+            
+            $('.rubrics.sortable').sortable({
+                disabled: false,
+                stop: function(event, ui) {
+                    if ( ! ui.item.context.parentElement) return false;
+                    
+                    var result = $(ui.item.context.parentElement).sortable('serialize');
+                    
+                    $.post(
+                        favoriteUrl+'?action=orderRubrics&'+result,
+                        {},
+                        function(data) {},
+                        'json'
+                    );
+                }
+            });
+            
+            $('.elements.sortable').sortable({
+                disabled: false,
+                stop: function(event, ui) {
+                    if ( ! ui.item.context.parentElement) return false;
+                    
+                    var result = $(ui.item.context.parentElement).sortable('serialize');
+                    
+                    $.post(
+                        favoriteUrl+'?action=order&'+result,
+                        {},
+                        function(data) {},
+                        'json'
+                    );
+                }
+            });
+            
             toggler.attr('enabled', 'true');
         }
     });

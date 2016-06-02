@@ -22,6 +22,7 @@
 <script src="/packages/moonlight/touch/js/jquery.form.min.js"></script>
 <script src="/packages/moonlight/touch/js/calendarview/jquery.calendar.js"></script>
 <script src="/packages/moonlight/touch/js/addclear.min.js"></script>
+<script src="/packages/moonlight/touch/js/jquery.autocomplete.min.js"></script>
 <script src="/packages/moonlight/touch/js/common.js"></script>
 @section('js')
 @show

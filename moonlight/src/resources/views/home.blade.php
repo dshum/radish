@@ -7,10 +7,10 @@
 @endsection
 
 @section('js')
-<script src="/packages/moonlight/touch/js/home.js"></script>
 <script>
-var favoriteUrl = '{{ route('elements.favorite') }}';
+var favoriteUrl = '{{ route('home.favorite') }}';
 </script>
+<script src="/packages/moonlight/touch/js/home.js"></script>
 @endsection
 
 @section('body')
@@ -42,9 +42,9 @@ var favoriteUrl = '{{ route('elements.favorite') }}';
 <div class="main">
 @if (sizeof($favoriteRubrics))
     <div enabled="false" class="edit-favorites-toggler"><span class="glyphicons glyphicons-cogwheel"></span></div>
-    <div class="sortable">
+    <div class="rubrics sortable">
     @foreach ($favoriteRubrics as $favoriteRubric)
-    <div class="block-elements">
+    <div id="rubric_{{ $favoriteRubric->id }}" class="block-elements">
         <h2>
             {{ $favoriteRubric->name }}
             @if ( ! isset($map[$favoriteRubric->id]))
@@ -54,7 +54,7 @@ var favoriteUrl = '{{ route('elements.favorite') }}';
         <ul class="elements sortable" rubricId="{{ $favoriteRubric->id }}">
         @foreach ($favorites as $favorite)
             @if ($favorite->rubric_id == $favoriteRubric->id)
-            <li>
+            <li id="favorite_{{ $favorite->id }}">
                 <a href="{{ route('browse.element', $favorite->getElement()->getClassId()) }}">{{ $favorite->getElement()->name }}</a>
                 <span class="remove small" classId="{{ $favorite->class_id }}"><div><span class="halflings halflings-remove-circle"></span></div></span>
             </li>
