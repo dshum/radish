@@ -57,6 +57,10 @@ var open = '{{ $open }}';
         @foreach ($items as $item)
         <li item="{{ $item->getNameId() }}">
             <span class="a">{{ $item->getTitle() }}</span>
+            @if (isset($openedItem[$item->getNameId()]))
+            <span class="total">{{ $openedItem[$item->getNameId()]['count'] }}</span>
+            <div item="{{ $item->getNameId() }}" class="list-container">{!! $openedItem[$item->getNameId()]['elements'] !!}</div>
+            @endif
         </li>
         @endforeach
     </ul>

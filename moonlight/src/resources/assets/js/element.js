@@ -1,6 +1,6 @@
 $(function() {    
     var checked = [];
-    var opened = null;
+    var opened = open;
 
     var cancelSelection = function() {
         $('left').html('<span class="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></span>');
@@ -8,7 +8,7 @@ $(function() {
         $('right').html('<a href="'+searchUrl+'"><span class="glyphicons glyphicons-search"></span></a>');
         $('.bottom-context-menu').fadeOut('fast');
 
-        $('ul.items li.checked')
+        $('ul.items > li.checked')
             .prop('checked', false)
             .removeClass('checked');
 
@@ -33,32 +33,30 @@ $(function() {
         });
     };
 
-    $('ul.items li').each(function() {
+    $('ul.items > li').each(function() {
         var li = $(this);
         var classId = $(this).attr('classId');
         var item = $(this).attr('item');
 
-        $.getJSON(countUrl, {
-            classId: classId, 
-            item: item
-        }, function(data) {
-           if (data && data.count) {
-                var span = $('<span class="dnone total">'+data.count+'</span>');
-                var div = $('<div item="'+item+'" class="dnone list-container"></div>');
+        if (item != open) {
+            $.getJSON(countUrl, {
+                classId: classId, 
+                item: item
+            }, function(data) {
+               if (data && data.count) {
+                    var span = $('<span class="dnone total">'+data.count+'</span>');
+                    var div = $('<div item="'+item+'" class="dnone list-container"></div>');
 
-                li.append(span).append(div);
-                span.fadeIn(200);
-                
-                if (item == open) {
-                    loadElements(li);
+                    li.append(span).append(div);
+                    span.fadeIn(200);
+                } else {
+                    li.addClass('grey');
                 }
-            } else {
-                li.addClass('grey');
-            }
-        });
+            });
+        }
     });
 
-    $('ul.items li span.a').click(function() {
+    $('ul.items > li span.a').click(function() {
         var li = $(this).parents('li');
         var item = li.attr('item');
 
@@ -109,7 +107,7 @@ $(function() {
     $('body').on('click', '.check', function() {
         var classId = $(this).attr('classId');
 
-        $('ul.elements li[classId="'+classId+'"]').toggleClass('checked');
+        $('ul.elements > li[classId="'+classId+'"]').toggleClass('checked');
 
         if ($(this).prop('checked') == true) {
             $(this).prop('checked', false);

@@ -179,6 +179,26 @@ class BrowseController extends Controller
         $element = $classId 
             ? Element::getByClassId($classId) : null;
         
+        $lists = $loggedUser->getParameter('lists');
+        $cid = $classId ?: 'Root';
+        $lists[$cid] = $currentItem->getNameId();
+        $loggedUser->setParameter('lists', $lists);
+        
+        list($count, $elements) = $this->elementListView($element, $currentItem);
+        
+        return response()->json(['html' => $elements]);
+    }
+    
+    protected function elementListView($element, $currentItem)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $classId = $element ? $element->getClassId() : null;
+        
+        $site = \App::make('site');
+        
         $itemList = $site->getItemList();
 
 		$items = [];
@@ -306,11 +326,6 @@ class BrowseController extends Controller
         $total = $elements->total();
 		$currentPage = $elements->currentPage();
         $hasMorePages = $elements->hasMorePages();
-        
-        $lists = $loggedUser->getParameter('lists');
-        $cid = $classId ?: 'Root';
-        $lists[$cid] = $currentItem->getNameId();
-        $loggedUser->setParameter('lists', $lists);
 
         $scope['currentElement'] = $element;
         $scope['currentItem'] = $currentItem;
@@ -322,7 +337,7 @@ class BrowseController extends Controller
         
         $html = view('moonlight::elements', $scope)->render();
         
-        return response()->json(['html' => $html]);
+        return [$total, $html];
     }
     
     /**
@@ -482,12 +497,29 @@ class BrowseController extends Controller
         $lists = $loggedUser->getParameter('lists');
         $open = isset($lists[$element->getClassId()]) ? $lists[$element->getClassId()] : null;
         
+        $openedItem = [];
+        
+        if ($open) {
+            $item = $site->getItemByName($open);
+            
+            if ($item) {
+                list($count, $elements) = $this->elementListView($element, $item);
+                $openedItem[$open] = [
+                    'count' => $count,
+                    'elements' => $elements,
+                ];
+            } else {
+                $open = null;
+            }
+        }
+        
         $favorite = Favorite::where('class_id', $classId)->first();
 
         $scope['element'] = $element;
         $scope['parent'] = $parent;
         $scope['currentItem'] = $currentItem;
 		$scope['items'] = $items;
+        $scope['openedItem'] = $openedItem;
         $scope['open'] = $open;
         $scope['favorite'] = $favorite;
             
@@ -519,8 +551,25 @@ class BrowseController extends Controller
         
         $lists = $loggedUser->getParameter('lists');
         $open = isset($lists['Root']) ? $lists['Root'] : null;
+        
+        $openedItem = [];
+        
+        if ($open) {
+            $item = $site->getItemByName($open);
+            
+            if ($item) {
+                list($count, $elements) = $this->elementListView(null, $item);
+                $openedItem[$open] = [
+                    'count' => $count,
+                    'elements' => $elements,
+                ];
+            } else {
+                $open = null;
+            }
+        }
 
 		$scope['items'] = $items;
+        $scope['openedItem'] = $openedItem;
         $scope['open'] = $open;
             
         return view('moonlight::root', $scope);
