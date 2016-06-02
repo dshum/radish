@@ -48,14 +48,14 @@ $(function() {
 
                 li.append(span).append(div);
                 span.fadeIn(200);
+                
+                if (item == open) {
+                    loadElements(li);
+                }
             } else {
                 li.addClass('grey');
             }
         });
-        
-        if (item == open) {
-            loadElements(li);
-        }
     });
 
     $('ul.items li span.a').click(function() {
