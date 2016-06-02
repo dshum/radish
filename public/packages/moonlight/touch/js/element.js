@@ -52,6 +52,10 @@ $(function() {
                 li.addClass('grey');
             }
         });
+        
+        if (item == open) {
+            loadElements(li);
+        }
     });
 
     $('ul.items li span.a').click(function() {

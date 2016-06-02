@@ -16,6 +16,7 @@ var searchUrl = '{{ route('search') }}';
 var elementsUrl = '{{ route('elements.list') }}';
 var countUrl = '{{ route('elements.count') }}';
 var title = '@yield('title')';
+var open = '{{ $open }}';
 </script>
 @endsection
 

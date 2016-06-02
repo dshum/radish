@@ -306,6 +306,11 @@ class BrowseController extends Controller
         $total = $elements->total();
 		$currentPage = $elements->currentPage();
         $hasMorePages = $elements->hasMorePages();
+        
+        $lists = $loggedUser->getParameter('lists');
+        $cid = $classId ?: 'Root';
+        $lists[$cid] = $currentItem->getNameId();
+        $loggedUser->setParameter('lists', $lists);
 
         $scope['currentElement'] = $element;
         $scope['currentItem'] = $currentItem;
@@ -474,12 +479,16 @@ class BrowseController extends Controller
             }
 		}
         
+        $lists = $loggedUser->getParameter('lists');
+        $open = isset($lists[$element->getClassId()]) ? $lists[$element->getClassId()] : null;
+        
         $favorite = Favorite::where('class_id', $classId)->first();
 
         $scope['element'] = $element;
         $scope['parent'] = $parent;
         $scope['currentItem'] = $currentItem;
 		$scope['items'] = $items;
+        $scope['open'] = $open;
         $scope['favorite'] = $favorite;
             
         return view('moonlight::element', $scope);
@@ -507,8 +516,12 @@ class BrowseController extends Controller
 
 			$items[] = $item;
 		}
+        
+        $lists = $loggedUser->getParameter('lists');
+        $open = isset($lists['Root']) ? $lists['Root'] : null;
 
 		$scope['items'] = $items;
+        $scope['open'] = $open;
             
         return view('moonlight::root', $scope);
     }
