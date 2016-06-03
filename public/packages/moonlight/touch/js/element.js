@@ -1,6 +1,23 @@
 $(function() {    
     var checked = [];
     var opened = open;
+    
+    $('#form-toggler').click(function() {
+      $('#form-container').toggle();
+    });
+
+    $('.label[property]').click(function() {
+      var property = $(this).attr('property');
+      var container = $('[container="property"][property="'+property+'"]');
+
+      if (container.hasClass('dnone')) {
+          container.removeClass('dnone');
+          container.find('input').removeAttr('disabled');
+      } else {
+          container.addClass('dnone');
+          container.find('input').attr('disabled', 'disabled');
+      }
+    });
 
     var cancelSelection = function() {
         $('left').html('<span class="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></span>');

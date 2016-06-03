@@ -7,56 +7,13 @@
 @endsection
 
 @section('js')
+<script src="/packages/moonlight/touch/js/element.js"></script>
 <script>
-$(function() {
-    var checked = [];
-
-    $('#form-toggler').click(function() {
-      $('#form-container').toggle();
-    });
-
-    $('.label[property]').click(function() {
-      var property = $(this).attr('property');
-      var container = $('[container="property"][property="'+property+'"]');
-
-      if (container.hasClass('dnone')) {
-          container.removeClass('dnone');
-          container.find(':text').removeAttr('disabled');
-      } else {
-          container.addClass('dnone');
-          container.find(':text').attr('disabled', 'disabled');
-      }
-    });
-
-    $('.check').click(function() {
-      var elementId = $(this).attr('elementid');
-
-      $('ul.elements li[elementId="'+elementId+'"]').toggleClass('checked');
-
-      if ($(this).prop('checked') == true) {
-        $(this).prop('checked', false);
-        checked--;
-      } else {
-        $(this).prop('checked', true);
-        checked++;
-      }
-
-      if (checked == 1) {
-        $('#left').html('<span>Выделено</span>');
-        $('#right').html('<span>Отмена</span>');
-        $('.bottom-context-menu').fadeIn('fast');
-      }
-
-      if (checked) {
-        $('#center').html(checked);
-      } else {
-        $('#left').html('<a href="menu.html" id="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></a>');
-        $('#center').html('<a href="index.html">Поиск</a>');
-        $('#right').html('<a href="search.html"><span class="glyphicons glyphicons-search"></span></a>');
-        $('.bottom-context-menu').fadeOut('fast');
-      }
-    });
-});
+var favoritesUrl = '{{ route('home.favorites') }}';
+var homeUrl = '{{ route('home') }}';
+var searchUrl = '{{ route('search') }}';
+var elementsUrl = '{{ route('elements.list') }}';
+var title = '@yield('title')';
 </script>
 @endsection
 

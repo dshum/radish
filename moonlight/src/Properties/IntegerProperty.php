@@ -2,8 +2,8 @@
 
 namespace Moonlight\Properties;
 
-class IntegerProperty extends BaseProperty {
-
+class IntegerProperty extends BaseProperty
+{
 	public function __construct($name) {
 		parent::__construct($name);
 
@@ -51,27 +51,21 @@ class IntegerProperty extends BaseProperty {
 
 	public function getSearchView()
 	{
-		$name = $this->getName();
-
-		$from = \Input::get($name.'_from');
-		$to = \Input::get($name.'_to');
+		$request = $this->getRequest();
+        $name = $this->getName();
+        $from = $request->input($name.'-from');
+        $to = $request->input($name.'-to');
 
 		if ( ! mb_strlen($from)) $from = null;
 		if ( ! mb_strlen($to)) $to = null;
 
-		$value = null;
-
-		if ($from) $value['from'] = $from;
-		if ($to) $value['to'] = $to;
-
 		$scope = array(
 			'name' => $this->getName(),
 			'title' => $this->getTitle(),
-			'value' => $value,
-			'open' => $value !== null,
+			'from' => $from,
+            'to' => $to,
 		);
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.search', $scope)->render();
 	}
-
 }

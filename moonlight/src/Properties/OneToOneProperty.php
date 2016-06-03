@@ -4,6 +4,7 @@ namespace Moonlight\Properties;
 
 use Moonlight\Main\Item;
 use Moonlight\Main\ElementInterface;
+use Moonlight\Main\Element;
 
 class OneToOneProperty extends BaseProperty 
 {
@@ -170,17 +171,18 @@ class OneToOneProperty extends BaseProperty
         
 		$request = $this->getRequest();
         $name = $this->getName();
-        $id = $request->input($name);
+        $classId = $request->input($name);
         $relatedClass = $this->getRelatedClass();
 		$relatedItem = $site->getItemByName($relatedClass);
         $mainProperty = $relatedItem->getMainProperty();
 
-		$element = $relatedClass && $id 
-            ? $relatedClass::find($id) : null;
+		$element = $classId 
+            ? Element::getByClassId($classId)
+            : null;
         
         $value = $element
             ? [
-                'id' => $element->id, 
+                'classId' => $element->getClassId(), 
                 'name' => $element->{$mainProperty}
             ] : null;
 

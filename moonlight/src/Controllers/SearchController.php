@@ -28,6 +28,7 @@ class SearchController extends Controller
 		
         foreach ($propertyList as $propertyName => $property) {
 			if ($property->getHidden()) continue;
+            if ($property->getName() == 'deleted_at') continue;
 
 			$properties[] = $property->setRequest($request);
 		}

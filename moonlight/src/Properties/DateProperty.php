@@ -97,16 +97,22 @@ class DateProperty extends BaseProperty {
 			? true : false;
 	}
 
-	public function getElementSearchView()
+	public function getSearchView()
 	{
-		$from = \Input::get($this->getName().'_from');
-		$to = \Input::get($this->getName().'_to');
+		$request = $this->getRequest();
+        $name = $this->getName();
+        $from = $request->input($name.'-from');
+        $to = $request->input($name.'-to');
 
 		try {
 			$from = Carbon::createFromFormat('Y-m-d', $from);
-			$to = Carbon::createFromFormat('Y-m-d', $to);
 		} catch (\Exception $e) {
 			$from = null;
+		}
+
+		try {
+			$to = Carbon::createFromFormat('Y-m-d', $to);
+		} catch (\Exception $e) {
 			$to = null;
 		}
 
@@ -117,12 +123,7 @@ class DateProperty extends BaseProperty {
 			'to' => $to,
 		);
 
-		try {
-			$view = $this->getClassName().'.elementSearch';
-			return \View::make('admin::properties.'.$view, $scope);
-		} catch (\Exception $e) {}
-
-		return null;
+		return view('moonlight::properties.'.$this->getClassName().'.search', $scope)->render();
 	}
 
 }
