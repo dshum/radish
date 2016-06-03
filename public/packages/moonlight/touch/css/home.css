@@ -6,6 +6,10 @@
     color: #cde;
 }
 
+.edit-favorites-toggler[enabled="true"] {
+    color: #abc;
+}
+
 .block-elements {
   float: left;
   display: inline-block;
