@@ -68,6 +68,8 @@ Route::group(array('prefix' => 'moonlight/touch'), function() {
         
         Route::get('/search', ['as' => 'search', 'uses' => 'Moonlight\Controllers\SearchController@index']);
         
+        Route::get('/search/list', ['as' => 'search.list', 'uses' => 'Moonlight\Controllers\SearchController@elements']);
+        
         Route::get('/search/{item}', ['as' => 'search.item', 'uses' => 'Moonlight\Controllers\SearchController@item'])->
             where(['item' => '[A-Za-z0-9\.]+']);
         

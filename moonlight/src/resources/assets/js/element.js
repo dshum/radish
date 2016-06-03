@@ -25,7 +25,7 @@ $(function() {
         $('right').html('<a href="'+searchUrl+'"><span class="glyphicons glyphicons-search"></span></a>');
         $('.bottom-context-menu').fadeOut('fast');
 
-        $('ul.items > li.checked')
+        $('ul.elements > li.checked')
             .prop('checked', false)
             .removeClass('checked');
 

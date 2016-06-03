@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
 use Moonlight\Properties\OrderProperty;
-use Moonlight\Properties\DateProperty;
-use Moonlight\Properties\DatetimeProperty;
-use Moonlight\Models\FavoriteRubric;
 use Moonlight\Models\Favorite;
 
 class BrowseController extends Controller
@@ -173,7 +170,7 @@ class BrowseController extends Controller
         $currentItem = $site->getItemByName($class);
         
         if ( ! $currentItem) {
-            return redirect()->route('browse');
+            return response()->json([]);
         }
         
         $element = $classId 
@@ -228,7 +225,7 @@ class BrowseController extends Controller
                     $id = array_pop($array);
                     $class = implode(Element::ID_SEPARATOR, $array);
 					
-                    if ($class == $item->getNameId()) {
+                    if ($class == $currentItem->getNameId()) {
 						$elementPermissionMap[$id] = $permission;
 					}
 				}
@@ -309,7 +306,6 @@ class BrowseController extends Controller
         $orders = implode(', ', $orders);
 
 		$elements = $criteria->paginate(10);
-        usleep(10000 * $elements->total());
         
         $total = $elements->total();
 		$currentPage = $elements->currentPage();

@@ -7,12 +7,11 @@
 @endsection
 
 @section('js')
-<script src="/packages/moonlight/touch/js/element.js"></script>
+<script src="/packages/moonlight/touch/js/search.js"></script>
 <script>
-var favoritesUrl = '{{ route('home.favorites') }}';
 var homeUrl = '{{ route('home') }}';
+var elementsUrl = '{{ route('search.list') }}';
 var searchUrl = '{{ route('search') }}';
-var elementsUrl = '{{ route('elements.list') }}';
 var title = '@yield('title')';
 </script>
 @endsection
@@ -49,6 +48,7 @@ var title = '@yield('title')';
     </div>
     <h2>{{ $currentItem->getTitle() }}</h2>
     <form>
+        <input type="hidden" name="action" value="search">
         <div class="browse-form">
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
             <input type="text" name="search" placeholder="Поиск">
@@ -70,6 +70,8 @@ var title = '@yield('title')';
         </div>
         @endif
     </form>
-    <div class="list-container"></div>
+    @if ($elementsView)
+    <div class="list-container">{!! $elementsView !!}</div>
+    @endif
 </div>
 @endsection
