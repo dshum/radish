@@ -5,8 +5,8 @@ namespace Moonlight\Properties;
 use Carbon\Carbon;
 use Moonlight\Main\ElementInterface;
 
-class DatetimeProperty extends BaseProperty {
-
+class DatetimeProperty extends BaseProperty
+{
 	protected static $format = 'Y-m-d H:i:s';
 
 	protected $fillNow = false;
@@ -89,12 +89,12 @@ class DatetimeProperty extends BaseProperty {
 			? true : false;
 	}
 
-	public function getElementSearchView()
+	public function getSearchView()
 	{
-		$name = $this->getName();
-
-		$from = \Input::get($name.'_from');
-		$to = \Input::get($name.'_to');
+		$request = $this->getRequest();
+        $name = $this->getName();
+        $from = $request->input($name.'-from');
+        $to = $request->input($name.'-to');
 
 		try {
 			$from = Carbon::createFromFormat('Y-m-d', $from);
@@ -115,12 +115,6 @@ class DatetimeProperty extends BaseProperty {
 			'to' => $to,
 		);
 
-		try {
-			$view = $this->getClassName().'.elementSearch';
-			return \View::make('admin::properties.'.$view, $scope);
-		} catch (\Exception $e) {}
-
-		return null;
+		return view('moonlight::properties.'.$this->getClassName().'.search', $scope)->render();
 	}
-
 }

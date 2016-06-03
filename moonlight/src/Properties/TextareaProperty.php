@@ -2,8 +2,8 @@
 
 namespace Moonlight\Properties;
 
-class TextareaProperty extends BaseProperty {
-
+class TextareaProperty extends BaseProperty
+{
 	public static function create($name)
 	{
 		return new self($name);
@@ -26,5 +26,4 @@ class TextareaProperty extends BaseProperty {
 
 		return null;
 	}
-
 }

@@ -5,8 +5,8 @@ namespace Moonlight\Properties;
 use Moonlight\Main\Item;
 use Moonlight\Main\ElementInterface;
 
-class OneToOneProperty extends BaseProperty {
-
+class OneToOneProperty extends BaseProperty 
+{
 	protected $relatedClass = null;
 	protected $parent = false;
 	protected $binds = array();
@@ -91,12 +91,7 @@ class OneToOneProperty extends BaseProperty {
 		$id = $this->element->{$this->getName()};
 
 		if ($relatedClass && $id) {
-			$this->value = \Cache::rememberForever(
-				"$relatedClass.getById($id)",
-				function() use ($relatedClass, $id) {
-					return $relatedClass::find($id);
-				}
-			);
+			$this->value = $relatedClass::find($id);
 		}
 
 		if ($this->value) {
@@ -171,21 +166,37 @@ class OneToOneProperty extends BaseProperty {
 
 	public function getSearchView()
 	{
-		$scope = parent::getSearchView();
-
-		$site = \App::make('site');
-
-		$relatedClass = $this->getRelatedClass();
+        $site = \App::make('site');
+        
+		$request = $this->getRequest();
+        $name = $this->getName();
+        $id = $request->input($name);
+        $relatedClass = $this->getRelatedClass();
 		$relatedItem = $site->getItemByName($relatedClass);
+        $mainProperty = $relatedItem->getMainProperty();
 
-		$scope['relatedClass'] = $relatedItem->getNameId();
+		$element = $relatedClass && $id 
+            ? $relatedClass::find($id) : null;
+        
+        $value = $element
+            ? [
+                'id' => $element->id, 
+                'name' => $element->{$mainProperty}
+            ] : null;
 
-		return $scope;
+		$scope = array(
+			'name' => $this->getName(),
+			'title' => $this->getTitle(),
+			'value' => $value,
+			'open' => $element !== null,
+            'relatedClass' => $relatedItem->getNameId(),
+		);
+
+		return view('moonlight::properties.'.$this->getClassName().'.search', $scope)->render();
 	}
 
 	public function isOneToOne()
 	{
 		return true;
 	}
-
 }

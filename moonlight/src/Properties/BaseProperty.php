@@ -2,11 +2,12 @@
 
 namespace Moonlight\Properties;
 
+use Illuminate\Http\Request;
 use Moonlight\Main\Item;
 use Moonlight\Main\ElementInterface;
 
-abstract class BaseProperty {
-
+abstract class BaseProperty
+{
 	protected $item = null;
 	protected $name = null;
 	protected $title = null;
@@ -21,6 +22,8 @@ abstract class BaseProperty {
 	protected $itemClass = null;
 	protected $element = null;
 	protected $value = null;
+    
+    protected $request = null;
 
 	protected $trashed = false;
 
@@ -182,6 +185,18 @@ abstract class BaseProperty {
 	{
 		return $this->element;
 	}
+    
+    public function setRequest(Request $request)
+	{
+		$this->request = $request;
+
+		return $this;
+	}
+
+	public function getRequest()
+	{
+		return $this->request;
+	}
 
 	public function getValue()
 	{
@@ -267,7 +282,9 @@ abstract class BaseProperty {
 
 	public function getSearchView()
 	{
-		$value = \Input::get($this->getName());
+		$request = $this->getRequest();
+        $name = $this->getName();
+        $value = $request->input($name);
 
 		if ( ! mb_strlen($value)) $value = null;
 
@@ -279,7 +296,7 @@ abstract class BaseProperty {
 			'open' => $value !== null,
 		);
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.search', $scope)->render();
 	}
 
 	public function setRules($rules)
@@ -315,5 +332,4 @@ abstract class BaseProperty {
 	{
 		return 'get'.ucfirst($this->getName());
 	}
-
 }

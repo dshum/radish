@@ -197,18 +197,6 @@ class BrowseController extends Controller
         
         $classId = $element ? $element->getClassId() : null;
         
-        $site = \App::make('site');
-        
-        $itemList = $site->getItemList();
-
-		$items = [];
-
-		foreach ($itemList as $itemName => $item) {
-			if ( ! $item->getRoot()) continue;
-
-			$items[] = $item;
-		}
-        
         $propertyList = $currentItem->getPropertyList();
 
 		if ( ! $loggedUser->isSuperUser()) {
@@ -219,8 +207,8 @@ class BrowseController extends Controller
 			$groupList = $loggedUser->getGroups();
 
 			foreach ($groupList as $group) {
-				$itemPermission = $group->getItemPermission($item->getNameId())
-					? $group->getItemPermission($item->getNameId())->permission
+				$itemPermission = $group->getItemPermission($currentItem->getNameId())
+					? $group->getItemPermission($currentItem->getNameId())->permission
 					: $group->default_permission;
 
 				if ($itemPermission != 'deny') {
