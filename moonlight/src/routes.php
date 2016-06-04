@@ -4,6 +4,25 @@ use \Illuminate\Session\Middleware\StartSession;
 use Moonlight\Middleware\GuestMiddleware;
 use Moonlight\Middleware\AuthMiddleware;
 
+Route::get('/moonlight', function() {
+    if (
+        strpos($_SERVER['HTTP_USER_AGENT'],"BlackBerry") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"Mobile") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"Opera M") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"iPhone") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"iPad") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"iPod")
+        || strpos($_SERVER['HTTP_USER_AGENT'],"Android") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"WindowsPhone") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"WP7") 
+        || strpos($_SERVER['HTTP_USER_AGENT'],"WP8")
+    ) {
+        return redirect()->route('home');
+    }
+    
+    return 'Full Moonlight';
+});
+
 Route::group(array('prefix' => 'moonlight/touch'), function() {
     
     Route::group(['middleware' => [StartSession::class, GuestMiddleware::class]], function () {
