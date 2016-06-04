@@ -1,4 +1,14 @@
 $(function() {
+    $('left a').click(function() {
+        history.back(1);
+        
+        return false;
+    });
+    
+    $('#options-toggler').click(function() {
+        $('.bottom-context-menu').fadeToggle('fast');
+    });
+    
     $(':file').wrap(
         $('<div />').css({height: 0, width: 0, overflow: 'hidden'})
     );
