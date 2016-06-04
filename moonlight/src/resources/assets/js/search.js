@@ -12,6 +12,7 @@ $(function() {
         },
         onSelect: function (suggestion) {
             $(':hidden[name="search_id"]').val(suggestion.id);
+            $('form').submit();
         },
         appendTo: $('span.autocomplete-container[name="search_auto"]'),
         minChars: 0
