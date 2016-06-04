@@ -430,7 +430,8 @@ class BrowseController extends Controller
         foreach ($elements as $element) {
             $scope['suggestions'][] = [
                 'value' => $element->$mainProperty,
-                'data' => $element->getClassId(),
+                'classId' => $element->getClassId(),
+                'id' => $element->id,
             ];
         }
         

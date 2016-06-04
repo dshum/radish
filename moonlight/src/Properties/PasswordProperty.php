@@ -8,6 +8,11 @@ class PasswordProperty extends BaseProperty
 	{
 		return new self($name);
 	}
+    
+    public function searchQuery($query)
+	{
+		return $query;
+	}
 
 	public function getSearchView()
 	{

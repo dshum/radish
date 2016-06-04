@@ -12,7 +12,9 @@
 var homeUrl = '{{ route('home') }}';
 var elementsUrl = '{{ route('search.list') }}';
 var searchUrl = '{{ route('search') }}';
+var autocompleteUrl = '{{ route('elements.autocomplete') }}';
 var title = '@yield('title')';
+var itemName = '{{ $currentItem->getNameId() }}';
 </script>
 @endsection
 
@@ -52,7 +54,9 @@ var title = '@yield('title')';
         <input type="submit" class="phantom">
         <div class="browse-form">
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
-            <input type="text" name="search" placeholder="Поиск">
+            <input type="hidden" name="search_id" value="">
+            <input type="text" name="search" placeholder="ID или {{ mb_strtolower($mainProperty->getTitle()) }}">
+            <span name="search_auto" class="autocomplete-container"></span>
         </div>
         @if ($properties)
         <div id="form-container" class="dnone browse-form-params">

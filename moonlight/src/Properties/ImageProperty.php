@@ -4,8 +4,8 @@ namespace Moonlight\Properties;
 
 use Moonlight\Utils\ImageUtils;
 
-class ImageProperty extends BaseProperty {
-
+class ImageProperty extends BaseProperty
+{
 	protected $folderName = null;
 	protected $hash = null;
 	protected $folderPath = null;
@@ -382,21 +382,4 @@ class ImageProperty extends BaseProperty {
 
 		return view('moonlight::properties.'.$this->getClassName().'.edit', $scope)->render();
 	}
-
-	public function getElementSearchView()
-	{
-		$scope = array(
-			'name' => $this->getName(),
-			'title' => $this->getTitle(),
-			'value' => \Input::get($this->getName()),
-		);
-
-		try {
-			$view = $this->getClassName().'.elementSearch';
-			return \View::make('admin::properties.'.$view, $scope);
-		} catch (\Exception $e) {}
-
-		return null;
-	}
-
 }

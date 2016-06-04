@@ -30,7 +30,7 @@ class SearchController extends Controller
             return response()->json([]);
         }
         
-        $elements = $this->elementListView($currentItem);
+        $elements = $this->elementListView($request, $currentItem);
         
         return response()->json(['html' => $elements]);
     }
@@ -49,12 +49,16 @@ class SearchController extends Controller
             return redirect()->route('search');
         }
         
+        $mainPropertyName = $currentItem->getMainProperty();
+        $mainProperty = $currentItem->getPropertyByName($mainPropertyName);
+        
         $propertyList = $currentItem->getPropertyList();
         
         $properties = [];
 		
         foreach ($propertyList as $propertyName => $property) {
 			if ($property->getHidden()) continue;
+            if ($property->isMainProperty()) continue;
             if ($property->getName() == 'deleted_at') continue;
 
 			$properties[] = $property->setRequest($request);
@@ -63,12 +67,13 @@ class SearchController extends Controller
         $action = $request->input('action');
         
         if ($action == 'search') {
-            $elements = $this->elementListView($currentItem);
+            $elements = $this->elementListView($request, $currentItem);
         } else {
             $elements = null;
         }
         
         $scope['currentItem'] = $currentItem;
+        $scope['mainProperty'] = $mainProperty;
         $scope['properties'] = $properties;
         $scope['elementsView'] = $elements;
             
@@ -90,7 +95,7 @@ class SearchController extends Controller
         return view('moonlight::search', $scope);
     }
     
-    protected function elementListView($currentItem)
+    protected function elementListView(Request $request, $currentItem)
     {
         $scope = [];
         
@@ -141,8 +146,25 @@ class SearchController extends Controller
 				}
 			}
 		}
-
-        $criteria = $currentItem->getClass()->query();
+        
+        $criteria = $currentItem->getClass()->where(
+            function($query) use ($currentItem, $propertyList, $request) {
+                foreach ($propertyList as $property) {
+                    $property->setRequest($request);
+                    $query = $property->searchQuery($query);
+                }
+            }
+		);
+        
+        $search = $request->input('search');
+        $search_id = $request->input('search_id');
+        $mainProperty = $currentItem->getMainProperty();
+        
+        if ($search_id) {
+            $criteria->where('id', $search_id);
+        } elseif ($search) {
+            $criteria->where($mainProperty, 'ilike', "%$search%");
+        }
 
 		if ( ! $loggedUser->isSuperUser()) {
 			if (

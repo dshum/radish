@@ -210,11 +210,12 @@ abstract class BaseProperty
 
 	public function searchQuery($query)
 	{
+        $request = $this->getRequest();
 		$name = $this->getName();
 
-		$value = \Input::get($name);
+		$value = $request->input($name);
 
-		if ($value !== null) {
+		if ($value) {
 			$query->where($name, 'ilike', "%$value%");
 		}
 

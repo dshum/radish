@@ -20,10 +20,11 @@ class IntegerProperty extends BaseProperty
 
 	public function searchQuery($query)
 	{
+        $request = $this->getRequest();
 		$name = $this->getName();
 
-		$from = \Input::get($name.'_from');
-		$to = \Input::get($name.'_to');
+		$from = $request->input($name.'-from');
+        $to = $request->input($name.'-to');
 
 		if (strlen($from)) {
 			$from = str_replace(array(',', ' '), array('.', ''), $from);

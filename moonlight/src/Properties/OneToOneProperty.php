@@ -106,9 +106,10 @@ class OneToOneProperty extends BaseProperty
 
 	public function searchQuery($query)
 	{
+        $request = $this->getRequest();
 		$name = $this->getName();
 
-		$value = (int)\Input::get($name);
+		$value = (int)$request->input($name);
 
 		if ($value) {
 			$query->where($name, $value);
@@ -171,18 +172,18 @@ class OneToOneProperty extends BaseProperty
         
 		$request = $this->getRequest();
         $name = $this->getName();
-        $classId = $request->input($name);
+        $id = (int)$request->input($name);
         $relatedClass = $this->getRelatedClass();
 		$relatedItem = $site->getItemByName($relatedClass);
         $mainProperty = $relatedItem->getMainProperty();
 
-		$element = $classId 
-            ? Element::getByClassId($classId)
+		$element = $id 
+            ? $relatedClass::find($id)
             : null;
         
         $value = $element
             ? [
-                'classId' => $element->getClassId(), 
+                'id' => $element->id, 
                 'name' => $element->{$mainProperty}
             ] : null;
 

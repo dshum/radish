@@ -4,6 +4,18 @@ $(function() {
     $('#form-toggler').click(function() {
       $('#form-container').toggle();
     });
+    
+    $(':text[name="search"]').autocomplete({
+        serviceUrl: autocompleteUrl,
+        params: {
+            item: itemName
+        },
+        onSelect: function (suggestion) {
+            $(':hidden[name="search_id"]').val(suggestion.id);
+        },
+        appendTo: $('span.autocomplete-container[name="search_auto"]'),
+        minChars: 0
+    });
 
     $('.label[property]').click(function() {
       var property = $(this).attr('property');

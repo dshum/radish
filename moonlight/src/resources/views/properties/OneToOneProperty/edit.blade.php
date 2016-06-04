@@ -7,7 +7,7 @@ $(function() {
         },
         onSelect: function (suggestion) {
             $('span[name="{{ $name }}"][container]').html(suggestion.value);
-            $(':text[name="{{ $name }}"]').val(suggestion.data);
+            $(':text[name="{{ $name }}"]').val(suggestion.classId);
         },
         appendTo: $('span.autocomplete-container[name="{{ $name }}_auto"]'),
         minChars: 0

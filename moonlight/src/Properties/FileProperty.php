@@ -2,8 +2,8 @@
 
 namespace Moonlight\Properties;
 
-class FileProperty extends BaseProperty {
-
+class FileProperty extends BaseProperty
+{
 	protected $folderName = null;
 	protected $hash = null;
 	protected $folderPath = null;
@@ -224,5 +224,4 @@ class FileProperty extends BaseProperty {
 
 		return view('moonlight::properties.'.$this->getClassName().'.edit', $scope)->render();
 	}
-
 }

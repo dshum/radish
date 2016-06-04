@@ -29,6 +29,11 @@ class VirtualProperty extends BaseProperty
 	{
 		return $this;
 	}
+    
+    public function searchQuery($query)
+	{
+		return $query;
+	}
 
 	public function getSearchView()
 	{
