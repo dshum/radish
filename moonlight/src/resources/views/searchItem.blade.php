@@ -49,6 +49,7 @@ var title = '@yield('title')';
     <h2>{{ $currentItem->getTitle() }}</h2>
     <form>
         <input type="hidden" name="action" value="search">
+        <input type="submit" class="phantom">
         <div class="browse-form">
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
             <input type="text" name="search" placeholder="Поиск">
