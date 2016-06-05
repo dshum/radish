@@ -8,7 +8,7 @@ class IntegerProperty extends BaseProperty
 		parent::__construct($name);
 
 		$this->
-		addRule('integer', 'Введите целое число');
+		addRule('integer', 'Введите целое число.');
 
 		return $this;
 	}

@@ -15,7 +15,7 @@ class DatetimeProperty extends BaseProperty
 		parent::__construct($name);
 
 		$this->
-		addRule('date_format:"'.static::$format.'"', 'Недопустимый формат даты');
+		addRule('date_format:"'.static::$format.'"', 'Недопустимый формат даты.');
 
 		return $this;
 	}

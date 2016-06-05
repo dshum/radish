@@ -90,13 +90,6 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::get('/log/search', ['as' => 'log.search', 'uses' => 'Moonlight\Controllers\LogController@search']);
         
-        Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
-        
-        Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
-        
-        Route::get('/browse/{classId}', ['as' => 'browse.element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
-            where(['classId' => '[A-Za-z0-9\.]+']);
-        
         Route::get('/elements/count', ['as' => 'elements.count', 'uses' => 'Moonlight\Controllers\BrowseController@count']);
         
         Route::get('/elements/list', ['as' => 'elements.list', 'uses' => 'Moonlight\Controllers\BrowseController@elements']);
@@ -107,7 +100,17 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::post('/elements/favorite', ['as' => 'home.favorite', 'uses' => 'Moonlight\Controllers\HomeController@favorite']);
         
+        Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
+        
+        Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
+        
+        Route::get('/browse/{classId}', ['as' => 'browse.element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
+            where(['classId' => '[A-Za-z0-9\.]+']);
+        
         Route::get('/browse/{classId}/edit', ['as' => 'element.edit', 'uses' => 'Moonlight\Controllers\EditController@edit'])->
+            where(['classId' => '[A-Za-z0-9\.]+']);
+        
+        Route::post('/browse/{classId}/save', ['as' => 'element.save', 'uses' => 'Moonlight\Controllers\EditController@save'])->
             where(['classId' => '[A-Za-z0-9\.]+']);
     });
 });

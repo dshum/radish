@@ -58,7 +58,7 @@
     <div id="options-toggler" class="right options"><span class="glyphicons glyphicons-option-horizontal"></span></div>
     <h2><a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$currentItem->getMainProperty()} }}</a></h2>
     <div class="edit-form">
-        <form autocomplete="off">
+        <form action="{{ route('element.save', $element->getClassId()) }}" autocomplete="off" method="POST">
             @if ($element->getHref())
             <div class="row">
                 <a href="{{ $element->getHref() }}" target="_blank">Смотреть на сайте</a>

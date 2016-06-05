@@ -119,7 +119,7 @@ abstract class BaseProperty
 
 		if ($required) {
 			$this->
-			addRule('required', 'Поле обязательно к заполнению');
+			addRule('required', 'Поле обязательно к заполнению.');
 		}
 
 		return $this;
@@ -232,13 +232,11 @@ abstract class BaseProperty
 			? true : false;
 	}
 
-	public function set($field = null)
+	public function set()
 	{
-		if ( ! $field) $field = $this->getName();
-
-		$name = $this->getName();
-
-		$value = \Input::get($field);
+        $request = $this->getRequest();
+        $name = $this->getName();
+        $value = $request->input($name);
 
 		if ( ! mb_strlen($value)) $value = null;
 

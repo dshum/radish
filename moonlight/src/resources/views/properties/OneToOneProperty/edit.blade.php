@@ -7,7 +7,7 @@ $(function() {
         },
         onSelect: function (suggestion) {
             $('span[name="{{ $name }}"][container]').html(suggestion.value);
-            $(':text[name="{{ $name }}"]').val(suggestion.classId);
+            $(':hidden[name="{{ $name }}"]').val(suggestion.id);
         },
         appendTo: $('span.autocomplete-container[name="{{ $name }}_auto"]'),
         minChars: 0
@@ -15,7 +15,7 @@ $(function() {
     
     $('span[name="{{ $name }}"][reset]').click(function() {
         $('span[name="{{ $name }}"][container]').html('Не определено');
-        $(':text[name="{{ $name }}"]').val('');
+        $(':hidden[name="{{ $name }}"]').val('');
         $(':text[name="{{ $name }}_autocomplete"]').val('');
     });
 });
@@ -30,7 +30,7 @@ $(function() {
 </span>
 @if ( ! $readonly)
 <br>
-<input type="hidden" name="{{ $name }}" value="{{ $value ? $value->classId : null }}">
+<input type="hidden" name="{{ $name }}" value="{{ $value ? $value->id : null }}">
 <input type="text" name="{{ $name }}_autocomplete" value="" placeholder="ID или название">
 <span class="reset" name="{{ $name }}" reset>&#215;</span>
 <span name="{{ $name }}_auto" class="autocomplete-container"></span>

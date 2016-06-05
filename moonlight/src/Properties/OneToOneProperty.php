@@ -16,7 +16,7 @@ class OneToOneProperty extends BaseProperty
 		parent::__construct($name);
 
 		$this->
-		addRule('integer', 'Идентификатор элемента должен быть целым числом');
+		addRule('integer', 'Идентификатор элемента должен быть целым числом.');
 
 		return $this;
 	}

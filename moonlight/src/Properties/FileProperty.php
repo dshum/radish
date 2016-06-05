@@ -20,8 +20,8 @@ class FileProperty extends BaseProperty
 		parent::__construct($name);
 
 		$this->
-		addRule('max:'.$this->maxSize, 'Максимальный размер файла: '.$this->maxSize.' Кб')->
-		addRule('mimes:'.join(',', $this->allowedMimeTypes), 'Недопустимый формат файла');
+		addRule('max:'.$this->maxSize, 'Максимальный размер файла: '.$this->maxSize.' Кб.')->
+		addRule('mimes:'.join(',', $this->allowedMimeTypes), 'Недопустимый формат файла.');
 
 		return $this;
 	}
@@ -107,18 +107,15 @@ class FileProperty extends BaseProperty
 		return is_dir($this->folder_path());
 	}
 
-	public function set($field = null)
+	public function set()
 	{
-		if ( ! $field) $field = $this->getName();
+		$request = $this->getRequest();
+        $name = $this->getName();
 
-		$name = $this->getName();
-
-		if (\Input::hasFile($field)) {
-
-			$file = \Input::file($field);
+		if ($request->hasFile($name)) {
+			$file = $request->file($name);
 
 			if ($file->isValid() && $file->getMimeType()) {
-
 				$this->drop();
 
 				$original = $file->getClientOriginalName();
@@ -164,13 +161,10 @@ class FileProperty extends BaseProperty
 					? $folderHash.DIRECTORY_SEPARATOR.$filename
 					: $filename;
 			}
-
-		} elseif (\Input::get($field.'_drop')) {
-
+		} elseif ($request->has($name.'_drop')) {
 			$this->drop();
 
 			$this->element->$name = null;
-
 		}
 
 		return $this;

@@ -37,7 +37,8 @@ $site->
 		addProperty(
 			TextfieldProperty::create('url')->
 			setTitle('Адрес страницы')->
-			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис')
+            setRequired(true)->
+			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис.')
 		)->
 		addProperty(
 			TextfieldProperty::create('title')->
@@ -175,7 +176,7 @@ $site->
 			TextfieldProperty::create('url')->
 			setTitle('URL')->
 			setRequired(true)->
-			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис')
+			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис.')
 		)->
 		addProperty(
 			TextfieldProperty::create('title')->
@@ -220,7 +221,7 @@ $site->
 			TextfieldProperty::create('url')->
 			setTitle('URL')->
 			setRequired(true)->
-			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис')
+			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис.')
 		)->
 		addProperty(
 			TextfieldProperty::create('title')->
@@ -268,7 +269,7 @@ $site->
 			TextfieldProperty::create('url')->
 			setTitle('URL')->
 			setRequired(true)->
-			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис')
+			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис.')
 		)->
 		addProperty(
 			ImageProperty::create('image')->

@@ -35,4 +35,38 @@ $(function() {
         $('.file[name="'+name+'"]').html('Выберите файл');
         $(':file[name="'+name+'"]').val('');
     });
+    
+    $('form').submit(function() {
+        $('[name]').removeClass('invalid');
+        $.blockUI();
+
+        $(this).ajaxSubmit({
+            url: this.action,
+            dataType: 'json',
+            success: function(data) {
+                $.unblockUI();
+
+                if (data.error) {
+                    $.alert(data.error);
+                } else if (data.errors) {
+                    var message = '';
+
+                    for (var field in data.errors) {
+                        $('[name="'+field+'"]').addClass('invalid');
+
+                        message += data.errors[field]+'<br />';
+                    }
+
+                    $.alert(message);  
+                }
+            },
+            error: function() {
+                $.unblockUI();
+                
+                $.alertDefaultError();
+            }
+        });
+
+        return false;
+    });
 });

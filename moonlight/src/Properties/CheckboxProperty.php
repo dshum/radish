@@ -48,13 +48,12 @@ class CheckboxProperty extends BaseProperty {
 			? true : false;
 	}
 
-	public function set($field = null)
+	public function set()
 	{
-		if ( ! $field) $field = $this->getName();
+		$request = $this->getRequest();
+        $name = $this->getName();
 
-		$name = $this->getName();
-
-		$value = \Input::has($field) && \Input::get($field)
+		$value = $request->has($name) && $request->input($name)
 			? true : false;
 
 		$this->element->$name = $value;

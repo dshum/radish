@@ -1,6 +1,6 @@
 <label>{{ $title }}:</label><br>
 @if ($readonly && $value)
-{{ $value->format('d.m.Y, H:i:s') }}
+{{ $value->format('d.m.Y') }}, <small>{{ $value->format('H:i:s') }}</small>
 @elseif ($readonly)
 <span class="grey">Не определено</span>
 @else

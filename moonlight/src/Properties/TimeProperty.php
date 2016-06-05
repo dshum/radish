@@ -15,7 +15,7 @@ class TimeProperty extends BaseProperty
 		parent::__construct($name);
 
 		$this->
-		addRule('date_format:"'.static::$format.'"', 'Недопустимый формат времени');
+		addRule('date_format:"'.static::$format.'"', 'Недопустимый формат времени.');
 
 		return $this;
 	}
