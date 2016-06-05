@@ -1,6 +1,10 @@
 $(function() {    
     var checked = [];
     
+    $('.submit').click(function() {
+        $('form').submit();
+    });
+    
     $('#form-toggler').click(function() {
       $('#form-container').toggle();
     });

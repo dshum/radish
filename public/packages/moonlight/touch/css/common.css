@@ -153,6 +153,14 @@ nav right {
   color: black;
 }
 
+.submit {
+    margin-left: 0.5rem;
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 1.3rem;
+    color: black;
+}
+
 .halflings,
 .glyphicons {
   position: relative;
