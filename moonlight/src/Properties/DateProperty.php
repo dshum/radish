@@ -5,8 +5,8 @@ namespace Moonlight\Properties;
 use Moonlight\Main\ElementInterface;
 use Carbon\Carbon;
 
-class DateProperty extends BaseProperty {
-
+class DateProperty extends BaseProperty
+{
 	protected static $format = 'Y-m-d';
 
 	protected $fillNow = false;
@@ -126,5 +126,12 @@ class DateProperty extends BaseProperty {
 
 		return view('moonlight::properties.'.$this->getClassName().'.search', $scope)->render();
 	}
-
+    
+    public function buildInput()
+    {
+        $request = $this->getRequest();
+        $name = $this->getName();
+        
+        return $request->input($name.'_date');
+    }
 }

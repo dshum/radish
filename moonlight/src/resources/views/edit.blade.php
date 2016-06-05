@@ -66,7 +66,7 @@
             @endif
             @foreach ($properties as $property)
                 @if ($view = $property->getEditView())
-                <div id="{{ $property->getName() }}_container" class="row">{!! $view !!}</div>
+                <div id="{{ $property->getName() }}_container" property="{{ $property->getName() }}" class="row">{!! $view !!}</div>
                 @endif
             @endforeach
             <div class="row submit">

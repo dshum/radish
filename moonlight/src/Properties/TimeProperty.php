@@ -74,4 +74,20 @@ class TimeProperty extends BaseProperty
 	{
 		return null;
 	}
+    
+    public function buildInput()
+    {
+        $request = $this->getRequest();
+        $name = $this->getName();
+        
+        $hour = $request->input($name.'_hour');
+        $minute = $request->input($name.'_minute');
+        $second = $request->input($name.'_second');
+
+        $value = $hour && $minute && $second
+            ? $hour.':'.$minute.':'.$second
+            : null;
+        
+        return $value;
+    }
 }

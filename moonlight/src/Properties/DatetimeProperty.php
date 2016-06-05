@@ -118,4 +118,21 @@ class DatetimeProperty extends BaseProperty
 
 		return view('moonlight::properties.'.$this->getClassName().'.search', $scope)->render();
 	}
+    
+    public function buildInput()
+    {
+        $request = $this->getRequest();
+        $name = $this->getName();
+        
+        $date = $request->input($name.'_date');
+        $hour = $request->input($name.'_hour');
+        $minute = $request->input($name.'_minute');
+        $second = $request->input($name.'_second');
+
+        $value = $date
+            ? $date.' '.$hour.':'.$minute.':'.$second
+            : null;
+        
+        return $value;
+    }
 }

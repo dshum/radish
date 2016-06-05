@@ -31,8 +31,6 @@ class EditController extends Controller
             return response()->json($scope);
         }
         
-        Log::info($request->all());
-        
         $site = \App::make('site');
 
         $currentItem = $site->getItemByName($element->getClass());
@@ -40,6 +38,7 @@ class EditController extends Controller
         
         $propertyList = $currentItem->getPropertyList();
 
+        $input = [];
 		$rules = [];
 		$messages = [];
 
@@ -48,6 +47,8 @@ class EditController extends Controller
 				$property->getHidden()
 				|| $property->getReadonly()
 			) continue;
+            
+            $input[$propertyName] = $property->setRequest($request)->buildInput();
 
 			foreach ($property->getRules() as $rule => $message) {
 				$rules[$propertyName][] = $rule;
@@ -59,9 +60,8 @@ class EditController extends Controller
 				}
 			}
 		}
-
         
-        $validator = Validator::make($request->all(), $rules, $messages);
+        $validator = Validator::make($input, $rules, $messages);
         
         if ($validator->fails()) {
             $messages = $validator->errors();
@@ -97,7 +97,16 @@ class EditController extends Controller
 			'ID '.$element->getClassId()
 		);
         
-        $scope['saved'] = $element;
+        $views = [];
+        
+        foreach ($propertyList as $propertyName => $property) {
+            if ($view = $property->setElement($element)->getEditView()) {
+                $views[$propertyName] = $view;
+            }
+        }
+        
+        $scope['saved'] = $element->getClassId();
+        $scope['views'] = $views;
         
         return response()->json($scope);
     }

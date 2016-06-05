@@ -1,7 +1,9 @@
-<label>{{ $title }}:</label><br>
+<label>{{ $title }}:</label><br />
 @if ($exists)
 <small><a href="{{ $src }}" target="_blank">{{ $filename }}</a>, <span title="Размер изображения">{{ $width }}&#215;{{ $height }}</span> пикселов, {{ $filesize }} Кб<br /></small>
 <img src="{{ $src }}" alt="{{ $filename }}"><br />
+@else
+<small>Не загружено</small>
 @endif
 @if (isset($resizes))
 	@foreach ($resizes as $resizeName => $resize)
@@ -25,7 +27,7 @@
 	@endif
     <div class="file" name="{{ $name }}">Выберите файл</div>
     <span class="reset" name="{{ $name }}" file>&#215;</span>
-    <input type="file" name="{{ $name }}">
+    <div class="file-hidden"><input type="file" name="{{ $name }}"></div>
     <p>
         <input type="checkbox" name="{{ $name }}_drop" id="{{ $name }}_drop_checkbox" value="1">
         <label for="{{ $name }}_drop_checkbox">Удалить</label>

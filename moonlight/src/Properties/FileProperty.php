@@ -106,6 +106,14 @@ class FileProperty extends BaseProperty
 	{
 		return is_dir($this->folder_path());
 	}
+    
+    public function buildInput()
+    {
+        $request = $this->getRequest();
+        $name = $this->getName();
+        
+        return $request->file($name);
+    }
 
 	public function set()
 	{

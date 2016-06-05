@@ -231,6 +231,14 @@ abstract class BaseProperty
 		return $value !== null
 			? true : false;
 	}
+    
+    public function buildInput()
+    {
+        $request = $this->getRequest();
+        $name = $this->getName();
+        
+        return $request->input($name);
+    }
 
 	public function set()
 	{

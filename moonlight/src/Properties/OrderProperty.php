@@ -5,8 +5,8 @@ namespace Moonlight\Properties;
 use Moonlight\Main\ElementInterface;
 use Moonlight\Main\Item;
 
-class OrderProperty extends BaseProperty {
-
+class OrderProperty extends BaseProperty
+{
 	public static function create($name)
 	{
 		return new self($name);
@@ -51,5 +51,9 @@ class OrderProperty extends BaseProperty {
 
 		return $this;
 	}
-
+    
+    public function getEditView()
+	{
+		return null;
+	}
 }

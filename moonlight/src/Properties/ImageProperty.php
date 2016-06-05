@@ -15,7 +15,7 @@ class ImageProperty extends BaseProperty
 	protected $maxWidth = null;
 	protected $maxHeight = null;
 	protected $allowedMimeTypes = array(
-		'gif', 'jpeg', 'pjpeg', 'png',
+        'gif', 'jpeg', 'pjpeg', 'png',
 	);
 
 	protected $resize = null;
@@ -204,6 +204,14 @@ class ImageProperty extends BaseProperty
 	{
 		return is_dir($this->folder_path($name));
 	}
+    
+    public function buildInput()
+    {
+        $request = $this->getRequest();
+        $name = $this->getName();
+        
+        return $request->file($name);
+    }
 
 	public function set($field = null)
 	{

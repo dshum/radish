@@ -9,11 +9,7 @@ $(function() {
         $('.bottom-context-menu').fadeToggle('fast');
     });
     
-    $(':file').wrap(
-        $('<div />').css({height: 0, width: 0, overflow: 'hidden'})
-    );
-
-    $(':file').change(function(e) {
+    $('body').on('change', ':file', function(e) {
         var name = $(this).attr('name');
         var path = e.target.files[0] ? e.target.files[0].name : 'Выберите файл';
 
@@ -22,14 +18,14 @@ $(function() {
         $('[name="'+name+'_drop"]').prop('checked', false);
     });
 
-    $('.file[name]').click(function() {
+    $('body').on('click', '.file[name]', function() {
         var name = $(this).attr('name');
         var fileInput = $(':file[name="'+name+'"]');
 
         fileInput.click();
     });
-    
-    $('.reset[file]').click(function() {
+
+    $('body').on('click', '.reset[file]', function() {
         var name = $(this).attr('name');
         
         $('.file[name="'+name+'"]').html('Выберите файл');
@@ -58,6 +54,12 @@ $(function() {
                     }
 
                     $.alert(message);  
+                } else if (data.saved && data.views) {
+                    for (var propertyName in data.views) {
+                        var view = data.views[propertyName];
+                        
+                        $('div.row[property="'+propertyName+'"]').html(view);
+                    }
                 }
             },
             error: function() {
