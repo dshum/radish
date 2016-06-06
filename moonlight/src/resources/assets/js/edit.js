@@ -82,8 +82,8 @@ $(function() {
         
         var ones = {};
         
-        $(':hidden[one]').each(function() {
-            var name = $(this).attr('one');
+        $(':hidden[copy]').each(function() {
+            var name = $(this).attr('copy');
             var value = $(this).val();
             
             ones[name] = value;
@@ -109,6 +109,35 @@ $(function() {
     
     $('.button.move').click(function() {
         $.confirm(null, '.confirm.move');
+    });
+    
+    $('.btn.move').click(function() {
+        $.confirmClose();
+        $.blockUI();
+        
+        var ones = {};
+        
+        $(':hidden[move]').each(function() {
+            var name = $(this).attr('move');
+            var value = $(this).val();
+            
+            ones[name] = value;
+        });
+        
+        $.post(moveUrl, {
+            ones: ones
+        }, function(data) {
+            $.unblockUI();
+            $('.bottom-context-menu').fadeOut('fast');
+            
+            if (data.error) {
+                $.alert(data.error);
+            }
+        }).fail(function() {
+            $.unblockUI();
+                
+            $.alertDefaultError();
+        });
     });
     
     $('.button.delete').click(function() {

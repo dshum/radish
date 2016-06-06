@@ -11,6 +11,7 @@
 <script src="/packages/moonlight/touch/js/edit.js"></script>
 <script>
 var copyUrl = '{{ route('element.copy', $element->getClassId()) }}';
+var moveUrl = '{{ route('element.move', $element->getClassId()) }}';
 var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
 </script>
 @endsection
@@ -49,11 +50,15 @@ var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
 <div class="confirm copy">
     <div class="container">
         <div class="content">
+            @if (sizeof($ones))
             @foreach ($ones as $one)
-                @if ($view = $one->getMoveView())
+                @if ($view = $one->getCopyView())
                 <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
                 @endif
             @endforeach
+            @else
+            Копировать элемент?
+            @endif
         </div>
         <div class="buttons">
             <input type="button" value="Копировать" class="btn copy">
@@ -64,11 +69,15 @@ var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
 <div class="confirm move">
     <div class="container">
         <div class="content">
+            @if (sizeof($ones))
             @foreach ($ones as $one)
                 @if ($view = $one->getMoveView())
                 <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
                 @endif
             @endforeach
+            @else
+            Копировать элемент?
+            @endif
         </div>
         <div class="buttons">
             <input type="button" value="Перенести" class="btn move">

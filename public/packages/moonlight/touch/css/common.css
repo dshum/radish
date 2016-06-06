@@ -460,8 +460,8 @@ ul.menu li.red a {
     color: black;
 }
 
-.autocomplete-container {position: relative;}
-.autocomplete-suggestions { margin-top: 1px; border: 1px solid #999; border-radius: 2px; background: #fff; overflow: auto; font-size: 1rem;}
+.autocomplete-container { position: relative; }
+.autocomplete-suggestions { margin-top: 1px; border: 1px solid #999; border-radius: 2px; background: #fff; overflow: auto; font-size: 1rem; }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
 .autocomplete-selected { background: #f0f0f0; }
 .autocomplete-suggestions strong { font-weight: normal; color: #3399ff; }

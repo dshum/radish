@@ -81,8 +81,6 @@ class EditController extends Controller
                 $clone->$propertyName = null;
             }
 		}
-        
-        Log::info($clone);
 
 		$clone->save();
 
@@ -92,6 +90,70 @@ class EditController extends Controller
 		);
 
 		$scope['copied'] = $clone->getClassId();
+        
+        return response()->json($scope);
+    }
+    
+    /**
+     * Move element.
+     *
+     * @return Response
+     */
+    public function move(Request $request, $classId)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+		$element = Element::getByClassId($classId);
+        
+        if ( ! $element) {
+            $scope['error'] = 'Элемент не найден.';
+            
+            return response()->json($scope);
+        }
+        
+        if ( ! $loggedUser->hasUpdateAccess($element)) {
+			$scope['error'] = 'Нет прав на изменение элемента.';
+            
+			return response()->json($scope);
+		}
+
+		$ones = $request->input('ones');
+
+		$site = \App::make('site');
+
+		$currentItem = $site->getItemByName($element->getClass());
+
+		$propertyList = $currentItem->getPropertyList();
+        
+        $changed = false;
+
+		foreach ($propertyList as $propertyName => $property) {
+			if (
+				$property->getHidden()
+				|| $property->getReadonly()
+			) continue;
+
+			if (
+				$property->isOneToOne()
+				&& isset($ones[$propertyName])
+			) {
+				$element->$propertyName = $ones[$propertyName];
+                $changed = true;
+			}
+		}
+
+        if ($changed) {
+            $element->save();
+
+            UserAction::log(
+                UserActionType::ACTION_TYPE_MOVE_ELEMENT_ID,
+                $element->getClassId()
+            );
+        }
+
+		$scope['moved'] = $element->getClassId();
         
         return response()->json($scope);
     }

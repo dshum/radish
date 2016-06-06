@@ -146,6 +146,25 @@ class OneToOneProperty extends BaseProperty
 
 		return view('moonlight::properties.'.$this->getClassName().'.edit', $scope)->render();
 	}
+    
+    public function getCopyView()
+	{
+		$site = \App::make('site');
+
+		$relatedClass = $this->getRelatedClass();
+		$relatedItem = $site->getItemByName($relatedClass);
+
+		$scope = array(
+			'name' => $this->getName(),
+			'title' => $this->getTitle(),
+			'value' => $this->getValue(),
+			'readonly' => $this->getReadonly(),
+			'required' => $this->getRequired(),
+			'relatedClass' => $relatedItem->getNameId(),
+		);
+
+		return view('moonlight::properties.'.$this->getClassName().'.copy', $scope)->render();
+	}
 
 	public function getMoveView()
 	{
