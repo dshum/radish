@@ -10,6 +10,7 @@
 <script src="/packages/moonlight/touch/js/jquery.autocomplete.min.js"></script>
 <script src="/packages/moonlight/touch/js/edit.js"></script>
 <script>
+var copyUrl = '{{ route('element.copy', $element->getClassId()) }}';
 var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
 </script>
 @endsection
@@ -44,6 +45,47 @@ var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
     <div class="button copy"><span class="halflings halflings-duplicate"></span><br>Копировать</div>
     <div class="button move"><span class="halflings halflings-arrow-right"></span><br>Переместить</div>
     <div class="button delete"><span class="halflings halflings-trash"></span><br>Удалить</div>
+</div>
+<div class="confirm copy">
+    <div class="container">
+        <div class="content">
+            @foreach ($ones as $one)
+                @if ($view = $one->getMoveView())
+                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
+                @endif
+            @endforeach
+        </div>
+        <div class="buttons">
+            <input type="button" value="Копировать" class="btn copy">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
+</div>
+<div class="confirm move">
+    <div class="container">
+        <div class="content">
+            @foreach ($ones as $one)
+                @if ($view = $one->getMoveView())
+                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
+                @endif
+            @endforeach
+        </div>
+        <div class="buttons">
+            <input type="button" value="Перенести" class="btn move">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
+</div>
+<div class="confirm delete">
+    <div class="container">
+        <div class="content">
+            Удалить в корзину?
+        </div>
+        <div class="buttons">
+            <input type="button" value="Удалить" class="btn danger delete">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
 </div>
 <div class="main">
     @if ($parent)

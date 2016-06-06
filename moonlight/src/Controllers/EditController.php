@@ -9,11 +9,95 @@ use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
 use Moonlight\Main\UserActionType;
 use Moonlight\Models\UserAction;
+use Moonlight\Properties\OrderProperty;
+use Moonlight\Properties\FileProperty;
+use Moonlight\Properties\ImageProperty;
 
 class EditController extends Controller
 {
     /**
-     * Save element.
+     * Copy element.
+     *
+     * @return Response
+     */
+    public function copy(Request $request, $classId)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+		$element = Element::getByClassId($classId);
+        
+        if ( ! $element) {
+            $scope['error'] = 'Элемент не найден.';
+            
+            return response()->json($scope);
+        }
+        
+        if ( ! $loggedUser->hasViewAccess($element)) {
+			$scope['error'] = 'Нет прав на копирование элемента.';
+            
+			return response()->json($scope);
+		}
+        
+        $clone = new $element;
+
+		$ones = $request->input('ones');
+
+		$site = \App::make('site');
+
+		$currentItem = $site->getItemByName($element->getClass());
+
+		$propertyList = $currentItem->getPropertyList();
+
+		foreach ($propertyList as $propertyName => $property) {
+			if ($property instanceof OrderProperty) {
+				$property->setElement($clone)->set();
+				continue;
+			}
+
+			if (
+				$property->getHidden()
+				|| $property->getReadonly()
+			) continue;
+
+			if (
+				(
+					$property instanceof FileProperty
+					|| $property instanceof ImageProperty
+				)
+				&& ! $property->getRequired()
+			) continue;
+
+			if (
+				$property->isOneToOne()
+				&& isset($ones[$propertyName])
+                && $ones[$propertyName]
+			) {
+				$clone->$propertyName = $ones[$propertyName];
+			} elseif ($element->$propertyName !== null) {
+				$clone->$propertyName = $element->$propertyName;
+			} else {
+                $clone->$propertyName = null;
+            }
+		}
+        
+        Log::info($clone);
+
+		$clone->save();
+
+		UserAction::log(
+			UserActionType::ACTION_TYPE_COPY_ELEMENT_ID,
+			$element->getClassId().' -> '.$clone->getClassId()
+		);
+
+		$scope['copied'] = $clone->getClassId();
+        
+        return response()->json($scope);
+    }
+    
+    /**
+     * Delete element.
      *
      * @return Response
      */
@@ -202,17 +286,23 @@ class EditController extends Controller
         $propertyList = $currentItem->getPropertyList();
         
         $properties = [];
+        $ones = [];
 		
         foreach ($propertyList as $propertyName => $property) {
 			if ($property->getHidden()) continue;
 
 			$properties[] = $property->setElement($element);
+            
+            if ($property->isOneToOne()) {
+                $ones[] = $property;
+            }
 		}
 
         $scope['element'] = $element;
         $scope['parent'] = $parent;
         $scope['currentItem'] = $currentItem;
         $scope['properties'] = $properties;
+        $scope['ones'] = $ones;
         
         return view('moonlight::edit', $scope);
     }

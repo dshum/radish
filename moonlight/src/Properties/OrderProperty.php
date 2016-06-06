@@ -36,9 +36,9 @@ class OrderProperty extends BaseProperty
 		return true;
 	}
 
-	public function set($field = null)
+	public function set()
 	{
-		if ( ! $this->element instanceof ElementInterface) return false;
+		if ( ! $this->element instanceof ElementInterface) return $this;
 
 		$name = $this->getName();
 

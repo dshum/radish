@@ -25,15 +25,20 @@ $(function() {
         $('.alert').fadeOut('fast', handle);
     };
     
-    $.confirm = function(content, handle) {
+    $.confirm = function(content, selector, handle) {
+        var container = selector ? $(selector) : $('.confirm');
+        
         if (content) {
-            $('.confirm .content').html(content);
+            container.find('.content').html(content);
         }
-        $('.confirm').fadeIn('fast', handle);
+        
+        container.fadeIn('fast', handle);
     };
     
-    $.confirmClose = function(handle) {
-        $('.confirm').fadeOut('fast', handle);
+    $.confirmClose = function(selector, handle) {
+        var container = selector ? $(selector) : $('.confirm');
+        
+        container.fadeOut('fast', handle);
     };
     
     $('body').on('click', '.hamburger', function() {

@@ -72,7 +72,51 @@ $(function() {
         return false;
     });
     
+    $('.button.copy').click(function() {
+        $.confirm(null, '.confirm.copy');
+    });
+    
+    $('.btn.copy').click(function() {
+        $.confirmClose();
+        $.blockUI();
+        
+        var ones = {};
+        
+        $(':hidden[one]').each(function() {
+            var name = $(this).attr('one');
+            var value = $(this).val();
+            
+            ones[name] = value;
+        });
+        
+        $.post(copyUrl, {
+            ones: ones
+        }, function(data) {
+            $.unblockUI();
+            $('.bottom-context-menu').fadeOut('fast');
+            
+            if (data.error) {
+                $.alert(data.error);
+            } else if (data.copied) {
+                history.back(1);
+            }
+        }).fail(function() {
+            $.unblockUI();
+                
+            $.alertDefaultError();
+        });
+    });
+    
+    $('.button.move').click(function() {
+        $.confirm(null, '.confirm.move');
+    });
+    
     $('.button.delete').click(function() {
+        $.confirm(null, '.confirm.delete');
+    });
+    
+    $('.btn.delete').click(function() {
+        $.confirmClose();
         $.blockUI();
         
         $.post(deleteUrl, {}, function(data) {

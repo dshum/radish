@@ -52,3 +52,12 @@
     width: 0;
     overflow: hidden;
 }
+
+.confirm .container .content .row {
+    padding-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.confirm .container .content .row:last-child {
+    padding-bottom: 0.5rem;
+}
