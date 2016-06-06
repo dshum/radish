@@ -1,7 +1,7 @@
 $(function() {    
     var checked = [];
     
-    $('.submit').click(function() {
+    $('.submit-button').click(function() {
         $('form').submit();
     });
     

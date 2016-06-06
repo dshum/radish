@@ -112,5 +112,8 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::post('/browse/{classId}/save', ['as' => 'element.save', 'uses' => 'Moonlight\Controllers\EditController@save'])->
             where(['classId' => '[A-Za-z0-9\.]+']);
+        
+        Route::post('/browse/{classId}/delete', ['as' => 'element.delete', 'uses' => 'Moonlight\Controllers\EditController@delete'])->
+            where(['classId' => '[A-Za-z0-9\.]+']);
     });
 });

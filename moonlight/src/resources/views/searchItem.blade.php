@@ -56,7 +56,7 @@ var itemName = '{{ $currentItem->getNameId() }}';
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
             <input type="hidden" name="search_id" value="">
             <input type="text" name="search" placeholder="ID или {{ mb_strtolower($mainProperty->getTitle()) }}">
-            <span class="submit"><span class="halflings halflings-menu-right"></span></span>
+            <span class="submit-button"><span class="halflings halflings-menu-right"></span></span>
             <span name="search_auto" class="autocomplete-container"></span>
         </div>
         @if ($properties)

@@ -1,6 +1,7 @@
 <?php namespace Moonlight\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Moonlight\Main\ElementInterface;
 
 class User extends Model {
 

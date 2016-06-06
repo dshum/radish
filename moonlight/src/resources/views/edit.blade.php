@@ -9,6 +9,9 @@
 @section('js')
 <script src="/packages/moonlight/touch/js/jquery.autocomplete.min.js"></script>
 <script src="/packages/moonlight/touch/js/edit.js"></script>
+<script>
+var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
+</script>
 @endsection
 
 @section('body')

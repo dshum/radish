@@ -71,4 +71,22 @@ $(function() {
 
         return false;
     });
+    
+    $('.button.delete').click(function() {
+        $.blockUI();
+        
+        $.post(deleteUrl, {}, function(data) {
+            $.unblockUI();
+            
+            if (data.error) {
+                $.alert(data.error);
+            } else if (data.deleted) {
+                history.back(1);
+            }
+        }).fail(function() {
+            $.unblockUI();
+                
+            $.alertDefaultError();
+        });
+    });
 });
