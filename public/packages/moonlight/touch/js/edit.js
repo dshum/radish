@@ -132,6 +132,8 @@ $(function() {
             
             if (data.error) {
                 $.alert(data.error);
+            } else {
+                document.location.href = document.location.href;
             }
         }).fail(function() {
             $.unblockUI();
