@@ -139,7 +139,8 @@ class EditController extends Controller
 				$property->isOneToOne()
 				&& isset($ones[$propertyName])
 			) {
-				$element->$propertyName = $ones[$propertyName];
+				$element->$propertyName = $ones[$propertyName] 
+                    ? $ones[$propertyName] : null;
                 $changed = true;
 			}
 		}
