@@ -194,7 +194,7 @@ $(function() {
             }
             
             $(':text[name="rubric"]').val('');
-            $.confirmClose(null, '.confirm.favorite');
+            $.confirmClose();
         }).fail(function() {
             $.alertDefaultError();
         });
