@@ -15,6 +15,7 @@ var homeUrl = '{{ route('home') }}';
 var searchUrl = '{{ route('search') }}';
 var elementsUrl = '{{ route('elements.list') }}';
 var countUrl = '{{ route('elements.count') }}';
+var deleteUrl = '{{ route('elements.delete') }}';
 var title = '@yield('title')';
 var open = '{{ $open }}';
 </script>
@@ -51,7 +52,7 @@ var open = '{{ $open }}';
     <div class="button move"><span class="halflings halflings-arrow-right"></span><br>Переместить</div>
     <div class="button delete"><span class="halflings halflings-trash"></span><br>Удалить</div>
 </div>
-<div class="confirm">
+<div class="confirm favorite">
 <div class="container">
     <div class="content">
         <p>Добавить на главную страницу?</p>
@@ -65,6 +66,17 @@ var open = '{{ $open }}';
         <input type="button" value="Отмена" class="btn cancel">
     </div>
 </div>
+</div>
+<div class="confirm delete">
+    <div class="container">
+        <div class="content">
+            Удалить в корзину?
+        </div>
+        <div class="buttons">
+            <input type="button" value="Удалить" class="btn danger delete">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
 </div>
 <div class="main">
     @if ($parent)

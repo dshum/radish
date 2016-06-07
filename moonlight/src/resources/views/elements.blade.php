@@ -13,9 +13,16 @@
     @foreach ($elements as $element)
     <li classId="{{ $element->getClassId() }}">
         <div class="check" classId="{{ $element->getClassId() }}"></div>
-        <div class="date">{{ $element->created_at->format('d.m.Y') }}<br><span class="time">{{ $element->created_at->format('H:i:s') }}</span></div>
+        @if ($element->trashed())
+        <div class="deleted">{{ $element->deleted_at->format('d.m.Y') }}<br><span class="time">{{ $element->deleted_at->format('H:i:s') }}</span></div>
+        @endif
+        <div class="created">{{ $element->created_at->format('d.m.Y') }}<br><span class="time">{{ $element->created_at->format('H:i:s') }}</span></div>
+        @if ($element->trashed())
+        <div>{{ $element->{$currentItem->getMainProperty()} }}</div>
+        @else
         <div class="edit"><a href="{{ route('element.edit', $element->getClassId()) }}"><span class="halflings halflings-pencil"></span></a></div>
         <div><a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$currentItem->getMainProperty()} }}</a></div>
+        @endif
         @if ($element->getTouchListView())
         {!! $element->getTouchListView() !!}
         @endif

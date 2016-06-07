@@ -22,3 +22,17 @@ ul.items li a {
   color: #337ab7;
   text-decoration: underline;
 }
+
+ul.items li .total {
+    background-color: orangered;
+    color: white;
+    margin-left: 1rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+ul.items li.grey a {
+  color: #999;
+}

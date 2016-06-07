@@ -4,7 +4,7 @@ $(function() {
         paddingRight: "25px"
     });
     
-    $('.submit').click(function() {
+    $('.submit-button').click(function() {
         $('form').submit();
     });
 

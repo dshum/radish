@@ -75,6 +75,10 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         Route::post('/groups/{id}/{item}/elements', ['as' => 'group.elements.save', 'uses' => 'Moonlight\Controllers\GroupController@saveElements'])->
             where(['id' => '[0-9]+', 'item' => '[A-Za-z0-9\.]+']);
         
+        Route::get('/log', ['as' => 'log', 'uses' => 'Moonlight\Controllers\LogController@show']);
+        
+        Route::get('/log/search', ['as' => 'log.search', 'uses' => 'Moonlight\Controllers\LogController@search']);
+        
         Route::get('/search', ['as' => 'search', 'uses' => 'Moonlight\Controllers\SearchController@index']);
         
         Route::get('/search/list', ['as' => 'search.list', 'uses' => 'Moonlight\Controllers\SearchController@elements']);
@@ -82,13 +86,14 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         Route::get('/search/{item}', ['as' => 'search.item', 'uses' => 'Moonlight\Controllers\SearchController@item'])->
             where(['item' => '[A-Za-z0-9\.]+']);
         
-        Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@show']);
+        Route::get('/trash', ['as' => 'trash', 'uses' => 'Moonlight\Controllers\TrashController@index']);
         
-        Route::get('/trash', ['as' => 'trash', 'uses' => 'Moonlight\Controllers\TrashController@show']);
+        Route::get('/trash/count', ['as' => 'trash.count', 'uses' => 'Moonlight\Controllers\TrashController@count']);
         
-        Route::get('/log', ['as' => 'log', 'uses' => 'Moonlight\Controllers\LogController@show']);
+        Route::get('/trash/list', ['as' => 'trash.list', 'uses' => 'Moonlight\Controllers\TrashController@elements']);
         
-        Route::get('/log/search', ['as' => 'log.search', 'uses' => 'Moonlight\Controllers\LogController@search']);
+        Route::get('/trash/{item}', ['as' => 'trash.item', 'uses' => 'Moonlight\Controllers\TrashController@item'])->
+            where(['item' => '[A-Za-z0-9\.]+']);
         
         Route::get('/elements/count', ['as' => 'elements.count', 'uses' => 'Moonlight\Controllers\BrowseController@count']);
         
@@ -99,6 +104,12 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         Route::get('/elements/favorites', ['as' => 'home.favorites', 'uses' => 'Moonlight\Controllers\HomeController@favorites']);
         
         Route::post('/elements/favorite', ['as' => 'home.favorite', 'uses' => 'Moonlight\Controllers\HomeController@favorite']);
+        
+        Route::post('/elements/delete', ['as' => 'elements.delete', 'uses' => 'Moonlight\Controllers\BrowseController@delete']);
+        
+        Route::post('/elements/delete/force', ['as' => 'elements.delete.force', 'uses' => 'Moonlight\Controllers\BrowseController@forceDelete']);
+        
+        Route::post('/elements/restore', ['as' => 'elements.restore', 'uses' => 'Moonlight\Controllers\BrowseController@restore']);
         
         Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
         

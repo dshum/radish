@@ -156,6 +156,10 @@ nav right {
     background-color: goldenrod;
 }
 
+.btn.restore {
+    background-color: olivedrab;
+}
+
 .btn.cancel {
     background-color: white;
     color: black;

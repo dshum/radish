@@ -2,14 +2,214 @@
 
 namespace Moonlight\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
 use Moonlight\Properties\OrderProperty;
 use Moonlight\Models\Favorite;
+use Moonlight\Main\UserActionType;
+use Moonlight\Models\UserAction;
 
 class BrowseController extends Controller
 {
+    /**
+     * Delete elements.
+     *
+     * @return Response
+     */
+    public function delete(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $checked = $request->input('checked');
+        
+        if ( ! is_array($checked) || ! sizeof($checked)) {
+            $scope['error'] = 'Пустой список элементов.';
+            
+            return response()->json($scope);
+        }
+        
+        $elements = [];
+        
+        foreach ($checked as $classId) {
+            $element = Element::getByClassId($classId);
+            
+            if ($element && $loggedUser->hasDeleteAccess($element)) {
+                $elements[] = $element;
+            }
+        }
+        
+        if ( ! sizeof($elements)) {
+            $scope['error'] = 'Нет элементов для удаления.';
+            
+            return response()->json($scope);
+        }
+        
+        $site = \App::make('site');
+        
+        $itemList = $site->getItemList();
+        
+        foreach ($elements as $element) {
+            $elementItem = $element->getItem();
+            $className = $element->getClass();
+            
+            foreach ($itemList as $item) {
+                $itemName = $item->getName();
+                $propertyList = $item->getPropertyList();
+
+                foreach ($propertyList as $property) {
+                    if (
+                        $property->isOneToOne()
+                        && $property->getRelatedClass() == $className
+                    ) {
+                        $count = $element->
+                            hasMany($itemName, $property->getName())->
+                            count();
+
+                        if ($count) {
+                            $scope['restricted'][] = $element->{$elementItem->getMainProperty()};
+                        }
+                    }
+                }
+            }
+        }
+
+		if (isset($scope['restricted'])) {
+            $scope['error'] = 'Сначала удалите вложенные элементы следующих элементов: '
+                .implode(', ', $scope['restricted']);
+            
+            return response()->json($scope);
+        }
+        
+        foreach ($elements as $element) {
+            if ($element->delete()) {
+                $scope['deleted'][] = $element->getClassId();
+            }
+        }
+        
+        if (isset($scope['deleted'])) {
+            UserAction::log(
+                UserActionType::ACTION_TYPE_DROP_ELEMENT_LIST_TO_TRASH_ID,
+                implode(', ', $scope['deleted'])
+            );
+        }
+        
+        return response()->json($scope);
+    }
+    
+    /**
+     * Delete elements from trash.
+     *
+     * @return Response
+     */
+    public function forceDelete(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $checked = $request->input('checked');
+        
+        if ( ! is_array($checked) || ! sizeof($checked)) {
+            $scope['error'] = 'Пустой список элементов.';
+            
+            return response()->json($scope);
+        }
+        
+        $elements = [];
+        
+        foreach ($checked as $classId) {
+            $element = Element::getOnlyTrashedByClassId($classId);
+            
+            if ($element && $loggedUser->hasDeleteAccess($element)) {
+                $elements[] = $element;
+            }
+        }
+        
+        if ( ! sizeof($elements)) {
+            $scope['error'] = 'Нет элементов для удаления.';
+            
+            return response()->json($scope);
+        }
+        
+        foreach ($elements as $element) {
+            $item = $element->getItem();
+
+            $propertyList = $item->getPropertyList();
+
+            foreach ($propertyList as $propertyName => $property) {
+                $property->setElement($element)->drop();
+            }
+
+            $element->forceDelete();
+            
+            $scope['deleted'][] = $element->getClassId();
+        }
+        
+        if (isset($scope['deleted'])) {
+            UserAction::log(
+                UserActionType::ACTION_TYPE_DROP_ELEMENT_LIST_ID,
+                implode(', ', $scope['deleted'])
+            );
+        }
+        
+        return response()->json($scope);
+    }
+    
+    /**
+     * Delete elements from trash.
+     *
+     * @return Response
+     */
+    public function restore(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $checked = $request->input('checked');
+        
+        if ( ! is_array($checked) || ! sizeof($checked)) {
+            $scope['error'] = 'Пустой список элементов.';
+            
+            return response()->json($scope);
+        }
+        
+        $elements = [];
+        
+        foreach ($checked as $classId) {
+            $element = Element::getOnlyTrashedByClassId($classId);
+            
+            if ($element && $loggedUser->hasDeleteAccess($element)) {
+                $elements[] = $element;
+            }
+        }
+        
+        if ( ! sizeof($elements)) {
+            $scope['error'] = 'Нет элементов для восстановления.';
+            
+            return response()->json($scope);
+        }
+        
+        foreach ($elements as $element) {
+            $element->restore();
+            
+            $scope['restored'][] = $element->getClassId();
+        }
+        
+        if (isset($scope['restored'])) {
+            UserAction::log(
+                UserActionType::ACTION_TYPE_RESTORE_ELEMENT_LIST_ID,
+                implode(', ', $scope['restored'])
+            );
+        }
+        
+        return response()->json($scope);
+    }
+    
     /**
      * Return the count of element list.
      *
@@ -144,7 +344,6 @@ class BrowseController extends Controller
 		}
 
 		$count = $criteria->count();
-        usleep(10000 * $count);
         
         $scope['count'] = $count;
             

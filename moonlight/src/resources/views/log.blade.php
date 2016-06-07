@@ -42,7 +42,7 @@
         <div class="log-form">
             <div class="right"><span id="form-toggler" class="icon"><span class="glyphicons glyphicons-adjust-alt"></span></span></div>
             <input type="text" name="comments" placeholder="Поиск">
-            <span class="submit"><span class="halflings halflings-menu-right"></span></span>
+            <span class="submit-button"><span class="halflings halflings-menu-right"></span></span>
         </div>
         <div id="form-container" class="dnone log-form-params">
             <div class="row">

@@ -168,7 +168,7 @@ $(function() {
                 $('#favorite-toggler').attr('enabled', false).removeClass('active'); 
             });
         } else {
-            $.confirm();
+            $.confirm(null, '.confirm.favorite');
         }
     });
 
@@ -194,7 +194,7 @@ $(function() {
             }
             
             $(':text[name="rubric"]').val('');
-            $.confirmClose();
+            $.confirmClose(null, '.confirm.favorite');
         }).fail(function() {
             $.alertDefaultError();
         });
@@ -204,5 +204,38 @@ $(function() {
         $('#favorite-toggler').attr('enabled', false).removeClass('active');
         $(':text[name="rubric"]').val('');
         $.confirmClose();
+    });
+    
+    $('.button.delete').click(function() {
+        $.confirm(null, '.confirm.delete');
+    });
+    
+    $('.btn.delete').click(function() {
+        $.confirmClose();
+        $.blockUI();
+        
+        $.post(deleteUrl, {
+            checked: checked
+        }, function(data) {
+            $.unblockUI();
+            
+            if (data.error) {
+                $.alert(data.error);
+            } else if (data.deleted) {
+                cancelSelection();
+                
+                for (var i in data.deleted) {
+                    var classId = data.deleted[i];
+                    
+                    $('ul.elements > li[classId="'+classId+'"]').slideUp(200, function() {
+                        $(this).remove();
+                    });
+                }
+            }
+        }).fail(function() {
+            $.unblockUI();
+                
+            $.alertDefaultError();
+        });
     });
 });

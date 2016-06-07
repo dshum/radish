@@ -15,6 +15,7 @@ var homeUrl = '{{ route('home') }}';
 var searchUrl = '{{ route('search') }}';
 var elementsUrl = '{{ route('elements.list') }}';
 var countUrl = '{{ route('elements.count') }}';
+var deleteUrl = '{{ route('elements.delete') }}';
 var title = 'Корень сайта';
 var open = '{{ $open }}';
 </script>
@@ -49,6 +50,17 @@ var open = '{{ $open }}';
             <li><a href="{{ route('profile') }}">{{ $loggedUser->first_name }} {{ $loggedUser->last_name }}</a></li>
             <li><a href="{{ route('logout') }}">Выход</a></li>
         </ul>
+    </div>
+</div>
+<div class="confirm delete">
+    <div class="container">
+        <div class="content">
+            Удалить в корзину?
+        </div>
+        <div class="buttons">
+            <input type="button" value="Удалить" class="btn danger delete">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
     </div>
 </div>
 <div class="main">

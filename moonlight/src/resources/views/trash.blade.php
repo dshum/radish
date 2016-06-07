@@ -1,6 +1,6 @@
 @extends('moonlight::base')
 
-@section('title', 'Поиск')
+@section('title', 'Корзина')
 
 @section('css')
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/search.css">
@@ -13,6 +13,8 @@ jQuery.expr[':'].contains = function(a, i, m) {
 };
 
 $(function() {
+    var countUrl = '{{ route('trash.count') }}';
+    
     $('#filter').addClear({
         right: 10,
         paddingRight: "25px",
@@ -37,6 +39,26 @@ $(function() {
         } else {
             $(".items li").show();
         } 
+    });
+    
+    $('ul.items > li').each(function() {
+        var li = $(this);
+        var item = $(this).attr('item');
+
+        $.getJSON(countUrl, {
+            item: item
+        }, function(data) {
+            if (data && data.count > 0) {
+                var span = $('<span class="dnone total">'+data.count+'</span>');
+
+                li.find('a').append(span);
+                span.fadeIn(200);
+            } else {
+                li.slideUp(200, function() {
+                    $(this).remove();
+                });
+            }
+        });
     });
 });
 </script>
@@ -63,22 +85,16 @@ $(function() {
     </div>
 </div>
 <div class="main">
-    @if ($items)
     <div class="search-field">
         <input type="text" id="filter" placeholder="Введите название">
-    </div>
-    <div class="search-sort">
-        Сортировать классы по <b>частоте</b><br>
-        или по <a href="">дате</a>, <a href="">названию</a>, <a href="">умолчанию</a>
     </div>
     <ul class="items">
         @foreach ($items as $item)
         <li item="{{ $item->getNameId() }}">
-            <a href="{{ route('search.item', $item->getNameId()) }}">{{ $item->getTitle() }}</a><br><small>{{ $item->getNameId() }}</small>
+            <a href="{{ route('trash.item', $item->getNameId()) }}">{{ $item->getTitle() }}</a><br>
+            <small>{{ $item->getNameId() }}</small>
         </li>
         @endforeach
     </ul>
-    <br>
-    @endif
 </div>
 @endsection

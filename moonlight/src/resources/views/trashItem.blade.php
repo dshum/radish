@@ -1,6 +1,6 @@
 @extends('moonlight::base')
 
-@section('title', 'Поиск')
+@section('title', 'Корзина')
 
 @section('css')
 <link media="all" type="text/css" rel="stylesheet" href="/packages/moonlight/touch/css/browse.css">
@@ -12,7 +12,8 @@
 var homeUrl = '{{ route('home') }}';
 var elementsUrl = '{{ route('search.list') }}';
 var searchUrl = '{{ route('search') }}';
-var deleteUrl = '{{ route('elements.delete') }}';
+var deleteUrl = '{{ route('elements.delete.force') }}';
+var restoreUrl = '{{ route('elements.restore') }}';
 var autocompleteUrl = '{{ route('elements.autocomplete') }}';
 var title = '@yield('title')';
 var itemName = '{{ $currentItem->getNameId() }}';
@@ -40,14 +41,24 @@ var itemName = '{{ $currentItem->getNameId() }}';
     </div>
 </div>
 <div class="bottom-context-menu">
-    <div class="button copy"><span class="halflings halflings-duplicate"></span><br>Копировать</div>
-    <div class="button move"><span class="halflings halflings-arrow-right"></span><br>Переместить</div>
-    <div class="button delete"><span class="halflings halflings-trash"></span><br>Удалить</div>
+    <div class="button restore"><span class="halflings halflings-arrow-left"></span><br>Восстановить</div>
+    <div class="button delete"><span class="halflings halflings-ban-circle"></span><br>Удалить</div>
+</div>
+<div class="confirm restore">
+    <div class="container">
+        <div class="content">
+            Восстановить элементы?
+        </div>
+        <div class="buttons">
+            <input type="button" value="Выполнить" class="btn restore">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
 </div>
 <div class="confirm delete">
     <div class="container">
         <div class="content">
-            Удалить в корзину?
+            Удалить окончательно?
         </div>
         <div class="buttons">
             <input type="button" value="Удалить" class="btn danger delete">
@@ -57,7 +68,7 @@ var itemName = '{{ $currentItem->getNameId() }}';
 </div>
 <div class="main">
     <div class="path">
-        <a href="{{ route('search') }}">Поиск</a>
+        <a href="{{ route('trash') }}">Корзина</a>
         <span class="halflings halflings-menu-right"></span>
     </div>
     <h2>{{ $currentItem->getTitle() }}</h2>

@@ -189,7 +189,7 @@ ul.elements li.checked div.check {
   background-color: tan;
 }
 
-ul.elements li .date {
+ul.elements li .created {
   float: right;
   margin-left: 0.75rem;
   text-align: right;
@@ -197,9 +197,22 @@ ul.elements li .date {
   color: #777;
 }
 
-ul.elements li .date .time {
+ul.elements li .created .time {
   font-size: 0.75rem;
   color: #999;
+}
+
+ul.elements li .deleted {
+  float: right;
+  margin-left: 0.75rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: crimson;
+}
+
+ul.elements li .deleted .time {
+  font-size: 0.75rem;
+  color: crimson;
 }
 
 ul.elements li .edit {
@@ -220,11 +233,13 @@ ul.elements li img {
   background-color: white;
 }
 
-ul.elements li .label .glyphicons {
+ul.elements li .label .glyphicons,
+ul.elements li .label .halflings {
   margin-right: 0.25rem;
 }
 
-ul.elements li .date .glyphicons {
+ul.elements li .date .glyphicons,
+ul.elements li .date .halflings {
   color: slateblue;
 }
 
@@ -272,6 +287,10 @@ ul.elements li .one .glyphicons {
 
 .button.delete .halflings {
   color: crimson;
+}
+
+.button.restore .halflings {
+    color: olivedrab;
 }
 
 .plugin {
