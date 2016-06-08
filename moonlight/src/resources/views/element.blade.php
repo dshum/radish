@@ -67,6 +67,44 @@ var open = '{{ $open }}';
     </div>
 </div>
 </div>
+<div class="confirm copy">
+    <div class="container">
+        <div class="content">
+            @if (sizeof($ones))
+            @foreach ($ones as $one)
+                @if ($view = $one->getCopyView())
+                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
+                @endif
+            @endforeach
+            @else
+            Копировать элемент?
+            @endif
+        </div>
+        <div class="buttons">
+            <input type="button" value="Копировать" class="btn copy">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
+</div>
+<div class="confirm move">
+    <div class="container">
+        <div class="content">
+            @if (sizeof($ones))
+            @foreach ($ones as $one)
+                @if ($view = $one->getMoveView())
+                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
+                @endif
+            @endforeach
+            @else
+            Перенести элемент?
+            @endif
+        </div>
+        <div class="buttons">
+            <input type="button" value="Перенести" class="btn move">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
+</div>
 <div class="confirm delete">
     <div class="container">
         <div class="content">

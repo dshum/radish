@@ -93,7 +93,9 @@ class OneToOneProperty extends BaseProperty
 
 		if ($relatedClass && $id) {
 			$this->value = $relatedClass::find($id);
-		}
+		} else {
+            $this->value = null;
+        }
 
 		if ($this->value) {
 			$this->value->id = $this->value->id;

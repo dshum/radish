@@ -32,6 +32,6 @@ $(function() {
 <br>
 <input type="hidden" name="{{ $name }}" value="{{ $value ? $value->id : null }}">
 <input type="text" name="{{ $name }}_autocomplete" value="" placeholder="ID или название">
-<span class="reset" name="{{ $name }}" reset>&#215;</span>
 <span name="{{ $name }}_auto" class="autocomplete-container"></span>
+<span class="reset" name="{{ $name }}" reset><span class="halflings halflings-remove-circle"></span></span>
 @endif

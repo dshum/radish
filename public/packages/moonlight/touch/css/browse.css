@@ -299,3 +299,12 @@ ul.elements li .one .glyphicons {
   padding: 1rem;
 }
 
+.confirm .container .content .row {
+    padding-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.confirm .container .content .row:last-child {
+    padding-bottom: 0.5rem;
+}
+

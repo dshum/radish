@@ -12,6 +12,8 @@
 var homeUrl = '{{ route('home') }}';
 var elementsUrl = '{{ route('search.list') }}';
 var searchUrl = '{{ route('search') }}';
+var copyUrl = '{{ route('elements.copy') }}';
+var moveUrl = '{{ route('elements.move') }}';
 var deleteUrl = '{{ route('elements.delete') }}';
 var autocompleteUrl = '{{ route('elements.autocomplete') }}';
 var title = '@yield('title')';
@@ -43,6 +45,44 @@ var itemName = '{{ $currentItem->getNameId() }}';
     <div class="button copy"><span class="halflings halflings-duplicate"></span><br>Копировать</div>
     <div class="button move"><span class="halflings halflings-arrow-right"></span><br>Переместить</div>
     <div class="button delete"><span class="halflings halflings-trash"></span><br>Удалить</div>
+</div>
+<div class="confirm copy">
+    <div class="container">
+        <div class="content">
+            @if (sizeof($ones))
+            @foreach ($ones as $one)
+                @if ($view = $one->getCopyView())
+                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
+                @endif
+            @endforeach
+            @else
+            Копировать элемент?
+            @endif
+        </div>
+        <div class="buttons">
+            <input type="button" value="Копировать" class="btn copy">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
+</div>
+<div class="confirm move">
+    <div class="container">
+        <div class="content">
+            @if (sizeof($ones))
+            @foreach ($ones as $one)
+                @if ($view = $one->getMoveView())
+                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
+                @endif
+            @endforeach
+            @else
+            Перенести элемент?
+            @endif
+        </div>
+        <div class="buttons">
+            <input type="button" value="Перенести" class="btn move">
+            <input type="button" value="Отмена" class="btn cancel">
+        </div>
+    </div>
 </div>
 <div class="confirm delete">
     <div class="container">

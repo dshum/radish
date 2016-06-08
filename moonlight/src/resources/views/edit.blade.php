@@ -76,7 +76,7 @@ var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
                 @endif
             @endforeach
             @else
-            Копировать элемент?
+            Перенести элемент?
             @endif
         </div>
         <div class="buttons">

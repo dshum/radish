@@ -2,6 +2,7 @@
 
 namespace Moonlight\Properties;
 
+use Illuminate\Support\Facades\Log;
 use Moonlight\Main\ElementInterface;
 use Moonlight\Main\Item;
 
@@ -37,7 +38,7 @@ class OrderProperty extends BaseProperty
 	}
 
 	public function set()
-	{
+	{   
 		if ( ! $this->element instanceof ElementInterface) return $this;
 
 		$name = $this->getName();

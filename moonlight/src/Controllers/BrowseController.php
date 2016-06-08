@@ -6,13 +6,180 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
-use Moonlight\Properties\OrderProperty;
-use Moonlight\Models\Favorite;
 use Moonlight\Main\UserActionType;
+use Moonlight\Models\Favorite;
 use Moonlight\Models\UserAction;
+use Moonlight\Properties\OrderProperty;
+use Moonlight\Properties\FileProperty;
+use Moonlight\Properties\ImageProperty;
 
 class BrowseController extends Controller
 {
+    /**
+     * Copy elements.
+     *
+     * @return Response
+     */
+    public function copy(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $ones = $request->input('ones');
+        $checked = $request->input('checked');
+        
+        if ( ! is_array($checked) || ! sizeof($checked)) {
+            $scope['error'] = 'Пустой список элементов.';
+            
+            return response()->json($scope);
+        }
+        
+        $elements = [];
+        
+        foreach ($checked as $classId) {
+            $element = Element::getByClassId($classId);
+            
+            if ($element && $loggedUser->hasViewAccess($element)) {
+                $elements[] = $element;
+            }
+        }
+        
+        if ( ! sizeof($elements)) {
+            $scope['error'] = 'Нет элементов для копирования.';
+            
+            return response()->json($scope);
+        }
+
+        foreach ($elements as $element) {
+            $elementItem = $element->getItem();
+            $propertyList = $elementItem->getPropertyList();
+            
+            $clone = new $element;
+            
+            foreach ($propertyList as $propertyName => $property) {
+                if ($property instanceof OrderProperty) {
+                    $property->setElement($clone)->set();
+                    continue;
+                }
+
+                if (
+                    $property->getHidden()
+                    || $property->getReadonly()
+                ) continue;
+
+                if (
+                    (
+                        $property instanceof FileProperty
+                        || $property instanceof ImageProperty
+                    )
+                    && ! $property->getRequired()
+                ) continue;
+
+                if (
+                    $property->isOneToOne()
+                    && isset($ones[$propertyName])
+                    && $ones[$propertyName]
+                ) {
+                    $clone->$propertyName = $ones[$propertyName];
+                } elseif ($element->$propertyName !== null) {
+                    $clone->$propertyName = $element->$propertyName;
+                } else {
+                    $clone->$propertyName = null;
+                }
+            }
+
+            $clone->save();
+            
+            $scope['copied'][] = $clone->getClassId();
+        }
+        
+        if (isset($scope['copied'])) {
+            UserAction::log(
+                UserActionType::ACTION_TYPE_COPY_ELEMENT_LIST_ID,
+                implode(', ', $scope['copied'])
+            );
+        }
+        
+        return response()->json($scope);
+    }
+    
+    /**
+     * Copy elements.
+     *
+     * @return Response
+     */
+    public function move(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $ones = $request->input('ones');
+        $checked = $request->input('checked');
+        
+        if ( ! is_array($checked) || ! sizeof($checked)) {
+            $scope['error'] = 'Пустой список элементов.';
+            
+            return response()->json($scope);
+        }
+        
+        $elements = [];
+        
+        foreach ($checked as $classId) {
+            $element = Element::getByClassId($classId);
+            
+            if ($element && $loggedUser->hasUpdateAccess($element)) {
+                $elements[] = $element;
+            }
+        }
+        
+        if ( ! sizeof($elements)) {
+            $scope['error'] = 'Нет элементов для переноса.';
+            
+            return response()->json($scope);
+        }
+
+        foreach ($elements as $element) {
+            $elementItem = $element->getItem();
+            $propertyList = $elementItem->getPropertyList();
+            
+            $changed = false;
+
+            foreach ($propertyList as $propertyName => $property) {
+                if (
+                    $property->getHidden()
+                    || $property->getReadonly()
+                ) continue;
+
+                if (
+                    $property->isOneToOne()
+                    && isset($ones[$propertyName])
+                ) {
+                    $element->$propertyName = $ones[$propertyName]
+                        ? $ones[$propertyName] : null;
+                    
+                    $changed = true;
+                }
+            }
+            
+            if ($changed) {
+                $element->save();
+                
+                $scope['moved'][] = $element->getClassId();
+            }
+        }
+        
+        if (isset($scope['moved'])) {
+            UserAction::log(
+                UserActionType::ACTION_TYPE_MOVE_ELEMENT_LIST_ID,
+                implode(', ', $scope['moved'])
+            );
+        }
+        
+        return response()->json($scope);
+    }
+    
     /**
      * Delete elements.
      *

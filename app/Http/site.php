@@ -27,7 +27,7 @@ $site->
 		setMainProperty('name')->
 		setRoot(true)->
 		setElementPermissions(true)->
-		addOrderBy('created_at', 'desc')->
+		addOrder()->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
@@ -87,7 +87,6 @@ $site->
 		setRoot(true)->
 		setElementPermissions(true)->
 		addOrder()->
-		setPerPage(2)->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
@@ -258,7 +257,6 @@ $site->
 		setTitle('Товар')->
 		setMainProperty('name')->
 		addOrder()->
-		setPerPage(2)->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->

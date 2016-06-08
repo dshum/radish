@@ -113,6 +113,78 @@ $(function() {
         cancelSelection();
     });
     
+    $('.button.copy').click(function() {
+        $.confirm(null, '.confirm.copy');
+    });
+    
+    $('.btn.copy').click(function() {
+        $.confirmClose();
+        $.blockUI();
+        
+        var ones = {};
+        
+        $(':hidden[copy]').each(function() {
+            var name = $(this).attr('copy');
+            var value = $(this).val();
+            
+            ones[name] = value;
+        });
+        
+        $.post(copyUrl, {
+            ones: ones,
+            checked: checked
+        }, function(data) {
+            $.unblockUI();
+            $('.bottom-context-menu').fadeOut('fast');
+            
+            if (data.error) {
+                $.alert(data.error);
+            } else if (data.copied) {
+                document.location.href = document.location.href;
+            }
+        }).fail(function() {
+            $.unblockUI();
+                
+            $.alertDefaultError();
+        });
+    });
+    
+    $('.button.move').click(function() {
+        $.confirm(null, '.confirm.move');
+    });
+    
+    $('.btn.move').click(function() {
+        $.confirmClose();
+        $.blockUI();
+        
+        var ones = {};
+        
+        $(':hidden[move]').each(function() {
+            var name = $(this).attr('move');
+            var value = $(this).val();
+            
+            ones[name] = value;
+        });
+        
+        $.post(moveUrl, {
+            ones: ones,
+            checked: checked
+        }, function(data) {
+            $.unblockUI();
+            $('.bottom-context-menu').fadeOut('fast');
+            
+            if (data.error) {
+                $.alert(data.error);
+            } else {
+                document.location.href = document.location.href;
+            }
+        }).fail(function() {
+            $.unblockUI();
+                
+            $.alertDefaultError();
+        });
+    });
+    
     $('.button.restore').click(function() {
         $.confirm(null, '.confirm.restore');
     });

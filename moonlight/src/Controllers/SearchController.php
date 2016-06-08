@@ -55,6 +55,7 @@ class SearchController extends Controller
         $propertyList = $currentItem->getPropertyList();
         
         $properties = [];
+        $ones = [];
 		
         foreach ($propertyList as $propertyName => $property) {
 			if ($property->getHidden()) continue;
@@ -62,6 +63,10 @@ class SearchController extends Controller
             if ($property->getName() == 'deleted_at') continue;
 
 			$properties[] = $property->setRequest($request);
+            
+            if ($property->isOneToOne()) {
+                $ones[] = $property;
+            }
 		}
         
         $action = $request->input('action');
@@ -76,6 +81,7 @@ class SearchController extends Controller
         $scope['mainProperty'] = $mainProperty;
         $scope['properties'] = $properties;
         $scope['elementsView'] = $elements;
+        $scope['ones'] = $ones;
             
         return view('moonlight::searchItem', $scope);
     }

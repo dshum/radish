@@ -105,6 +105,10 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::post('/elements/favorite', ['as' => 'home.favorite', 'uses' => 'Moonlight\Controllers\HomeController@favorite']);
         
+        Route::post('/elements/copy', ['as' => 'elements.copy', 'uses' => 'Moonlight\Controllers\BrowseController@copy']);
+        
+        Route::post('/elements/move', ['as' => 'elements.move', 'uses' => 'Moonlight\Controllers\BrowseController@move']);
+        
         Route::post('/elements/delete', ['as' => 'elements.delete', 'uses' => 'Moonlight\Controllers\BrowseController@delete']);
         
         Route::post('/elements/delete/force', ['as' => 'elements.delete.force', 'uses' => 'Moonlight\Controllers\BrowseController@forceDelete']);
