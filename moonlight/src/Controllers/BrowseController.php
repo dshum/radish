@@ -549,7 +549,26 @@ class BrowseController extends Controller
         
         list($count, $elements) = $this->elementListView($element, $currentItem);
         
-        return response()->json(['html' => $elements]);
+        $ones = [];
+        
+        $propertyList = $currentItem->getPropertyList();
+		
+        foreach ($propertyList as $propertyName => $property) {
+			if ($property->getHidden()) continue;
+            
+            if ($property->isOneToOne()) {
+                $ones[] = $property;
+            }
+		}
+        
+        $onesCopy = view('moonlight::onesCopy', ['ones' => $ones])->render();
+        $onesMove = view('moonlight::onesMove', ['ones' => $ones])->render();
+        
+        return response()->json([
+            'html' => $elements,
+            'onesCopy' => $onesCopy,
+            'onesMove' => $onesMove,
+        ]);
     }
     
     protected function elementListView($element, $currentItem)
@@ -849,6 +868,7 @@ class BrowseController extends Controller
         $open = isset($lists[$element->getClassId()]) ? $lists[$element->getClassId()] : null;
         
         $openedItem = [];
+        $ones = [];
         
         if ($open) {
             $item = $site->getItemByName($open);
@@ -859,10 +879,23 @@ class BrowseController extends Controller
                     'count' => $count,
                     'elements' => $elements,
                 ];
+                
+                $propertyList = $item->getPropertyList();
+                
+                foreach ($propertyList as $propertyName => $property) {
+                    if ($property->getHidden()) continue;
+
+                    if ($property->isOneToOne()) {
+                        $ones[] = $property;
+                    }
+                }
             } else {
                 $open = null;
             }
         }
+        
+        $onesCopy = view('moonlight::onesCopy', ['ones' => $ones])->render();
+        $onesMove = view('moonlight::onesMove', ['ones' => $ones])->render();
         
         $favorite = Favorite::where('class_id', $classId)->first();
 
@@ -872,6 +905,8 @@ class BrowseController extends Controller
 		$scope['items'] = $items;
         $scope['openedItem'] = $openedItem;
         $scope['open'] = $open;
+        $scope['onesCopy'] = $onesCopy;
+        $scope['onesMove'] = $onesMove;
         $scope['favorite'] = $favorite;
             
         return view('moonlight::element', $scope);
@@ -904,6 +939,7 @@ class BrowseController extends Controller
         $open = isset($lists['Root']) ? $lists['Root'] : null;
         
         $openedItem = [];
+        $ones = [];
         
         if ($open) {
             $item = $site->getItemByName($open);
@@ -914,14 +950,29 @@ class BrowseController extends Controller
                     'count' => $count,
                     'elements' => $elements,
                 ];
+                
+                $propertyList = $item->getPropertyList();
+                
+                foreach ($propertyList as $propertyName => $property) {
+                    if ($property->getHidden()) continue;
+
+                    if ($property->isOneToOne()) {
+                        $ones[] = $property;
+                    }
+                }
             } else {
                 $open = null;
             }
         }
+        
+        $onesCopy = view('moonlight::onesCopy', ['ones' => $ones])->render();
+        $onesMove = view('moonlight::onesMove', ['ones' => $ones])->render();
 
 		$scope['items'] = $items;
         $scope['openedItem'] = $openedItem;
         $scope['open'] = $open;
+        $scope['onesCopy'] = $onesCopy;
+        $scope['onesMove'] = $onesMove;
             
         return view('moonlight::root', $scope);
     }

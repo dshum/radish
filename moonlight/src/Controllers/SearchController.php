@@ -77,11 +77,15 @@ class SearchController extends Controller
             $elements = null;
         }
         
+        $onesCopy = view('moonlight::onesCopy', ['ones' => $ones])->render();
+        $onesMove = view('moonlight::onesMove', ['ones' => $ones])->render();
+        
         $scope['currentItem'] = $currentItem;
         $scope['mainProperty'] = $mainProperty;
         $scope['properties'] = $properties;
         $scope['elementsView'] = $elements;
-        $scope['ones'] = $ones;
+        $scope['onesCopy'] = $onesCopy;
+        $scope['onesMove'] = $onesMove;
             
         return view('moonlight::searchItem', $scope);
     }

@@ -15,6 +15,8 @@ var homeUrl = '{{ route('home') }}';
 var searchUrl = '{{ route('search') }}';
 var elementsUrl = '{{ route('elements.list') }}';
 var countUrl = '{{ route('elements.count') }}';
+var copyUrl = '{{ route('elements.copy') }}';
+var moveUrl = '{{ route('elements.move') }}';
 var deleteUrl = '{{ route('elements.delete') }}';
 var title = 'Корень сайта';
 var open = '{{ $open }}';
@@ -55,15 +57,7 @@ var open = '{{ $open }}';
 <div class="confirm copy">
     <div class="container">
         <div class="content">
-            @if (sizeof($ones))
-            @foreach ($ones as $one)
-                @if ($view = $one->getCopyView())
-                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
-                @endif
-            @endforeach
-            @else
-            Копировать элемент?
-            @endif
+        {!! $onesCopy !!}
         </div>
         <div class="buttons">
             <input type="button" value="Копировать" class="btn copy">
@@ -74,15 +68,7 @@ var open = '{{ $open }}';
 <div class="confirm move">
     <div class="container">
         <div class="content">
-            @if (sizeof($ones))
-            @foreach ($ones as $one)
-                @if ($view = $one->getMoveView())
-                <div id="{{ $one->getName() }}_one_container" property="{{ $one->getName() }}" class="row">{!! $view !!}</div>
-                @endif
-            @endforeach
-            @else
-            Перенести элемент?
-            @endif
+        {!! $onesMove !!}
         </div>
         <div class="buttons">
             <input type="button" value="Перенести" class="btn move">
