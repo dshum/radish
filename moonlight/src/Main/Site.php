@@ -42,18 +42,15 @@ class Site
 			: null;
 	}
 
-	public function bind()
+	public function bind($parent, $binds)
 	{
-		$num = func_num_args();
-		$args = func_get_args();
-
-		if ($num < 2) return $this;
-
-		$name = array_shift($args);
-
-		foreach ($args as $arg) {
-			$this->binds[$name][$arg] = $arg;
-		}
+        if (is_array($binds)) {
+            foreach ($binds as $bind) {
+                $this->binds[$parent][$bind] = $bind;
+            }
+        } elseif (is_string($binds)) {
+            $this->binds[$parent][$binds] = $binds;
+        }
 
 		return $this;
 	}
@@ -61,27 +58,6 @@ class Site
 	public function getBinds()
 	{
 		return $this->binds;
-	}
-
-	public function bindTree()
-	{
-		$num = func_num_args();
-		$args = func_get_args();
-
-		if ($num < 2) return $this;
-
-		$name = array_shift($args);
-
-		foreach ($args as $arg) {
-			$this->bindsTree[$name][$arg] = $arg;
-		}
-
-		return $this;
-	}
-
-	public function getBindsTree()
-	{
-		return $this->bindsTree;
 	}
 
 	public function bindBrowsePlugin($classId, $plugin)

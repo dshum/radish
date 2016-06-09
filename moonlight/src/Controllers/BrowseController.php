@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
+use Moonlight\Main\Site;
 use Moonlight\Main\UserActionType;
 use Moonlight\Models\Favorite;
 use Moonlight\Models\UserAction;
@@ -847,22 +848,29 @@ class BrowseController extends Controller
         $site = \App::make('site');
         
         $itemList = $site->getItemList();
+        $binds = $site->getBinds();
 
 		$items = [];
         
-        foreach ($itemList as $item) {
-            $propertyList = $item->getPropertyList();
+        if (isset($binds[$element->getClassId()])) {
+            foreach ($binds[$element->getClassId()] as $itemNameId) {
+                $item = $site->getItemByName($itemNameId);
+                
+                if ( ! $item) continue;
+                
+                $propertyList = $item->getPropertyList();
 
-            foreach ($propertyList as $property) {
-                if (
-                    $property->isOneToOne()
-                    && $property->getRelatedClass() == $element->getClass()
-                ) {
-                    $items[] = $item;
-                    break;
+                foreach ($propertyList as $property) {
+                    if (
+                        $property->isOneToOne()
+                        && $property->getRelatedClass() == $element->getClass()
+                    ) {
+                        $items[] = $item;
+                        break;
+                    }
                 }
             }
-		}
+        }
         
         $lists = $loggedUser->getParameter('lists');
         $open = isset($lists[$element->getClassId()]) ? $lists[$element->getClassId()] : null;
@@ -926,14 +934,17 @@ class BrowseController extends Controller
         $site = \App::make('site');
         
         $itemList = $site->getItemList();
+        $binds = $site->getBinds();
 
 		$items = [];
-
-		foreach ($itemList as $itemName => $item) {
-			if ( ! $item->getRoot()) continue;
-
-			$items[] = $item;
-		}
+        
+        if (isset($binds[Site::ROOT])) {
+            foreach ($binds[Site::ROOT] as $itemNameId) {
+                $item = $site->getItemByName($itemNameId);
+                
+                $items[] = $item;
+            }
+        }
         
         $lists = $loggedUser->getParameter('lists');
         $open = isset($lists['Root']) ? $lists['Root'] : null;
