@@ -139,6 +139,10 @@ ul.items li .total {
     text-decoration: none;
 }
 
+.grey .addnew {
+    color: white;
+}
+
 ul.items li.grey .a {
     color: #ccc;
     text-decoration: none;
