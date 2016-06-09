@@ -848,26 +848,36 @@ class BrowseController extends Controller
         $site = \App::make('site');
         
         $itemList = $site->getItemList();
-        $binds = $site->getBinds();
+        
+        $binds = [];
+        
+        foreach ($site->getBinds() as $name => $classes) {
+            if (
+                $name == $element->getClassId() 
+                || $name == $currentItem->getNameId()
+            ) {
+                foreach ($classes as $class) {
+                    $binds[] = $class;
+                }
+            }
+        }
 
 		$items = [];
         
-        if (isset($binds[$element->getClassId()])) {
-            foreach ($binds[$element->getClassId()] as $itemNameId) {
-                $item = $site->getItemByName($itemNameId);
-                
-                if ( ! $item) continue;
-                
-                $propertyList = $item->getPropertyList();
+        foreach ($binds as $bind) {
+            $item = $site->getItemByName($bind);
 
-                foreach ($propertyList as $property) {
-                    if (
-                        $property->isOneToOne()
-                        && $property->getRelatedClass() == $element->getClass()
-                    ) {
-                        $items[] = $item;
-                        break;
-                    }
+            if ( ! $item) continue;
+
+            $propertyList = $item->getPropertyList();
+
+            foreach ($propertyList as $property) {
+                if (
+                    $property->isOneToOne()
+                    && $property->getRelatedClass() == $element->getClass()
+                ) {
+                    $items[] = $item;
+                    break;
                 }
             }
         }
