@@ -120,7 +120,7 @@ ul.items li .total {
     text-decoration: none;
 }
 
-ul.items li .addnew {
+.addnew {
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;

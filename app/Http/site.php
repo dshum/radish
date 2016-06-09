@@ -423,7 +423,7 @@ $site->
 		)->
         addProperty(
 			FloatProperty::create('sum')->
-			setTitle('Сумма, руб.')->
+			setTitle('Сумма')->
 			setRequired(true)->
 			setShow(true)
 		)->

@@ -451,7 +451,11 @@ class EditController extends Controller
                 : redirect()->route('browse');
         }
         
-        $element = $currentItem->getClass()->setParent($parent);
+        $element = $currentItem->getClass();
+        
+        if ($parent) {
+            $element->setParent($parent);
+        }
         
         $propertyList = $currentItem->getPropertyList();
         

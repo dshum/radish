@@ -84,7 +84,7 @@ var itemName = '{{ $currentItem->getNameId() }}';
         <a href="{{ route('search') }}">Поиск</a>
         <span class="halflings halflings-menu-right"></span>
     </div>
-    <h2>{{ $currentItem->getTitle() }}</h2>
+    <h2>{{ $currentItem->getTitle() }}<a class="addnew" href="{{ route('element.create', ['classId' => 'root', 'item' => $currentItem->getNameId()]) }}">+</a></h2>
     <form>
         <input type="hidden" name="action" value="search">
         <input type="submit" class="phantom">

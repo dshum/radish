@@ -94,9 +94,9 @@ var open = '{{ $open }}';
         <li item="{{ $item->getNameId() }}">
             <span class="a">{{ $item->getTitle() }}</span>
             @if (isset($openedItem[$item->getNameId()]))
-            <span class="total">{{ $openedItem[$item->getNameId()]['count'] }}</span><a class="addnew" href="{{ route('root.create', ['item' => $item->getNameId()]) }}">+</a>
+            <span class="total">{{ $openedItem[$item->getNameId()]['count'] }}</span><a class="addnew" href="{{ route('element.create', ['classId' => 'root', 'item' => $item->getNameId()]) }}">+</a>
             @else
-            <a class="addnew" href="{{ route('root.create', ['item' => $item->getNameId()]) }}">+</a>
+            <a class="addnew" href="{{ route('element.create', ['classId' => 'root', 'item' => $item->getNameId()]) }}">+</a>
             @endif
             @if (isset($openedItem[$item->getNameId()]))
             <div item="{{ $item->getNameId() }}" class="list-container">{!! $openedItem[$item->getNameId()]['elements'] !!}</div>

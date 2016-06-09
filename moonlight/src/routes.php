@@ -119,9 +119,6 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
         
-        Route::get('/browse/root/{item}/create', ['as' => 'root.create', 'uses' => 'Moonlight\Controllers\EditController@create'])->
-            where(['item' => '[A-Za-z0-9\.]+']);
-        
         Route::get('/browse/{classId}/{item}/create', ['as' => 'element.create', 'uses' => 'Moonlight\Controllers\EditController@create'])->
             where(['classId' => '[A-Za-z0-9\.]+', 'item' => '[A-Za-z0-9\.]+']);
         
