@@ -455,11 +455,11 @@ $site->
 	bind(Site::ROOT, 'App\Category', 'App\Section', 'App\ServiceSection', 'App\SiteSettings')->
 	bind('App\Category', 'App\Subcategory', 'App\Good')->
 	bind('App\Subcategory', 'App\Good')->
-    bind('App.ServiceSection.1', 'App\ServiceSection')->
-    bind('App.ServiceSection.4', 'App\Expense')->
-	bind('App.ServiceSection.7', 'App\ServiceSection')->
-	bind('App.ServiceSection.11', 'App\ExpenseCategory')->
-	bind('App.ServiceSection.12', 'App\ExpenseSource')->
+    bind(env('site.dicts', 'App.ServiceSection.1'), 'App\ServiceSection')->
+    bind(env('site.expenses', 'App.ServiceSection.4'), 'App\Expense')->
+	bind(env('site.statistic', 'App.ServiceSection.7'), 'App\ServiceSection')->
+	bind(env('site.expense_categories', 'App.ServiceSection.11'), 'App\ExpenseCategory')->
+	bind(env('site.expense_sources', 'App.ServiceSection.12'), 'App\ExpenseSource')->
 
 	bindBrowsePlugin('App.ServiceSection.8', 'moneyStat')->
 	bindSearchPlugin('App\Good', 'goodSearch')->
