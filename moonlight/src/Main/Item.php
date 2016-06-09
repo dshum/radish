@@ -213,7 +213,6 @@ class Item
 			DatetimeProperty::create('created_at')->
 			setTitle('Создан')->
 			setReadonly(true)->
-            setFillNow()->
 			setShow(true)
 		)->
 		addProperty(

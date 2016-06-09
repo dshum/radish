@@ -5,6 +5,7 @@ use Moonlight\Main\Item;
 use Moonlight\Properties\BaseProperty;
 use Moonlight\Properties\CheckboxProperty;
 use Moonlight\Properties\DatetimeProperty;
+use Moonlight\Properties\DateProperty;
 use Moonlight\Properties\FloatProperty;
 use Moonlight\Properties\ImageProperty;
 use Moonlight\Properties\IntegerProperty;
@@ -68,9 +69,7 @@ $site->
 			OneToOneProperty::create('section_id')->
 			setTitle('Раздел сайта')->
 			setRelatedClass('App\Section')->
-			setParent(true)->
-			bind(Site::ROOT, 'App\Section')->
-			bind('App\Section', 'App\Section')
+			setParent(true)
 		)->
 		addTimestamps()->
 		addSoftDeletes()
@@ -97,9 +96,7 @@ $site->
 			OneToOneProperty::create('service_section_id')->
 			setTitle('Служебный раздел')->
 			setRelatedClass('App\ServiceSection')->
-			setParent(true)->
-			bind(Site::ROOT, 'App\ServiceSection')->
-			bind('App\ServiceSection', 'App\ServiceSection')
+			setParent(true)
 		)->
 		addTimestamps()->
 		addSoftDeletes()
@@ -241,8 +238,7 @@ $site->
 			setTitle('Категория товаров')->
 			setRelatedClass('App\Category')->
 			setParent(true)->
-			setRequired(true)->
-			bind('App\Category')
+			setRequired(true)
 		)->
 		addTimestamps()->
 		addSoftDeletes()
@@ -339,34 +335,131 @@ $site->
 			setTitle('Категория товара')->
 			setRelatedClass('App\Category')->
 			setRequired(true)->
-			setParent(true)->
-			bind('App\Category')
+			setParent(true)
 		)->
 		addProperty(
 			OneToOneProperty::create('subcategory_id')->
 			setTitle('Подкатегория товара')->
-			setRelatedClass('App\Subcategory')->
-			bind('App\Category')->
-			bind('App\Category', 'App\Subcategory')
+			setRelatedClass('App\Subcategory')
 		)->
 		addTimestamps()->
 		addSoftDeletes()
 	)->
+    
+    /*
+	 * Категория расхода
+	 */
 
-	bind(Site::ROOT, 'App\Category', 'App\Section', 'App\ServiceSection')->
+	addItem(
+		Item::create('App\ExpenseCategory')->
+		setTitle('Категория расхода')->
+		setMainProperty('name')->
+		addOrder()->
+		addProperty(
+			TextfieldProperty::create('name')->
+			setTitle('Название')->
+			setRequired(true)->
+			setShow(true)
+		)->
+		addProperty(
+			OneToOneProperty::create('service_section_id')->
+			setTitle('Служебный раздел')->
+			setRelatedClass('App\ServiceSection')->
+			setParent(true)
+		)->
+		addTimestamps()->
+		addSoftDeletes()
+	)->
+    
+    /*
+	 * Источник расхода
+	 */
+
+	addItem(
+		Item::create('App\ExpenseSource')->
+		setTitle('Источник расхода')->
+		setMainProperty('name')->
+		addOrder()->
+		addProperty(
+			TextfieldProperty::create('name')->
+			setTitle('Название')->
+			setRequired(true)->
+			setShow(true)
+		)->
+		addProperty(
+			OneToOneProperty::create('service_section_id')->
+			setTitle('Служебный раздел')->
+			setRelatedClass('App\ServiceSection')->
+			setParent(true)
+		)->
+		addTimestamps()->
+		addSoftDeletes()
+	)->
+    
+    /*
+	 * Расход
+	 */
+
+	addItem(
+		Item::create('App\Expense')->
+		setTitle('Расход')->
+		setMainProperty('name')->
+        addOrderBy('created_at', 'desc')->
+		addProperty(
+			TextfieldProperty::create('name')->
+			setTitle('Название')->
+			setRequired(true)->
+			setShow(true)
+		)->
+        addProperty(
+			OneToOneProperty::create('category_id')->
+			setTitle('Категория расхода')->
+			setRelatedClass('App\ExpenseCategory')
+		)->
+        addProperty(
+			OneToOneProperty::create('source_id')->
+			setTitle('Источник расхода')->
+			setRelatedClass('App\ExpenseSource')
+		)->
+        addProperty(
+			FloatProperty::create('sum')->
+			setTitle('Сумма, руб.')->
+			setRequired(true)->
+			setShow(true)
+		)->
+        addProperty(
+			TextareaProperty::create('comments')->
+			setTitle('Комментарий')
+		)->
+		addProperty(
+			OneToOneProperty::create('service_section_id')->
+			setTitle('Служебный раздел')->
+			setRelatedClass('App\ServiceSection')->
+			setParent(true)
+		)->
+		addProperty(
+			DatetimeProperty::create('created_at')->
+            setFillNow()->
+			setTitle('Создан')->
+			setShow(true)
+		)->
+		addProperty(
+			DatetimeProperty::create('updated_at')->
+			setTitle('Изменен')->
+			setReadonly(true)->
+			setShow(true)
+		)->
+		addSoftDeletes()
+	)->
+
+	bind(Site::ROOT, 'App\Category', 'App\Section', 'App\ServiceSection', 'App\SiteSettings')->
 	bind('App\Category', 'App\Subcategory', 'App\Good')->
 	bind('App\Subcategory', 'App\Good')->
-	bind('App.ServiceSection.1', 'App\ServiceSection')->
-	bind('App.ServiceSection.6', 'App\ServiceSection')->
+    bind('App.ServiceSection.1', 'App\ServiceSection')->
+    bind('App.ServiceSection.4', 'App\Expense')->
 	bind('App.ServiceSection.7', 'App\ServiceSection')->
-
-	bindTree(Site::ROOT, 'App\Category', 'App\Section', 'App\ServiceSection', 'App\SiteSettings')->
-	bindTree('App\Category', 'App\Subcategory', 'App\Good')->
-	bindTree('App\Subcategory', 'App\Good')->
-	bindTree('App\Section', 'App\Section')->
-	bindTree('App.ServiceSection.1', 'App\ServiceSection')->
-	bindTree('App.ServiceSection.6', 'App\ServiceSection')->
-	bindTree('App.ServiceSection.7', 'App\ServiceSection')->
+	bind('App.ServiceSection.11', 'App\ExpenseCategory')->
+	bind('App.ServiceSection.12', 'App\ExpenseSource')->
 
 	bindBrowsePlugin('App.ServiceSection.8', 'moneyStat')->
 	bindSearchPlugin('App\Good', 'goodSearch')->

@@ -4,18 +4,18 @@ namespace Moonlight\Properties;
 
 use Moonlight\Main\ElementInterface;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class DateProperty extends BaseProperty
 {
-	protected static $format = 'Y-m-d';
-
+	protected $format = 'Y-m-d';
 	protected $fillNow = false;
 
 	public function __construct($name) {
 		parent::__construct($name);
 
 		$this->
-		addRule('date_format:"'.static::$format.'"', 'Недопустимый формат даты.');
+		addRule('date_format:"'.$this->format.'"', 'Недопустимый формат даты.');
 
 		return $this;
 	}
@@ -25,9 +25,9 @@ class DateProperty extends BaseProperty
 		return new self($name);
 	}
 
-	public function setFillNow($fillNow)
+	public function setFillNow()
 	{
-		$this->fillNow = $fillNow;
+		$this->fillNow = true;
 
 		return $this;
 	}
@@ -46,17 +46,9 @@ class DateProperty extends BaseProperty
 				$this->value = Carbon::createFromFormat($this->format, $this->value);
 			} catch (\Exception $e) {}
 		}
-
-		if ( ! $this->value && $this->getFillNow()) {
-			$this->value = Carbon::now();
-		}
-
-		if ($this->value) {
-			$this->value = [
-				'value' => $this->value->format(static::$format),
-				'date' => $this->value->toDateString(),
-				'human' => $this->value->format('d.m.Y')
-			];
+        
+        if ( ! $this->value && $this->getFillNow()) {
+			$this->value = Carbon::today();
 		}
 
 		return $this;
@@ -134,4 +126,17 @@ class DateProperty extends BaseProperty
         
         return $request->input($name.'_date');
     }
+    
+    public function set()
+	{
+        $request = $this->getRequest();
+        $name = $this->getName();
+        $value = $request->input($name.'_date');
+
+		if ( ! mb_strlen($value)) $value = null;
+
+		$this->element->$name = $value;
+
+		return $this;
+	}
 }

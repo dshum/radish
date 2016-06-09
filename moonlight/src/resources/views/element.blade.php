@@ -14,7 +14,7 @@ var favoritesUrl = '{{ route('home.favorites') }}';
 var homeUrl = '{{ route('home') }}';
 var searchUrl = '{{ route('search') }}';
 var elementsUrl = '{{ route('elements.list') }}';
-var countUrl = '{{ route('elements.count') }}';
+var countUrl = '{{ route('elements.count') }}';;
 var copyUrl = '{{ route('elements.copy') }}';
 var moveUrl = '{{ route('elements.move') }}';
 var deleteUrl = '{{ route('elements.delete') }}';
@@ -119,7 +119,7 @@ var open = '{{ $open }}';
     <h2>{{ $element->{$currentItem->getMainProperty()} }}</h2>
     <ul class="elements">
         <li>
-            <div class="date">{{ $element->created_at->format('d.m.Y') }}<br><span class="time">{{ $element->created_at->format('H:i:s') }}</span></div>
+            <div class="created">{{ $element->created_at->format('d.m.Y') }}<br><span class="time">{{ $element->created_at->format('H:i:s') }}</span></div>
             <div class="edit"><a href="{{ route('element.edit', $element->getClassId()) }}"><span class="halflings halflings-pencil"></span></a></div>
             @if ($element->getTouchListView())
             {!! $element->getTouchListView() !!}
@@ -134,7 +134,11 @@ var open = '{{ $open }}';
         <li item="{{ $item->getNameId() }}" classId="{{ $element->getClassId() }}">
             <span class="a">{{ $item->getTitle() }}</span>
             @if (isset($openedItem[$item->getNameId()]))
-            <span class="total">{{ $openedItem[$item->getNameId()]['count'] }}</span>
+            <span class="total">{{ $openedItem[$item->getNameId()]['count'] }}</span><a class="addnew" href="{{ route('element.create', ['classId' => $element->getClassId(), 'item' => $item->getNameId()]) }}">+</a>
+            @else
+            <a class="addnew" href="{{ route('element.create', ['classId' => $element->getClassId(), 'item' => $item->getNameId()]) }}">+</a>
+            @endif
+            @if (isset($openedItem[$item->getNameId()]))
             <div item="{{ $item->getNameId() }}" class="list-container">{!! $openedItem[$item->getNameId()]['elements'] !!}</div>
             @endif
         </li>

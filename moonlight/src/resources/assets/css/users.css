@@ -58,9 +58,20 @@ ul.users li .remove.disabled .halflings {
 }
 
 .addnew {
-  position: relative;
-  top: -0.2rem;
-  left: 0.5rem;
-  font-size: 1.5rem;
-  color: orange;
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+    margin-left: 1rem;
+    padding: 0;
+    background-color: orange;
+    color: white;
+    border-radius: 2px;
+    font-family: courier new;
+    font-size: 1.5rem;
+    font-weight: bold;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
 }

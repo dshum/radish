@@ -69,11 +69,13 @@ $(function() {
                 item: item
             }, function(data) {
                if (data && data.count) {
-                    var span = $('<span class="dnone total">'+data.count+'</span>');
-                    var div = $('<div item="'+item+'" class="dnone list-container"></div>');
+                    var addnew = $('li[item="'+item+'"] .addnew');
+                    var total = $('<span class="dnone total">'+data.count+'</span>');
+                    var container = $('<div item="'+item+'" class="dnone list-container"></div>');
 
-                    li.append(span).append(div);
-                    span.fadeIn(200);
+                    addnew.before(total);
+                    li.append(container);
+                    total.fadeIn(200);
                 } else {
                     li.addClass('grey');
                 }

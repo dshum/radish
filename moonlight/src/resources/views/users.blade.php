@@ -94,7 +94,7 @@
 </div>
 <div class="main">
 @if (sizeof($groups))
-    <h2>Группы<a href="{{ route('group.create') }}" class="addnew"><span class="halflings halflings-plus-sign"></span></a></h2>
+    <h2>Группы<a href="{{ route('group.create') }}" class="addnew">+</a></h2>
     <ul class="users">
     @foreach ($groups as $group)
         <li group="{{ $group->id }}">
@@ -111,7 +111,7 @@
     </ul>
 @endif
 @if (sizeof($users))
-    <h2>Пользователи<a href="{{ route('user.create') }}" class="addnew"><span class="halflings halflings-plus-sign"></span></a></h2>
+    <h2>Пользователи<a href="{{ route('user.create') }}" class="addnew">+</a></h2>
     <ul class="users">
     @foreach ($users as $user)
         <li user="{{ $user->id }}">

@@ -10,7 +10,6 @@ class OneToOneProperty extends BaseProperty
 {
 	protected $relatedClass = null;
 	protected $parent = false;
-	protected $binds = array();
 
 	public function __construct($name) {
 		parent::__construct($name);
@@ -55,29 +54,6 @@ class OneToOneProperty extends BaseProperty
 	public function getParent()
 	{
 		return $this->parent;
-	}
-
-	public function bind()
-	{
-		$num = func_num_args();
-		$args = func_get_args();
-
-		if ($num < 1) return $this;
-
-		$name = array_shift($args);
-
-		if ( ! $args) $this->binds[null][$name] = $name;
-
-		foreach ($args as $arg) {
-			$this->binds[$name][$arg] = $arg;
-		}
-
-		return $this;
-	}
-
-	public function getBinds()
-	{
-		return $this->binds;
 	}
 
 	public function setElement(ElementInterface $element)

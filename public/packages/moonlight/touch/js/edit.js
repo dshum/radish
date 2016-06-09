@@ -60,6 +60,8 @@ $(function() {
                         
                         $('div.row[property="'+propertyName+'"]').html(view);
                     }
+                } else if (data.added && data.url) {
+                    history.back(1);
                 }
             },
             error: function() {

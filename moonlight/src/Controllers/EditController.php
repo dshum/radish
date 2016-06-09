@@ -227,6 +227,101 @@ class EditController extends Controller
     }
     
     /**
+     * Add element.
+     *
+     * @return Response
+     */
+    public function add(Request $request, $class)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $site = \App::make('site');
+        
+        $currentItem = $site->getItemByName($class);
+        
+        if ( ! $currentItem) {
+            $scope['error'] = 'Класс элемента не найден.';
+            
+            return response()->json($scope);
+        }
+        
+        $element = $currentItem->getClass();
+        
+        $propertyList = $currentItem->getPropertyList();
+
+        $input = [];
+		$rules = [];
+		$messages = [];
+
+		foreach ($propertyList as $propertyName => $property) {
+			if (
+				$property->getHidden()
+				|| $property->getReadonly()
+			) continue;
+            
+            $input[$propertyName] = $property->setRequest($request)->buildInput();
+
+			foreach ($property->getRules() as $rule => $message) {
+				$rules[$propertyName][] = $rule;
+				if (strpos($rule, ':')) {
+					list($name, $value) = explode(':', $rule, 2);
+					$messages[$propertyName.'.'.$name] = '<b>'.$property->getTitle().'.</b> '.$message;
+				} else {
+					$messages[$propertyName.'.'.$rule] = '<b>'.$property->getTitle().'.</b> '.$message;
+				}
+			}
+		}
+        
+        $validator = Validator::make($input, $rules, $messages);
+        
+        if ($validator->fails()) {
+            $messages = $validator->errors();
+            
+            foreach ($propertyList as $propertyName => $property) {
+                if ($messages->has($propertyName)) {
+                    $scope['errors'][$propertyName] = $messages->first($propertyName);
+                }
+            }
+        }
+        
+        if (isset($scope['errors'])) {
+            return response()->json($scope);
+        }
+
+        foreach ($propertyList as $propertyName => $property) {
+            if ($property instanceof OrderProperty) {
+                $property->
+                    setElement($element)->
+                    set();
+            }
+            
+			if (
+				$property->getHidden()
+				|| $property->getReadonly()
+			) continue;
+
+			$property->
+                setRequest($request)->
+                setElement($element)->
+                set();
+		}
+        
+        $element->save();
+        
+        UserAction::log(
+			UserActionType::ACTION_TYPE_ADD_ELEMENT_ID,
+			$element->getClassId()
+		);
+        
+        $scope['added'] = $element->getClassId();
+        $scope['url'] = route('element.edit', $element->getClassId());
+        
+        return response()->json($scope);
+    }
+    
+    /**
      * Save element.
      *
      * @return Response
@@ -323,6 +418,57 @@ class EditController extends Controller
         $scope['views'] = $views;
         
         return response()->json($scope);
+    }
+    
+    /**
+     * Create element.
+     * 
+     * @return View
+     */
+    public function create(Request $request, $classId, $class)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        if ($classId == 'root') {
+            $parent = null;
+        } else {
+            $parent = Element::getByClassId($classId);
+            
+            if ( ! $parent) {
+                return redirect()->route('browse');
+            }
+        }
+        
+        $site = \App::make('site');
+        
+        $currentItem = $site->getItemByName($class);
+        
+        if ( ! $currentItem) {
+            return $parent
+                ? redirect()->route('browse.element', $parent->getClassId())
+                : redirect()->route('browse');
+        }
+        
+        $element = $currentItem->getClass()->setParent($parent);
+        
+        $propertyList = $currentItem->getPropertyList();
+        
+        $properties = [];
+		
+        foreach ($propertyList as $propertyName => $property) {
+			if ($property->getHidden()) continue;
+            if ($propertyName == 'deleted_at') continue;
+
+			$properties[] = $property->setElement($element);
+		}
+
+        $scope['parent'] = $parent;
+        $scope['currentItem'] = $currentItem;
+        $scope['properties'] = $properties;
+        
+        return view('moonlight::create', $scope);
     }
     
     /**

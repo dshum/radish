@@ -8,7 +8,7 @@ class FloatProperty extends BaseProperty
 		parent::__construct($name);
 
 		$this->
-		addRule('integer', 'Введите число с запятой.');
+		addRule('numeric', 'Введите число с запятой.');
 
 		return $this;
 	}

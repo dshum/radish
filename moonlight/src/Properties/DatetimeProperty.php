@@ -7,15 +7,14 @@ use Moonlight\Main\ElementInterface;
 
 class DatetimeProperty extends BaseProperty
 {
-	protected static $format = 'Y-m-d H:i:s';
-
+	protected $format = 'Y-m-d H:i:s';
 	protected $fillNow = false;
 
 	public function __construct($name) {
 		parent::__construct($name);
 
 		$this->
-		addRule('date_format:"'.static::$format.'"', 'Недопустимый формат даты.');
+		addRule('date_format:"'.$this->format.'"', 'Недопустимый формат даты.');
 
 		return $this;
 	}
@@ -135,4 +134,23 @@ class DatetimeProperty extends BaseProperty
         
         return $value;
     }
+    
+    public function set()
+	{
+        $request = $this->getRequest();
+        $name = $this->getName();
+        
+        $date = $request->input($name.'_date');
+        $hour = $request->input($name.'_hour');
+        $minute = $request->input($name.'_minute');
+        $second = $request->input($name.'_second');
+        
+         $value = $date
+            ? $date.' '.$hour.':'.$minute.':'.$second
+            : null;
+
+		$this->element->$name = $value;
+
+		return $this;
+	}
 }
