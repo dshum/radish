@@ -405,14 +405,14 @@ ul.menu li.red a {
 }
 
 .sidebar {
-  display: none;
   position: fixed;
   z-index: 110;
   top: 52px;
-  left: 0;
+  left: -100%;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: #eee;
 }
 
 .sidebar-container {
@@ -423,7 +423,6 @@ ul.menu li.red a {
   right: 0;
   bottom: 0;
   padding: 1rem;
-  background-color: white;
   overflow: auto;
 }
 

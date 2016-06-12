@@ -42,7 +42,21 @@ $(function() {
     };
     
     $('body').on('click', '.hamburger', function() {
-        $('.sidebar').fadeToggle('fast');
+        var mode = $(this).attr('mode');
+        
+        if (mode == 'active') {
+            $('.sidebar').animate({
+                left: '-100%', 
+                backgroundColor: '#eee'
+            });
+            $(this).attr('mode', 'none');
+        } else {
+            $('.sidebar').animate({
+                left: 0, 
+                backgroundColor: 'white'
+            });
+            $(this).attr('mode', 'active');
+        }
 
         return false;
     });
