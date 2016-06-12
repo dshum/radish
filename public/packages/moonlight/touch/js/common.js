@@ -47,13 +47,13 @@ $(function() {
         if (mode == 'active') {
             $('.sidebar').animate({
                 left: '-100%', 
-                backgroundColor: '#eee'
+                backgroundColor: '#cccccc'
             });
             $(this).attr('mode', 'none');
         } else {
             $('.sidebar').animate({
                 left: 0, 
-                backgroundColor: 'white'
+                backgroundColor: '#ffffff'
             });
             $(this).attr('mode', 'active');
         }
