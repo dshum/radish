@@ -47,11 +47,7 @@ $(function() {
         if (mode == 'active') {
             $('.sidebar').animate({
                 left: '-100%', 
-<<<<<<< HEAD
                 backgroundColor: '#cccccc'
-=======
-                backgroundColor: '#eea236'
->>>>>>> 32a36c3e5cc510bdc4175e59319665f690815395
             });
             $(this).attr('mode', 'none');
         } else {
