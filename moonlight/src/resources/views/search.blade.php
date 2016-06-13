@@ -17,6 +17,7 @@ $(function() {
         $('#filter').addClear({
             right: 10,
             paddingRight: "25px",
+            hideOnBlur: true,
             onClear: function(){
                 $(".items li").show();
             }
@@ -45,12 +46,16 @@ $(function() {
         var sort = $(this).attr('sort');
         var url = '{{ route('search.sort') }}';
         
+        $('#filter').val('');
+        
         $.post(url, {
             sort: sort
         }, function(data) {
             if (data.html) {
-                $('.main').html(data.html);
-                init();
+                $('.search-list').fadeOut(200, function() {
+                    $(this).html(data.html).fadeIn(200);
+                    init();
+                });
             }
         });
     });
@@ -81,6 +86,11 @@ $(function() {
     </div>
 </div>
 <div class="main">
-    {!! $html !!}
+    <div class="search-field">
+        <input type="text" id="filter" placeholder="Введите название">
+    </div>
+    <div class="search-list">
+        {!! $html !!}
+    </div>
 </div>
 @endsection

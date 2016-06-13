@@ -1,7 +1,4 @@
 @if ($items)
-<div class="search-field">
-    <input type="text" id="filter" placeholder="Введите название">
-</div>
 <div class="search-sort">
     Сортировать классы по <b>{{ $sorts[$sort] }}</b><br>
     или по
