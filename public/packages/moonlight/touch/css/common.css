@@ -92,7 +92,7 @@ nav right {
     padding: 0 0.5rem;
 }
 
-.hamburger {
+nav * {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
