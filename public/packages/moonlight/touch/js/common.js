@@ -41,6 +41,27 @@ $(function() {
         container.fadeOut('fast', handle);
     };
     
+    $.bottomMenu = function() {
+        var height = $('.bottom-context-menu').height() + 11;
+        
+        $('.bottom-context-menu').css({
+            bottom: '-'+height+'px',
+            display: 'block'
+        }).animate({
+            bottom: 0
+        }, 200);
+
+        return false;
+    };
+    
+    $.bottomMenuClose = function() {
+        var height = $('.bottom-context-menu').height() + 11;
+        
+        $('.bottom-context-menu').animate({
+            bottom: '-'+height+'px'
+        }, 200);
+    };
+    
     $('body').on('click', '.hamburger', function() {
         var mode = $(this).attr('mode');
         
