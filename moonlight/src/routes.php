@@ -86,6 +86,8 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         Route::get('/search/{item}', ['as' => 'search.item', 'uses' => 'Moonlight\Controllers\SearchController@item'])->
             where(['item' => '[A-Za-z0-9\.]+']);
         
+        Route::post('search/sort', ['as' => 'search.sort', 'uses' => 'Moonlight\Controllers\SearchController@sort']);
+        
         Route::get('/trash', ['as' => 'trash', 'uses' => 'Moonlight\Controllers\TrashController@index']);
         
         Route::get('/trash/count', ['as' => 'trash.count', 'uses' => 'Moonlight\Controllers\TrashController@count']);

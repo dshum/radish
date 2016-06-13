@@ -6,9 +6,35 @@ use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
 use Moonlight\Properties\OrderProperty;
+use Carbon\Carbon;
 
 class SearchController extends Controller
 {
+    /**
+     * Sort items.
+     *
+     * @return Response
+     */
+    public function sort(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $sort = $request->input('sort');
+        
+        $search = $loggedUser->getParameter('search') ?: [];
+
+        if (in_array($sort, ['rate', 'date', 'name', 'default'])) {
+			$search['sort'] = $sort;
+			$loggedUser->setParameter('search', $search);
+		}
+        
+        $html = $this->itemListView();
+        
+        return response()->json(['html' => $html]);
+    }
+    
     /**
      * Show element list.
      *
@@ -48,6 +74,19 @@ class SearchController extends Controller
         if ( ! $currentItem) {
             return redirect()->route('search');
         }
+        
+        $search = $loggedUser->getParameter('search') ?: [];
+
+        $search['sortDate'][$class] =
+            Carbon::now()->toDateTimeString();
+
+        if (isset($search['sortRate'][$class])) {
+            $search['sortRate'][$class]++;
+        } else {
+            $search['sortRate'][$class] = 1;
+        }
+        
+        $loggedUser->setParameter('search', $search);
         
         $mainPropertyName = $currentItem->getMainProperty();
         $mainProperty = $currentItem->getPropertyByName($mainPropertyName);
@@ -91,18 +130,90 @@ class SearchController extends Controller
     }
     
     public function index(Request $request)
-    {
+    {        
+        $html = $this->itemListView();
+    
+        return view('moonlight::search', ['html' => $html]);
+    }
+    
+    protected function itemListView() {
         $scope = [];
         
         $loggedUser = LoggedUser::getUser();
         
         $site = \App::make('site');
         
-        $items = $site->getItemList();
+        $itemList = $site->getItemList();
+        
+        $search = $loggedUser->getParameter('search') ?: [];
+        
+        $sort = isset($search['sort'])
+			? $search['sort'] : 'default';
+        
+        $map = [];
+        
+        if ($sort == 'name') {
+			foreach ($itemList as $item) {
+				$map[$item->getTitle()] = $item;
+			}
+
+			ksort($map);
+		} elseif ($sort == 'date') {
+			$sortDate = isset($search['sortDate'])
+				? $search['sortDate'] : [];
+
+			arsort($sortDate);
+
+			foreach ($sortDate as $class => $date) {
+				$map[$class] = $site->getItemByName($class);
+			}
+
+			foreach ($itemList as $item) {
+				$map[$item->getNameId()] = $item;
+			}
+		} elseif ($sort == 'rate') {
+			$sortRate = isset($search['sortRate'])
+				? $search['sortRate'] : array();
+
+			arsort($sortRate);
+
+			foreach ($sortRate as $class => $rate) {
+				$map[$class] = $site->getItemByName($class);
+			}
+
+			foreach ($itemList as $item) {
+				$map[$item->getNameId()] = $item;
+			}
+		} else {
+			foreach ($itemList as $item) {
+				$map[] = $item;
+			}
+		}
+
+		$items = [];
+
+		foreach ($map as $item) {
+			$items[] = $item;
+		}
+
+		unset($map);
+        
+        $sorts = [
+            'rate' => 'частоте',
+            'date' => 'дате',
+            'name' => 'названию',
+            'default' => 'умолчанию',
+        ];
+        
+        if ( ! isset($sorts[$sort])) {
+            $sort = 'default';
+        }
 
 		$scope['items'] = $items;
-            
-        return view('moonlight::search', $scope);
+        $scope['sorts'] = $sorts;
+        $scope['sort'] = $sort;
+        
+        return view('moonlight::searchList', $scope)->render();
     }
     
     protected function elementListView(Request $request, $currentItem)

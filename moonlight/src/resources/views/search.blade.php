@@ -13,31 +13,49 @@ jQuery.expr[':'].contains = function(a, i, m) {
 };
 
 $(function() {
-    $('#filter').addClear({
-        right: 10,
-        paddingRight: "25px",
-        onClear: function(){
-            $(".items li").show();
-        }
-    }).keyup(function() {
-        var str = $(this).val()
+    var init = function() {
+        $('#filter').addClear({
+            right: 10,
+            paddingRight: "25px",
+            onClear: function(){
+                $(".items li").show();
+            }
+        }).keyup(function() {
+            var str = $(this).val()
 
-        if (str.length > 0) {
-            $(".items li:not(:contains('"+str+"'))").hide();
-            $(".items li:contains('"+str+"')").show();
-        } else {
-            $(".items li").show();
-        } 
-    }).change(function() {
-        var str = $(this).val()
+            if (str.length > 0) {
+                $(".items li:not(:contains('"+str+"'))").hide();
+                $(".items li:contains('"+str+"')").show();
+            } else {
+                $(".items li").show();
+            } 
+        }).change(function() {
+            var str = $(this).val()
 
-        if (str.length > 0) {
-            $(".items li:not(:contains('"+str+"'))").hide();
-            $(".items li:contains('"+str+"')").show();
-        } else {
-            $(".items li").show();
-        } 
+            if (str.length > 0) {
+                $(".items li:not(:contains('"+str+"'))").hide();
+                $(".items li:contains('"+str+"')").show();
+            } else {
+                $(".items li").show();
+            } 
+        });
+    };
+    
+    $('body').on('click', '[sort]', function() {
+        var sort = $(this).attr('sort');
+        var url = '{{ route('search.sort') }}';
+        
+        $.post(url, {
+            sort: sort
+        }, function(data) {
+            if (data.html) {
+                $('.main').html(data.html);
+                init();
+            }
+        });
     });
+    
+    init();
 });
 </script>
 @endsection
@@ -63,22 +81,6 @@ $(function() {
     </div>
 </div>
 <div class="main">
-    @if ($items)
-    <div class="search-field">
-        <input type="text" id="filter" placeholder="Введите название">
-    </div>
-    <div class="search-sort">
-        Сортировать классы по <b>частоте</b><br>
-        или по <a href="">дате</a>, <a href="">названию</a>, <a href="">умолчанию</a>
-    </div>
-    <ul class="items">
-        @foreach ($items as $item)
-        <li item="{{ $item->getNameId() }}">
-            <a href="{{ route('search.item', $item->getNameId()) }}">{{ $item->getTitle() }}</a><br><small>{{ $item->getNameId() }}</small>
-        </li>
-        @endforeach
-    </ul>
-    <br>
-    @endif
+    {!! $html !!}
 </div>
 @endsection
