@@ -6,7 +6,15 @@ $(function() {
     });
     
     $('#options-toggler').click(function() {
-        $('.bottom-context-menu').fadeToggle('fast');
+        var mode = $(this).attr('mode');
+        
+        if (mode == 'active') {
+            $.bottomMenuClose();
+            $(this).attr('mode', 'none');
+        } else {
+            $.bottomMenu();
+            $(this).attr('mode', 'active');
+        }
     });
     
     $('body').on('change', ':file', function(e) {
@@ -95,7 +103,7 @@ $(function() {
             ones: ones
         }, function(data) {
             $.unblockUI();
-            $('.bottom-context-menu').fadeOut('fast');
+            $.bottomMenuClose();
             
             if (data.error) {
                 $.alert(data.error);
@@ -130,7 +138,7 @@ $(function() {
             ones: ones
         }, function(data) {
             $.unblockUI();
-            $('.bottom-context-menu').fadeOut('fast');
+            $.bottomMenuClose();
             
             if (data.error) {
                 $.alert(data.error);

@@ -19,7 +19,7 @@ $(function() {
         $('left').html('<a href="{{ route('users') }}"><span class="halflings halflings-menu-left"></span></a>');
         $('center').html('<a href="{{ route('home') }}">@yield('title')</a>');
         $('right').html('<a href="{{ route('search') }}"><span class="glyphicons glyphicons-search"></span></a>');
-        $('.bottom-context-menu').fadeOut('fast');
+        $.bottomMenuClose();
 
         $('ul.items li.checked')
             .prop('checked', false)
@@ -79,7 +79,7 @@ $(function() {
         if (checked.length == 1) {
             $('left').html('<span>Выделено</span>');
             $('right').html('<span id="cancelSelection">Отмена</span>');
-            $('.bottom-context-menu').fadeIn('fast');
+            $.bottomMenu();
         }
 
         if (checked.length) {

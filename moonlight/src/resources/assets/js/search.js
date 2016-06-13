@@ -39,7 +39,7 @@ $(function() {
         $('left').html('<span class="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></span>');
         $('center').html('<a href="'+homeUrl+'">'+title+'</a>');
         $('right').html('<a href="'+searchUrl+'"><span class="glyphicons glyphicons-search"></span></a>');
-        $('.bottom-context-menu').fadeOut('fast');
+        $.bottomMenuClose();
 
         $('ul.elements > li.checked')
             .prop('checked', false)
@@ -99,7 +99,7 @@ $(function() {
         if (checked.length == 1) {
             $('left').html('<span>Выделено</span>');
             $('right').html('<span id="cancelSelection">Отмена</span>');
-            $('.bottom-context-menu').fadeIn('fast');
+            $.bottomMenu();
         }
 
         if (checked.length) {
@@ -135,7 +135,7 @@ $(function() {
             checked: checked
         }, function(data) {
             $.unblockUI();
-            $('.bottom-context-menu').fadeOut('fast');
+            $.bottomMenuClose();
             
             if (data.error) {
                 $.alert(data.error);
@@ -171,7 +171,7 @@ $(function() {
             checked: checked
         }, function(data) {
             $.unblockUI();
-            $('.bottom-context-menu').fadeOut('fast');
+            $.bottomMenuClose();
             
             if (data.error) {
                 $.alert(data.error);
