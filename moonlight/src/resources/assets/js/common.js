@@ -50,8 +50,6 @@ $(function() {
         }).animate({
             bottom: 0
         }, 200);
-
-        return false;
     };
     
     $.bottomMenuClose = function() {
@@ -78,8 +76,6 @@ $(function() {
             }, 300);
             $(this).attr('mode', 'active');
         }
-
-        return false;
     });
     
     $('.alert .container').click(function(e) {
