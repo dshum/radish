@@ -54,12 +54,6 @@
 <div class="sidebar">
     <div class="sidebar-container">
         <ul class="menu">
-            <li><a href="">Пользователь</a></li>
-            <li><a href="">Безналичный счет</a></li>
-            <li><a href="">Квитанция сбербанка</a></li>
-            <li><a href="">Служебный раздел</a></li>
-            <li><a href="">Агентство недвижимости</a></li>
-            <li><hr></li>
             <li><a href="{{ route('browse') }}">Корень сайта</a></li>
             <li><a href="{{ route('trash') }}">Корзина</a></li>
             <li><hr></li>
