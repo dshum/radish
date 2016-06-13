@@ -75,7 +75,7 @@ $(function() {
             $('.sidebar').animate({
                 left: 0, 
                 backgroundColor: '#ffffff'
-            }, 200);
+            }, 300);
             $(this).attr('mode', 'active');
         }
 
