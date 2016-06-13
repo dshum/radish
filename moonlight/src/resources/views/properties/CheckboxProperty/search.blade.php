@@ -1,4 +1,4 @@
-<div class="label date" property="{{ $name }}"><span class="glyphicons glyphicons-calendar"></span><span>{{ $title }}</span></div>
+<div class="label checkbox" property="{{ $name }}"><span class="glyphicons glyphicons-ok-2"></span><span>{{ $title }}</span></div>
 <div{!! $value ? '' : ' class="dnone"' !!} container="property" property="{{ $name }}">
     <p>
         <input type="radio" id="{{ $name }}_true" name="{{ $name }}" value="true"{{ $value === 'true' ? ' checked' : '' }}{{ $value === null ? ' disabled="true"' : '' }}>

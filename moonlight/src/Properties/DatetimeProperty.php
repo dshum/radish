@@ -80,10 +80,11 @@ class DatetimeProperty extends BaseProperty
 
 	public function searching()
 	{
-		$name = $this->getName();
+		$request = $this->getRequest();
+        $name = $this->getName();
 
-		$from = \Input::get($name.'_from');
-		$to = \Input::get($name.'_to');
+		$from = $request->input($name.'-from');
+        $to = $request->input($name.'-to');
 
 		return $from || $to
 			? true : false;

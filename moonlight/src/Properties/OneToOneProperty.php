@@ -98,9 +98,10 @@ class OneToOneProperty extends BaseProperty
 
 	public function searching()
 	{
-		$name = $this->getName();
+		$request = $this->getRequest();
+        $name = $this->getName();
 
-		$value = (int)\Input::get($name);
+		$value = $request->input($name);
 
 		return $value
 			? true : false;

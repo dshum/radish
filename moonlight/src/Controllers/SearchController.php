@@ -7,6 +7,7 @@ use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
 use Moonlight\Properties\OrderProperty;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class SearchController extends Controller
 {
@@ -93,20 +94,68 @@ class SearchController extends Controller
         
         $propertyList = $currentItem->getPropertyList();
         
+        $sortProperty = isset($search['sort'])
+            ? $search['sort'] : 'default';
+        $map = [];
+        
+        if ($sortProperty == 'name') {
+			foreach ($propertyList as $property) {
+				$map[$property->getTitle()] = $property;
+			}
+
+			ksort($map);
+		} elseif ($sortProperty == 'date') {
+			$sortPropertyDate =
+				isset($search['sortPropertyDate'][$class])
+				? $search['sortPropertyDate'][$class]
+				: [];
+
+			arsort($sortPropertyDate);
+
+			foreach ($sortPropertyDate as $propertyName => $date) {
+				$map[$propertyName] = $currentItem->getPropertyByName($propertyName);
+			}
+
+			foreach ($propertyList as $property) {
+				$map[$property->getName()] = $property;
+			}
+		} elseif ($sortProperty == 'rate') {
+			$sortPropertyRate =
+				isset($search['sortPropertyRate'][$class])
+				? $search['sortPropertyRate'][$class]
+				: [];
+
+			arsort($sortPropertyRate);
+
+			foreach ($sortPropertyRate as $propertyName => $rate) {
+				$map[$propertyName] = $currentItem->getPropertyByName($propertyName);
+			}
+
+			foreach ($propertyList as $property) {
+				$map[$property->getName()] = $property;
+			}
+		} else {
+            foreach ($propertyList as $property) {
+				$map[] = $property;
+			}
+		}
+        
         $properties = [];
         $ones = [];
-		
-        foreach ($propertyList as $propertyName => $property) {
-			if ($property->getHidden()) continue;
+        
+        foreach ($map as $property) {
+            if ($property->getHidden()) continue;
             if ($property->isMainProperty()) continue;
             if ($property->getName() == 'deleted_at') continue;
-
+            
 			$properties[] = $property->setRequest($request);
             
             if ($property->isOneToOne()) {
                 $ones[] = $property;
             }
 		}
+
+		unset($map);
         
         $action = $request->input('action');
         
@@ -269,11 +318,28 @@ class SearchController extends Controller
 		}
         
         $criteria = $currentItem->getClass()->where(
-            function($query) use ($currentItem, $propertyList, $request) {
+            function($query) use ($loggedUser, $currentItem, $propertyList, $request) {
+                $search = $loggedUser->getParameter('search');
+
                 foreach ($propertyList as $property) {
                     $property->setRequest($request);
                     $query = $property->searchQuery($query);
+                    
+                    if ($property->searching()) {
+                        $itemName = $currentItem->getNameId();
+                        $propertyName = $property->getName();
+                        $search['sortPropertyDate'][$itemName][$propertyName]
+                            = Carbon::now()->toDateTimeString();
+                        
+                        if (isset($search['sortPropertyRate'][$itemName][$propertyName])) {
+                            $search['sortPropertyRate'][$itemName][$propertyName]++;
+                        } else {
+                            $search['sortPropertyRate'][$itemName][$propertyName] = 1;
+                        }
+                    }
                 }
+                
+                $loggedUser->setParameter('search', $search);
             }
 		);
         

@@ -5,6 +5,7 @@ namespace Moonlight\Properties;
 use Illuminate\Http\Request;
 use Moonlight\Main\Item;
 use Moonlight\Main\ElementInterface;
+use Log;
 
 abstract class BaseProperty
 {
@@ -214,6 +215,9 @@ abstract class BaseProperty
 		$name = $this->getName();
 
 		$value = $request->input($name);
+        
+        Log::info($name);
+        Log::info($value);
 
 		if ($value) {
 			$query->where($name, 'ilike', "%$value%");
@@ -224,9 +228,10 @@ abstract class BaseProperty
 
 	public function searching()
 	{
-		$name = $this->getName();
+		$request = $this->getRequest();
+        $name = $this->getName();
 
-		$value = \Input::get($name);
+		$value = $request->input($name);
 
 		return $value !== null
 			? true : false;
