@@ -92,6 +92,12 @@ nav right {
     padding: 0 0.5rem;
 }
 
+.hamburger {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
 .main {
   position: absolute;
   top: 51px;
