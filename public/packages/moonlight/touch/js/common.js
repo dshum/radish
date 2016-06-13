@@ -69,13 +69,13 @@ $(function() {
             $('.sidebar').animate({
                 left: '-100%', 
                 backgroundColor: '#cccccc'
-            });
+            }, 200);
             $(this).attr('mode', 'none');
         } else {
             $('.sidebar').animate({
                 left: 0, 
                 backgroundColor: '#ffffff'
-            });
+            }, 200);
             $(this).attr('mode', 'active');
         }
 
