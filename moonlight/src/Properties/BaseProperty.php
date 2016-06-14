@@ -215,9 +215,6 @@ abstract class BaseProperty
 		$name = $this->getName();
 
 		$value = $request->input($name);
-        
-        Log::info($name);
-        Log::info($value);
 
 		if ($value) {
 			$query->where($name, 'ilike', "%$value%");

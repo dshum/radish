@@ -18,7 +18,7 @@ var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
 
 @section('body')
 <nav>
-    <left><a href="{{ $parent ? route('browse.element', $parent->getClassId()) : route('browse') }}"><span class="halflings halflings-menu-left"></span></a></left>
+    <left><a href="{{ $history }}"><span class="halflings halflings-menu-left"></span></a></left>
     <center><a href="{{ route('home') }}">@yield('title')</a></center>
     <right><a href="{{ route('search') }}"><span class="glyphicons glyphicons-search"></span></a></right>
 </nav>

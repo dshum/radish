@@ -1,10 +1,4 @@
 $(function() {
-    $('left a').click(function() {
-        history.back(1);
-        
-        return false;
-    });
-    
     $('#options-toggler').click(function() {
         var mode = $(this).attr('mode');
         

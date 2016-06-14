@@ -4,6 +4,7 @@ use \Illuminate\Session\Middleware\StartSession;
 use Moonlight\Middleware\GuestMiddleware;
 use Moonlight\Middleware\AuthMiddleware;
 use Moonlight\Middleware\MobileMiddleware;
+use Moonlight\Middleware\HistoryMiddleware;
 
 Route::group(['prefix' => 'moonlight'], function() {    
     Route::group(['middleware' => [MobileMiddleware::class]], function () {
@@ -23,8 +24,21 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
     
     Route::group(['middleware' => [
         StartSession::class, 
-        AuthMiddleware::class]
-    ], function () {
+        AuthMiddleware::class,
+    ]], function () {
+        
+        Route::group(['middleware' => [HistoryMiddleware::class]], function () {
+            Route::get('/search/{item}', ['as' => 'search.item', 'uses' => 'Moonlight\Controllers\SearchController@item'])->
+                where(['item' => '[A-Za-z0-9\.]+']);
+            
+            Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
+        
+            Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
+            
+            Route::get('/browse/{classId}', ['as' => 'browse.element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
+                where(['classId' => '[A-Za-z0-9\.]+']);
+        });
+        
         Route::get('/', ['as' => 'home', 'uses' => 'Moonlight\Controllers\HomeController@show']);
 
         Route::get('/logout', ['as' => 'logout', 'uses' => 'Moonlight\Controllers\LoginController@logout']);
@@ -82,10 +96,7 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         Route::get('/search', ['as' => 'search', 'uses' => 'Moonlight\Controllers\SearchController@index']);
         
         Route::get('/search/list', ['as' => 'search.list', 'uses' => 'Moonlight\Controllers\SearchController@elements']);
-        
-        Route::get('/search/{item}', ['as' => 'search.item', 'uses' => 'Moonlight\Controllers\SearchController@item'])->
-            where(['item' => '[A-Za-z0-9\.]+']);
-        
+
         Route::post('search/sort', ['as' => 'search.sort', 'uses' => 'Moonlight\Controllers\SearchController@sort']);
         
         Route::get('/trash', ['as' => 'trash', 'uses' => 'Moonlight\Controllers\TrashController@index']);
@@ -116,17 +127,10 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         Route::post('/elements/delete/force', ['as' => 'elements.delete.force', 'uses' => 'Moonlight\Controllers\BrowseController@forceDelete']);
         
         Route::post('/elements/restore', ['as' => 'elements.restore', 'uses' => 'Moonlight\Controllers\BrowseController@restore']);
-        
-        Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
-        
-        Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
-        
+
         Route::get('/browse/{classId}/{item}/create', ['as' => 'element.create', 'uses' => 'Moonlight\Controllers\EditController@create'])->
             where(['classId' => '[A-Za-z0-9\.]+', 'item' => '[A-Za-z0-9\.]+']);
-        
-        Route::get('/browse/{classId}', ['as' => 'browse.element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
-            where(['classId' => '[A-Za-z0-9\.]+']);
-        
+
         Route::get('/browse/{classId}/edit', ['as' => 'element.edit', 'uses' => 'Moonlight\Controllers\EditController@edit'])->
             where(['classId' => '[A-Za-z0-9\.]+']);
         

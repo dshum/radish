@@ -467,10 +467,19 @@ class EditController extends Controller
 
 			$properties[] = $property->setElement($element);
 		}
+        
+        $history = $loggedUser->getParameter('history');
+        
+        if ( ! $history) {
+            $history = $parent 
+                ? route('browse.element', $parent->getClassId()) 
+                : route('browse');
+        }
 
         $scope['parent'] = $parent;
         $scope['currentItem'] = $currentItem;
         $scope['properties'] = $properties;
+        $scope['history'] = $history;
         
         return view('moonlight::create', $scope);
     }
@@ -510,12 +519,21 @@ class EditController extends Controller
                 $ones[] = $property;
             }
 		}
+        
+        $history = $loggedUser->getParameter('history');
+        
+        if ( ! $history) {
+            $history = $parent 
+                ? route('browse.element', $parent->getClassId()) 
+                : route('browse');
+        }
 
         $scope['element'] = $element;
         $scope['parent'] = $parent;
         $scope['currentItem'] = $currentItem;
         $scope['properties'] = $properties;
         $scope['ones'] = $ones;
+        $scope['history'] = $history;
         
         return view('moonlight::edit', $scope);
     }

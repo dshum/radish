@@ -52,8 +52,6 @@ $(function() {
         var next = $(this);
         var page = next.attr('page');
         var item = next.attr('item');
-        
-        console.log(elementsUrl);
 
         next.addClass('waiting');
         $.blockUI();
