@@ -1,5 +1,5 @@
 $(function() {
-    $('body').fadeIn(400);
+    $('body').fadeTo(300, 1);
     
     $.blockUI = function(handle) {
         $('.block-ui').fadeIn(100, handle);
