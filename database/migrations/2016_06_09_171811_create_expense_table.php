@@ -16,7 +16,6 @@ class CreateExpenseTable extends Migration
 		{
 			$table->increments('id');
 			$table->string('name');
-            $table->string('order');
             $table->integer('category_id')->unsigned()->nullable()->default(null)->index();
             $table->integer('source_id')->unsigned()->nullable()->default(null)->index();
             $table->double('sum')->nullable();
