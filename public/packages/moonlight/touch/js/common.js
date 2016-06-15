@@ -1,7 +1,5 @@
 $(function() {
-    $(window).load(function() {
-        $('body').fadeIn(300);
-    });
+    $('body').fadeIn(400);
     
     $.blockUI = function(handle) {
         $('.block-ui').fadeIn(100, handle);
