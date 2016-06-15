@@ -108,14 +108,15 @@ nav * {
 }
 
 .main {
-  position: absolute;
-  top: 51px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1rem;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+    opacity: 0;
+    position: absolute;
+    top: 51px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .btn {

@@ -41,10 +41,6 @@ html {
   color: rgba(0, 0, 0, 0.87);
 }
 
-body {
-    opacity: 0;
-}
-
 ::-webkit-input-placeholder {
   color: #ccc;
 }
