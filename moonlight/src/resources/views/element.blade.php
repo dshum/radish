@@ -128,6 +128,11 @@ var open = '{{ $open }}';
             @endif
         </li>
     </ul>
+    @if ($browsePluginView)
+    <div class="plugin">
+    {!! $browsePluginView !!}
+    </div>
+    @endif
     @if ($items)
     <ul class="items">
         @foreach ($items as $item)

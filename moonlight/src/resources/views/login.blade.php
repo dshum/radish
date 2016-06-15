@@ -18,6 +18,7 @@
                 <div class="error">{{ $message }}</div>
                 @endif
                 <form action="{{route('login')}}" autocomplete="off" method="POST">
+                    {{ csrf_field() }}
                     <div class="row">
                         <input type="text" name="login" value="{{ $login or '' }}" placeholder="Логин">
                     </div>

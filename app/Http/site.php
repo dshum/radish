@@ -461,9 +461,9 @@ $site->
 	bind(env('site.expense_categories', 'App.ServiceSection.11'), 'App.ExpenseCategory')->
 	bind(env('site.expense_sources', 'App.ServiceSection.12'), 'App.ExpenseSource')->
 
-	bindBrowsePlugin('App.ServiceSection.8', 'moneyStat')->
-	bindSearchPlugin('App\Good', 'goodSearch')->
-	bindEditPlugin('App\ServiceSection', 'moneyStat2')->
-	bindBrowseFilter('App\Good', 'goodFilter')->
+	bindBrowsePlugin(env('site.expenses', 'App.ServiceSection.4'), 'App\Http\Plugins\AddExpense')->
+	bindSearchPlugin('App.Good', 'goodSearch')->
+	bindEditPlugin('App.ServiceSection', 'moneyStat2')->
+	bindBrowseFilter('App.Good', 'goodFilter')->
 
 	end();

@@ -1,10 +1,13 @@
 <?php
 
 use \Illuminate\Session\Middleware\StartSession;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Moonlight\Middleware\GuestMiddleware;
 use Moonlight\Middleware\AuthMiddleware;
 use Moonlight\Middleware\MobileMiddleware;
 use Moonlight\Middleware\HistoryMiddleware;
+use Moonlight\Main\LoggedUser;
+use Moonlight\Main\Element;
 
 Route::group(['prefix' => 'moonlight'], function() {    
     Route::group(['middleware' => [MobileMiddleware::class]], function () {
@@ -16,7 +19,11 @@ Route::group(['prefix' => 'moonlight'], function() {
 
 Route::group(['prefix' => 'moonlight/touch'], function() {
     
-    Route::group(['middleware' => [StartSession::class, GuestMiddleware::class]], function () {
+    Route::group(['middleware' => [
+        StartSession::class, 
+        GuestMiddleware::class, 
+        VerifyCsrfToken::class
+    ]], function () {
         Route::get('/login', ['as' => 'login', 'uses' => 'Moonlight\Controllers\LoginController@show']);
         
         Route::post('/login', ['as' => 'login', 'uses' => 'Moonlight\Controllers\LoginController@login']);
@@ -25,6 +32,7 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
     Route::group(['middleware' => [
         StartSession::class, 
         AuthMiddleware::class,
+        VerifyCsrfToken::class,
     ]], function () {
         
         Route::group(['middleware' => [HistoryMiddleware::class]], function () {
@@ -148,5 +156,8 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::post('/browse/{classId}/delete', ['as' => 'element.delete', 'uses' => 'Moonlight\Controllers\EditController@delete'])->
             where(['classId' => '[A-Za-z0-9\.]+']);
+        
+        Route::post('/browse/{classId}/plugin/{method}', ['as' => 'browse.plugin', 'uses' => 'Moonlight\Controllers\BrowseController@plugin'])->
+            where(['classId' => '[A-Za-z0-9\.]+', 'method' => '[A-Za-z0-9]+']);
     });
 });

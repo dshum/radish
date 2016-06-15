@@ -316,9 +316,10 @@ ul.elements li .one .glyphicons {
 }
 
 .plugin {
-  margin: 1rem -1rem 1rem -1rem;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.18), 0 1px 7px 0 rgba(0, 0, 0, 0.15);
-  padding: 1rem;
+    margin: 0 -1rem 0.5rem -1rem;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
 }
 
 .confirm .container .content .row {

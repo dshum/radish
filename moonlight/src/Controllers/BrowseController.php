@@ -16,6 +16,27 @@ use Moonlight\Properties\ImageProperty;
 
 class BrowseController extends Controller
 {
+    public function plugin(Request $request, $classId, $method)
+    {
+        $element = Element::getByClassId($classId);
+        
+        if ( ! $element) {
+            $scope['error'] = 'Элемент не найден';
+            
+            return response()->json($scope);
+        }
+        
+        $browsePlugin = \App::make('site')->getBrowsePlugin($classId);
+
+        if ( ! $browsePlugin) {
+            $scope['error'] = 'Плагин не найден';
+            
+            return response()->json($scope);
+        }
+
+        return \App::make($browsePlugin)->$method($request, $element);
+    }
+    
     /**
      * Copy elements.
      *
@@ -916,6 +937,23 @@ class BrowseController extends Controller
         $onesMove = view('moonlight::onesMove', ['ones' => $ones])->render();
         
         $favorite = Favorite::where('class_id', $classId)->first();
+        
+        /*
+         * Browse plugin
+         */
+        
+        $browsePluginView = null;
+
+		$browsePlugin = $site->getBrowsePlugin($element->getClassId());
+
+        if ($browsePlugin) {
+           $view = \App::make($browsePlugin)->index($request, $element);
+
+            if ($view) {
+                $browsePluginView = is_string($view)
+                    ? $view : $view->render();
+            }
+        }
 
         $scope['element'] = $element;
         $scope['parent'] = $parent;
@@ -926,6 +964,7 @@ class BrowseController extends Controller
         $scope['onesCopy'] = $onesCopy;
         $scope['onesMove'] = $onesMove;
         $scope['favorite'] = $favorite;
+        $scope['browsePluginView'] = $browsePluginView;
             
         return view('moonlight::element', $scope);
     }
