@@ -1,4 +1,8 @@
 $(function() {
+    $(window).load(function() {
+        $('body').hide().fadeIn(300);
+    });
+    
     $.blockUI = function(handle) {
         $('.block-ui').fadeIn(100, handle);
     };
