@@ -200,7 +200,8 @@ class Item
 		$this->
 		addOrderBy($name, $direction)->
 		addProperty(
-			OrderProperty::create($name)
+			OrderProperty::create($name)->
+            setHidden()
 		);
 
 		return $this;

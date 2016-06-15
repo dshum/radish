@@ -295,6 +295,8 @@ class EditController extends Controller
                 $property->
                     setElement($element)->
                     set();
+                
+                continue;
             }
             
 			if (
