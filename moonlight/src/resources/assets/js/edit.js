@@ -63,7 +63,7 @@ $(function() {
                         $('div.row[property="'+propertyName+'"]').html(view);
                     }
                 } else if (data.added && data.url) {
-                    history.back(1);
+                    document.location.href = historyUrl;
                 }
             },
             error: function() {
@@ -102,7 +102,7 @@ $(function() {
             if (data.error) {
                 $.alert(data.error);
             } else if (data.copied) {
-                history.back(1);
+                document.location.href = historyUrl;
             }
         }).fail(function() {
             $.unblockUI();
@@ -160,7 +160,7 @@ $(function() {
             if (data.error) {
                 $.alert(data.error);
             } else if (data.deleted) {
-                history.back(1);
+                document.location.href = historyUrl;
             }
         }).fail(function() {
             $.unblockUI();

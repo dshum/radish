@@ -13,6 +13,7 @@
 var copyUrl = '{{ route('element.copy', $element->getClassId()) }}';
 var moveUrl = '{{ route('element.move', $element->getClassId()) }}';
 var deleteUrl = '{{ route('element.delete', $element->getClassId()) }}';
+var historyUrl = '{{ $history }}';
 </script>
 @endsection
 
