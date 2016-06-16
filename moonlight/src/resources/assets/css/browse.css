@@ -331,3 +331,16 @@ ul.elements li .one .glyphicons {
     padding-bottom: 0.5rem;
 }
 
+.order-toggler {
+    border-radius: 2px;
+    padding: 2px 5px;
+    background-color: #e5e5e5;
+    color: black;
+    cursor: pointer;
+}
+
+.order-toggler[enabled="true"] {
+    background-color: #999;
+    color: white;
+}
+

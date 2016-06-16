@@ -1,4 +1,16 @@
-$(function() {    
+$(function() {
+    var move = false;
+    
+    var moving = function(el, speed) {
+        if ( ! move) return false;
+        
+        el.animate({marginLeft: 2}, speed, function() {
+            el.animate({marginLeft: 0}, speed, function() {
+                moving(el);
+            });
+        });
+    };
+    
     $('.sortable').disableSelection();
 
     $('body').on('click', '.remove[rubricId]', function() {
@@ -47,6 +59,8 @@ $(function() {
         if (enabled == 'true') {
             $('.remove').children().fadeOut(200);
             $('.sortable').sortable({ disabled: true });
+            
+            move = false;
 
             toggler.attr('enabled', 'false');
         } else {
@@ -84,7 +98,25 @@ $(function() {
                 }
             });
             
+            move = true;
+            
+            $('.sortable > li').each(function(index) {
+                var el = $(this);
+
+                setTimeout(function() {
+                    moving(el, 200);
+                }, index * 200);
+            });
+
+            $('.sortable h2').each(function(index) {
+                var el = $(this);
+
+                setTimeout(function() {
+                    moving(el, 400);
+                }, index * 200);
+            });
+            
             toggler.attr('enabled', 'true');
-        }
+        };
     });
 });

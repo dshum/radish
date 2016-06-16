@@ -16,6 +16,11 @@ use Moonlight\Properties\ImageProperty;
 
 class BrowseController extends Controller
 {
+    /**
+     * Browse plugin.
+     *
+     * @return Response
+     */
     public function plugin(Request $request, $classId, $method)
     {
         $element = Element::getByClassId($classId);
@@ -53,10 +58,13 @@ class BrowseController extends Controller
         if (is_array($elements) && sizeof($elements) > 1) {
             foreach ($elements as $order => $classId) {
                 $element = Element::getByClassId($classId);
-
-                if ($element) {
-                    $element->order = $order;
-                    $element->save();
+                
+                if ($element && $loggedUser->hasUpdateAccess($element)) {
+                    $item = $element->getItem();
+                    if ($item->getOrderProperty()) {
+                        $element->{$item->getOrderProperty()} = $order;
+                        $element->save();
+                    }
                 }
             }
 
@@ -722,12 +730,14 @@ class BrowseController extends Controller
         $orderByList = $currentItem->getOrderByList();
         
         $orders = [];
+        $hasOrderProperty = false;
 
 		foreach ($orderByList as $field => $direction) {
             $criteria->orderBy($field, $direction);
             $property = $currentItem->getPropertyByName($field);
             if ($property instanceof OrderProperty) {
-                $orders[$field] = 'порядку';
+                $orders[$field] = '<span item="'.$currentItem->getNameId().'" class="order-toggler">порядку</span>';
+                $hasOrderProperty = true;
             } elseif ($property->getName() == 'created_at') {
                 $orders[$field] = 'дате создания';
             } elseif ($property->getName() == 'updated_at') {
@@ -754,6 +764,7 @@ class BrowseController extends Controller
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
         $scope['orders'] = $orders;
+        $scope['hasOrderProperty'] = $hasOrderProperty;
         
         $html = view('moonlight::elements', $scope)->render();
         

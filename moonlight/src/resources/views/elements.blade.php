@@ -1,21 +1,6 @@
 @if (sizeof($elements))
-<script>
-$(function() {
-    $('.sortable[item="{{ $currentItem->getNameId() }}"]').sortable({
-        disabled: false,
-        stop: function(event, ui) {
-            var result = $('.sortable[item="{{ $currentItem->getNameId() }}"]').sortable('serialize');
-
-            $.post(
-                orderUrl+'?'+result,
-                {},
-                function(data) {},
-                'json'
-            );
-        }
-    }).disableSelection();
-});
-</script>
+    @if ($hasOrderProperty)
+    @endif
     @if ($currentPage == 1)
     <div class="count">
         Всего {{ $total }} {{ Moonlight\Utils\RussianTextUtils::selectCaseForNumber($total, ['элемент', 'элемента', 'элементов']) }}.
@@ -38,7 +23,7 @@ $(function() {
         <div>{{ $element->{$currentItem->getMainProperty()} }}</div>
         @else
         <div class="edit"><a href="{{ route('element.edit', $element->getClassId()) }}"><span class="halflings halflings-pencil"></span></a></div>
-        <div><a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$currentItem->getMainProperty()} }}</a></div>
+        <div main="true"><a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$currentItem->getMainProperty()} }}</a></div>
         @endif
         @if ($element->getTouchListView())
         {!! $element->getTouchListView() !!}

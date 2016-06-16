@@ -2,12 +2,8 @@
 
 namespace Moonlight\Middleware;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Routing\Route;
 use Closure;
-use Session;
 use Moonlight\Main\LoggedUser;
-use Moonlight\Models\User;
 
 class HistoryMiddleware
 {
