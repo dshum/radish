@@ -159,5 +159,7 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::post('/browse/{classId}/plugin/{method}', ['as' => 'browse.plugin', 'uses' => 'Moonlight\Controllers\BrowseController@plugin'])->
             where(['classId' => '[A-Za-z0-9\.]+', 'method' => '[A-Za-z0-9]+']);
+        
+        Route::post('/order', ['as' => 'order', 'uses' => 'Moonlight\Controllers\BrowseController@order']);
     });
 });

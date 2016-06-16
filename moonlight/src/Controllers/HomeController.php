@@ -75,8 +75,6 @@ class HomeController extends Controller
         if ($action == 'order') {
             $favorites = $request->input('favorite');
             
-            \Log::info($favorites);
-            
             if (is_array($favorites) && sizeof($favorites) > 1) {
                 foreach ($favorites as $order => $id) {
                     $favorite = Favorite::find($id);

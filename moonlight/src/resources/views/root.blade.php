@@ -18,6 +18,7 @@ var countUrl = '{{ route('elements.count') }}';
 var copyUrl = '{{ route('elements.copy') }}';
 var moveUrl = '{{ route('elements.move') }}';
 var deleteUrl = '{{ route('elements.delete') }}';
+var orderUrl = '{{ route('order') }}';
 var title = 'Корень сайта';
 var open = '{{ $open }}';
 </script>

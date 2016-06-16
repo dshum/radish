@@ -38,6 +38,35 @@ class BrowseController extends Controller
     }
     
     /**
+     * Order elements.
+     *
+     * @return Response
+     */
+    public function order(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $elements = $request->input('element');
+
+        if (is_array($elements) && sizeof($elements) > 1) {
+            foreach ($elements as $order => $classId) {
+                $element = Element::getByClassId($classId);
+
+                if ($element) {
+                    $element->order = $order;
+                    $element->save();
+                }
+            }
+
+            $scope['ordered'] = $elements;
+        }
+
+        return response()->json($scope);
+    }
+    
+    /**
      * Copy elements.
      *
      * @return Response

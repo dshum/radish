@@ -18,6 +18,7 @@ var countUrl = '{{ route('elements.count') }}';;
 var copyUrl = '{{ route('elements.copy') }}';
 var moveUrl = '{{ route('elements.move') }}';
 var deleteUrl = '{{ route('elements.delete') }}';
+var orderUrl = '{{ route('order') }}';
 var title = '@yield('title')';
 var open = '{{ $open }}';
 </script>
@@ -149,6 +150,8 @@ var open = '{{ $open }}';
         </li>
         @endforeach
     </ul>
+    @else
+    <div class="empty">Элементов не найдено.</div>
     @endif
 </div>
 @endsection

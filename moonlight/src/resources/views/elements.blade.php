@@ -1,17 +1,34 @@
 @if (sizeof($elements))
+<script>
+$(function() {
+    $('.sortable[item="{{ $currentItem->getNameId() }}"]').sortable({
+        disabled: false,
+        stop: function(event, ui) {
+            var result = $('.sortable[item="{{ $currentItem->getNameId() }}"]').sortable('serialize');
+
+            $.post(
+                orderUrl+'?'+result,
+                {},
+                function(data) {},
+                'json'
+            );
+        }
+    }).disableSelection();
+});
+</script>
     @if ($currentPage == 1)
     <div class="count">
         Всего {{ $total }} {{ Moonlight\Utils\RussianTextUtils::selectCaseForNumber($total, ['элемент', 'элемента', 'элементов']) }}.
         @if ($orders)
-        Отсортировано по {{ $orders }}.
+        Отсортировано по {!! $orders !!}.
         @endif
     </div>
     @else
     <div class="page">Страница {{ $currentPage }}</div>
     @endif
-    <ul class="elements">
+    <ul class="elements sortable" item="{{ $currentItem->getNameId() }}">
     @foreach ($elements as $element)
-    <li classId="{{ $element->getClassId() }}">
+    <li id="element_{{ $element->getClassId() }}" classId="{{ $element->getClassId() }}">
         <div class="check" classId="{{ $element->getClassId() }}"></div>
         @if ($element->trashed())
         <div class="deleted">{{ $element->deleted_at->format('d.m.Y') }}<br><span class="time">{{ $element->deleted_at->format('H:i:s') }}</span></div>

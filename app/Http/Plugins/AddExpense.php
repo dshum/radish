@@ -29,7 +29,7 @@ class AddExpense
             
             $expense->save();
             
-            usleep(300000);
+            usleep(100000);
             
             $expense = new Expense;
             

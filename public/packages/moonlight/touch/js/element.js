@@ -18,7 +18,7 @@ $(function() {
           container.find('input').attr('disabled', 'disabled');
       }
     });
-
+    
     var cancelSelection = function() {
         $('left').html('<span class="hamburger"><span class="glyphicons glyphicons-menu-hamburger"></span></span>');
         $('center').html('<a href="'+homeUrl+'">'+title+'</a>');
@@ -41,7 +41,9 @@ $(function() {
             item: item
         }, function(data) {
             if (data.html) {
-                $('.list-container[item="'+item+'"]').html(data.html).slideDown(200);
+                $('.list-container[item="'+item+'"]').html(data.html).slideDown(200, function() {
+                    
+                });
                 
                 opened = item;
             }
