@@ -16,7 +16,6 @@ var copyUrl = '{{ route('elements.copy') }}';
 var moveUrl = '{{ route('elements.move') }}';
 var deleteUrl = '{{ route('elements.delete') }}';
 var closeUrl = '{{ route('elements.close') }}';
-var orderUrl = '{{ route('order') }}';
 var autocompleteUrl = '{{ route('elements.autocomplete') }}';
 var title = '@yield('title')';
 var itemName = '{{ $currentItem->getNameId() }}';

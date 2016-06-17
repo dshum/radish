@@ -372,14 +372,12 @@ class SearchController extends Controller
         $orderByList = $currentItem->getOrderByList();
         
         $orders = [];
-        $hasOrderProperty = false;
 
 		foreach ($orderByList as $field => $direction) {
             $criteria->orderBy($field, $direction);
             $property = $currentItem->getPropertyByName($field);
             if ($property instanceof OrderProperty) {
                 $orders[$field] = 'порядку';
-                $hasOrderProperty = true;
             } elseif ($property->getName() == 'created_at') {
                 $orders[$field] = 'дате создания';
             } elseif ($property->getName() == 'updated_at') {
@@ -405,7 +403,7 @@ class SearchController extends Controller
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
         $scope['orders'] = $orders;
-        $scope['hasOrderProperty'] = $hasOrderProperty;
+        $scope['hasOrderProperty'] = false;
         
         $html = view('moonlight::elements', $scope)->render();
         
