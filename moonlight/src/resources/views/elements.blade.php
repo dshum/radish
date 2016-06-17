@@ -1,5 +1,6 @@
 @if (sizeof($elements))
     @if ($hasOrderProperty)
+    <span item="{{ $currentItem->getNameId() }}" class="order-toggler"><span class="halflings halflings-sort"></span></span>
     @endif
     @if ($currentPage == 1)
     <div class="count">

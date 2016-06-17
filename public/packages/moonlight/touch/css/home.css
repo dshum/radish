@@ -4,6 +4,12 @@
     right: 1rem;
     font-size: 2rem;
     color: #cde;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .edit-favorites-toggler[enabled="true"] {

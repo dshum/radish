@@ -736,7 +736,7 @@ class BrowseController extends Controller
             $criteria->orderBy($field, $direction);
             $property = $currentItem->getPropertyByName($field);
             if ($property instanceof OrderProperty) {
-                $orders[$field] = '<span item="'.$currentItem->getNameId().'" class="order-toggler">порядку</span>';
+                $orders[$field] = 'порядку';
                 $hasOrderProperty = true;
             } elseif ($property->getName() == 'created_at') {
                 $orders[$field] = 'дате создания';

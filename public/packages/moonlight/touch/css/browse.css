@@ -332,15 +332,20 @@ ul.elements li .one .glyphicons {
 }
 
 .order-toggler {
-    border-radius: 2px;
-    padding: 2px 5px;
-    background-color: #e5e5e5;
-    color: black;
+    float: right;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+    color: #cde;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .order-toggler[enabled="true"] {
-    background-color: #999;
-    color: white;
+    color: #abc;
 }
 
