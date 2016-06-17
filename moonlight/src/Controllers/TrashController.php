@@ -303,6 +303,7 @@ class TrashController extends Controller
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
         $scope['orders'] = $orders;
+        $scope['hasOrderProperty'] = false;
         
         $html = view('moonlight::elements', $scope)->render();
         
