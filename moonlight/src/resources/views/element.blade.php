@@ -18,9 +18,10 @@ var countUrl = '{{ route('elements.count') }}';;
 var copyUrl = '{{ route('elements.copy') }}';
 var moveUrl = '{{ route('elements.move') }}';
 var deleteUrl = '{{ route('elements.delete') }}';
+var closeUrl = '{{ route('elements.close') }}';
 var orderUrl = '{{ route('order') }}';
 var title = '@yield('title')';
-var open = '{{ $open }}';
+var opened = '{{ $open }}';
 </script>
 @endsection
 
@@ -137,17 +138,18 @@ var open = '{{ $open }}';
     @if ($items)
     <ul class="items">
         @foreach ($items as $item)
-        <li item="{{ $item->getNameId() }}" classId="{{ $element->getClassId() }}">
-            <span class="a">{{ $item->getTitle() }}</span>
             @if (isset($openedItem[$item->getNameId()]))
-            <span class="total">{{ $openedItem[$item->getNameId()]['count'] }}</span><a class="addnew" href="{{ route('element.create', ['classId' => $element->getClassId(), 'item' => $item->getNameId()]) }}">+</a>
+            <li item="{{ $item->getNameId() }}" classId="{{ $element->getClassId() }}" state="opened">
+                <span class="a">{{ $item->getTitle() }}</span>
+                <span class="total">{{ $openedItem[$item->getNameId()]['count'] }}</span><a class="addnew" href="{{ route('element.create', ['classId' => $element->getClassId(), 'item' => $item->getNameId()]) }}">+</a>
+                <div item="{{ $item->getNameId() }}" class="list-container">{!! $openedItem[$item->getNameId()]['elements'] !!}</div>
+            </li>
             @else
-            <a class="addnew" href="{{ route('element.create', ['classId' => $element->getClassId(), 'item' => $item->getNameId()]) }}">+</a>
+            <li item="{{ $item->getNameId() }}" classId="{{ $element->getClassId() }}" state="closed">
+                <span class="a">{{ $item->getTitle() }}</span>
+                <a class="addnew" href="{{ route('element.create', ['classId' => $element->getClassId(), 'item' => $item->getNameId()]) }}">+</a>
+            </li>
             @endif
-            @if (isset($openedItem[$item->getNameId()]))
-            <div item="{{ $item->getNameId() }}" class="list-container">{!! $openedItem[$item->getNameId()]['elements'] !!}</div>
-            @endif
-        </li>
         @endforeach
     </ul>
     @else

@@ -19,8 +19,10 @@ abstract class BaseProperty
 	protected $readonly = false;
 	protected $hidden = false;
 	protected $editable = false;
+    
+    protected $openItem = false;
 
-	protected $itemClass = null;
+    protected $itemClass = null;
 	protected $element = null;
 	protected $value = null;
     
@@ -165,6 +167,18 @@ abstract class BaseProperty
 	public function getEditable()
 	{
 		return $this->editable;
+	}
+    
+    public function setOpenItem($openItem)
+	{
+		$this->openItem = $openItem;
+
+		return $this;
+	}
+
+	public function getOpenItem()
+	{
+		return $this->openItem;
 	}
 
 	public function getRefresh()

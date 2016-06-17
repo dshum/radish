@@ -577,6 +577,43 @@ class BrowseController extends Controller
     }
     
     /**
+     * Close opened item.
+     *
+     * @return Response
+     */
+    public function close(Request $request)
+    {
+        $scope = [];
+        
+        $loggedUser = LoggedUser::getUser();
+        
+        $class = $request->input('item');
+        $classId = $request->input('classId');
+        
+        $site = \App::make('site');
+        
+        $currentItem = $site->getItemByName($class);
+        
+        if ( ! $currentItem) {
+            return response()->json([]);
+        }
+        
+        $element = $classId 
+            ? Element::getByClassId($classId) : null;
+        
+        $lists = $loggedUser->getParameter('lists');
+        $cid = $classId ?: 'Root';
+
+        if (isset($lists[$cid])) {
+            unset($lists[$cid]);
+        }
+
+        $loggedUser->setParameter('lists', $lists);
+
+        return response()->json([]);
+    }
+    
+    /**
      * Show element list.
      *
      * @return Response
@@ -600,6 +637,21 @@ class BrowseController extends Controller
         
         $element = $classId 
             ? Element::getByClassId($classId) : null;
+        
+        $action = $request->input('action');
+        
+        if ($action == 'close') {
+            $lists = $loggedUser->getParameter('lists');
+            $cid = $classId ?: 'Root';
+            
+            if (isset($lists[$cid])) {
+                unset($lists[$cid]);
+            }
+            
+            $loggedUser->setParameter('lists', $lists);
+            
+            return response()->json([]);
+        }
         
         $lists = $loggedUser->getParameter('lists');
         $cid = $classId ?: 'Root';
@@ -924,6 +976,7 @@ class BrowseController extends Controller
         }
 
 		$items = [];
+        $defaultOpen = null;
         
         foreach ($binds as $bind) {
             $item = $site->getItemByName($bind);
@@ -938,13 +991,20 @@ class BrowseController extends Controller
                     && $property->getRelatedClass() == $element->getClass()
                 ) {
                     $items[] = $item;
+                    
+                    if ($property->getOpenItem()) {
+                        $defaultOpen = $item->getNameId();
+                    }
+                    
                     break;
                 }
             }
         }
         
         $lists = $loggedUser->getParameter('lists');
-        $open = isset($lists[$element->getClassId()]) ? $lists[$element->getClassId()] : null;
+        
+        $open = isset($lists[$element->getClassId()]) 
+            ? $lists[$element->getClassId()] : $defaultOpen;
         
         $openedItem = [];
         $ones = [];
@@ -954,19 +1014,24 @@ class BrowseController extends Controller
             
             if ($item) {
                 list($count, $elements) = $this->elementListView($element, $item);
-                $openedItem[$open] = [
-                    'count' => $count,
-                    'elements' => $elements,
-                ];
                 
-                $propertyList = $item->getPropertyList();
-                
-                foreach ($propertyList as $propertyName => $property) {
-                    if ($property->getHidden()) continue;
+                if ($count) {
+                    $openedItem[$open] = [
+                        'count' => $count,
+                        'elements' => $elements,
+                    ];
 
-                    if ($property->isOneToOne()) {
-                        $ones[] = $property;
+                    $propertyList = $item->getPropertyList();
+
+                    foreach ($propertyList as $propertyName => $property) {
+                        if ($property->getHidden()) continue;
+
+                        if ($property->isOneToOne()) {
+                            $ones[] = $property;
+                        }
                     }
+                } else {
+                    $open = null;
                 }
             } else {
                 $open = null;
@@ -1046,19 +1111,24 @@ class BrowseController extends Controller
             
             if ($item) {
                 list($count, $elements) = $this->elementListView(null, $item);
-                $openedItem[$open] = [
-                    'count' => $count,
-                    'elements' => $elements,
-                ];
                 
-                $propertyList = $item->getPropertyList();
-                
-                foreach ($propertyList as $propertyName => $property) {
-                    if ($property->getHidden()) continue;
+                if ($count) {
+                    $openedItem[$open] = [
+                        'count' => $count,
+                        'elements' => $elements,
+                    ];
 
-                    if ($property->isOneToOne()) {
-                        $ones[] = $property;
+                    $propertyList = $item->getPropertyList();
+
+                    foreach ($propertyList as $propertyName => $property) {
+                        if ($property->getHidden()) continue;
+
+                        if ($property->isOneToOne()) {
+                            $ones[] = $property;
+                        }
                     }
+                } else {
+                    $open = null;
                 }
             } else {
                 $open = null;

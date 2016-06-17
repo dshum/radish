@@ -334,9 +334,9 @@ ul.elements li .one .glyphicons {
 .order-toggler {
     float: right;
     margin-left: 1rem;
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
     font-size: 1.5rem;
-    color: #cde;
+    color: #c1e2b3;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
@@ -346,6 +346,6 @@ ul.elements li .one .glyphicons {
 }
 
 .order-toggler[enabled="true"] {
-    color: #abc;
+    color: yellowgreen;
 }
 

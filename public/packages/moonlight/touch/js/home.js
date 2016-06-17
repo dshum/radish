@@ -11,7 +11,47 @@ $(function() {
         });
     };
     
-    $('.sortable').disableSelection();
+    $('.rubrics.sortable').sortable({
+        disabled: true,
+        start: function() {
+            return true;
+        },
+        stop: function(event, ui) {
+            if ( ! ui.item.context.parentElement) return false;
+
+            var result = $(ui.item.context.parentElement).sortable('serialize');
+
+            $.post(
+                favoriteUrl+'?action=orderRubrics&'+result,
+                {},
+                function(data) {},
+                'json'
+            );
+    
+            return true;
+        }
+    }).disableSelection();
+
+    $('.elements.sortable').sortable({
+        disabled: true,
+        start: function() {
+            return true;
+        },
+        stop: function(event, ui) {
+            if ( ! ui.item.context.parentElement) return false;
+
+            var result = $(ui.item.context.parentElement).sortable('serialize');
+
+            $.post(
+                favoriteUrl+'?action=order&'+result,
+                {},
+                function(data) {},
+                'json'
+            );
+    
+            return true;
+        }
+    }).disableSelection();
 
     $('body').on('click', '.remove[rubricId]', function() {
         var remove = $(this);
@@ -65,38 +105,7 @@ $(function() {
             toggler.attr('enabled', 'false');
         } else {
             $('.remove').children().fadeIn(200);
-            
-            $('.rubrics.sortable').sortable({
-                disabled: false,
-                stop: function(event, ui) {
-                    if ( ! ui.item.context.parentElement) return false;
-                    
-                    var result = $(ui.item.context.parentElement).sortable('serialize');
-                    
-                    $.post(
-                        favoriteUrl+'?action=orderRubrics&'+result,
-                        {},
-                        function(data) {},
-                        'json'
-                    );
-                }
-            });
-            
-            $('.elements.sortable').sortable({
-                disabled: false,
-                stop: function(event, ui) {
-                    if ( ! ui.item.context.parentElement) return false;
-                    
-                    var result = $(ui.item.context.parentElement).sortable('serialize');
-                    
-                    $.post(
-                        favoriteUrl+'?action=order&'+result,
-                        {},
-                        function(data) {},
-                        'json'
-                    );
-                }
-            });
+            $('.sortable').sortable({ disabled: false });
             
             move = true;
             

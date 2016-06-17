@@ -96,7 +96,8 @@ $site->
 			OneToOneProperty::create('service_section_id')->
 			setTitle('Служебный раздел')->
 			setRelatedClass('App\ServiceSection')->
-			setParent(true)
+			setParent(true)->
+            setOpenItem(true)
 		)->
 		addTimestamps()->
 		addSoftDeletes()
@@ -335,12 +336,14 @@ $site->
 			setTitle('Категория товара')->
 			setRelatedClass('App\Category')->
 			setRequired(true)->
-			setParent(true)
+			setParent(true)->
+            setOpenItem(true)
 		)->
 		addProperty(
 			OneToOneProperty::create('subcategory_id')->
 			setTitle('Подкатегория товара')->
-			setRelatedClass('App\Subcategory')
+			setRelatedClass('App\Subcategory')->
+            setOpenItem(true)
 		)->
 		addTimestamps()->
 		addSoftDeletes()
@@ -365,7 +368,8 @@ $site->
 			OneToOneProperty::create('service_section_id')->
 			setTitle('Служебный раздел')->
 			setRelatedClass('App\ServiceSection')->
-			setParent(true)
+			setParent(true)->
+            setOpenItem(true)
 		)->
 		addTimestamps()->
 		addSoftDeletes()
@@ -390,7 +394,8 @@ $site->
 			OneToOneProperty::create('service_section_id')->
 			setTitle('Служебный раздел')->
 			setRelatedClass('App\ServiceSection')->
-			setParent(true)
+			setParent(true)->
+            setOpenItem(true)
 		)->
 		addTimestamps()->
 		addSoftDeletes()
@@ -414,12 +419,14 @@ $site->
         addProperty(
 			OneToOneProperty::create('category_id')->
 			setTitle('Категория расхода')->
-			setRelatedClass('App\ExpenseCategory')
+			setRelatedClass('App\ExpenseCategory')->
+            setOpenItem(true)
 		)->
         addProperty(
 			OneToOneProperty::create('source_id')->
 			setTitle('Источник расхода')->
-			setRelatedClass('App\ExpenseSource')
+			setRelatedClass('App\ExpenseSource')->
+            setOpenItem(true)
 		)->
         addProperty(
 			FloatProperty::create('sum')->
@@ -435,7 +442,8 @@ $site->
 			OneToOneProperty::create('service_section_id')->
 			setTitle('Служебный раздел')->
 			setRelatedClass('App\ServiceSection')->
-			setParent(true)
+			setParent(true)->
+            setOpenItem(true)
 		)->
 		addProperty(
 			DatetimeProperty::create('created_at')->

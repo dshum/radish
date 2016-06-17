@@ -120,6 +120,8 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         
         Route::get('/elements/list', ['as' => 'elements.list', 'uses' => 'Moonlight\Controllers\BrowseController@elements']);
         
+        Route::post('/elements/close', ['as' => 'elements.close', 'uses' => 'Moonlight\Controllers\BrowseController@close']);
+        
         Route::get('/elements/autocomplete', ['as' => 'elements.autocomplete', 'uses' => 'Moonlight\Controllers\BrowseController@autocomplete']);
         
         Route::get('/elements/favorites', ['as' => 'home.favorites', 'uses' => 'Moonlight\Controllers\HomeController@favorites']);

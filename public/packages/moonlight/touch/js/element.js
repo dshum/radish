@@ -1,6 +1,5 @@
 $(function() {    
     var checked = [];
-    var opened = open;
     var move = false;
     
     var moving = function(el, speed) {
@@ -52,11 +51,7 @@ $(function() {
             item: item
         }, function(data) {
             if (data.html) {
-                $('.list-container[item="'+item+'"]').html(data.html).slideDown(200, function() {
-                    
-                });
-                
-                opened = item;
+                $('.list-container[item="'+item+'"]').html(data.html).slideDown(200);
             }
             
             if (data.onesCopy) {
@@ -76,7 +71,7 @@ $(function() {
         var classId = $(this).attr('classId');
         var item = $(this).attr('item');
 
-        if (item != open) {
+        if (item != opened) {
             $.getJSON(countUrl, {
                 classId: classId, 
                 item: item
@@ -98,18 +93,40 @@ $(function() {
 
     $('ul.items > li span.a').click(function() {
         var li = $(this).parents('li');
+        var classId = li.attr('classId');
         var item = li.attr('item');
+        var state = li.attr('state');
 
         if (li.hasClass('grey')) return false;
-        if (opened == item) return false;
 
-        if (opened) {
-            $('.list-container[item="'+opened+'"]').slideUp(200, function() {
+        if (state == 'opened') {
+            li.attr('state', 'closed');
+            
+            $('.list-container[item="'+item+'"]').slideUp(200, function() {
+                cancelSelection();
+                $(this).html('');
+                $.post(closeUrl, {
+                    action: 'close',
+                    classId: classId,
+                    item: item
+                });
+            });
+            
+            opened = null;
+        } else {
+            li.attr('state', 'opened');
+            
+            if (opened) {
+                $('.list-container[item="'+opened+'"]').slideUp(200, function() {
+                    cancelSelection();
+                    loadElements(li);
+                });
+            } else {
                 cancelSelection();
                 loadElements(li);
-            });
-        } else {
-            loadElements(li);
+            }
+            
+            opened = item;
         }
 
         return false;

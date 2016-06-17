@@ -177,6 +177,8 @@ class HomeController extends Controller
             $map[$favorite->rubric_id] = $favorite;
         }
         
+        //$loggedUser->setParameter('lists', []);
+        
         $scope['favoriteRubrics'] = $favoriteRubrics;
         $scope['favorites'] = $favorites;
         $scope['map'] = $map;
