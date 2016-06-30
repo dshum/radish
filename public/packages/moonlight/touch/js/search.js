@@ -29,9 +29,11 @@ $(function() {
       if (container.hasClass('dnone')) {
           container.removeClass('dnone');
           container.find('input').removeAttr('disabled');
+          container.find('select').removeAttr('disabled');
       } else {
           container.addClass('dnone');
           container.find('input').attr('disabled', 'disabled');
+          container.find('select').attr('disabled', 'disabled');
       }
     });
 

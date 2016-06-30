@@ -152,7 +152,6 @@ class TrashController extends Controller
         foreach ($propertyList as $propertyName => $property) {
 			if ($property->getHidden()) continue;
             if ($property->isMainProperty()) continue;
-            if ($property->getName() == 'deleted_at') continue;
 
 			$properties[] = $property->setRequest($request);
 		}
@@ -296,12 +295,23 @@ class TrashController extends Controller
         $total = $elements->total();
 		$currentPage = $elements->currentPage();
         $hasMorePages = $elements->hasMorePages();
+        
+        $fields = [];
+
+        foreach ($elements as $element) {
+            foreach ($propertyList as $property) {
+                if ( ! $property->getShow()) continue;
+                
+                $fields[$element->getClassId()][$property->getName()] = $property;
+            }
+        }
 
         $scope['currentItem'] = $currentItem;
         $scope['total'] = $total;
         $scope['currentPage'] = $currentPage;
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
+        $scope['fields'] = $fields;
         $scope['orders'] = $orders;
         $scope['hasOrderProperty'] = false;
         

@@ -351,7 +351,7 @@ class ImageProperty extends BaseProperty
 			'height' => $this->height(),
 		);
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.list', $scope)->render();
 	}
 
 	public function getEditView()

@@ -98,7 +98,7 @@ $(function() {
         var state = li.attr('state');
 
         if (li.hasClass('grey')) return false;
-
+        
         if (state == 'opened') {
             li.attr('state', 'closed');
             
@@ -117,6 +117,7 @@ $(function() {
             li.attr('state', 'opened');
             
             if (opened) {
+                $('ul.items li[item="'+opened+'"]').attr('state', 'closed');
                 $('.list-container[item="'+opened+'"]').slideUp(200, function() {
                     cancelSelection();
                     loadElements(li);
@@ -128,8 +129,6 @@ $(function() {
             
             opened = item;
         }
-
-        return false;
     });
 
     $('body').on('click', '.next', function() {
@@ -177,12 +176,12 @@ $(function() {
             $(this).prop('checked', true);
 
             checked.push(classId);
-        }
-
-        if (checked.length == 1) {
-            $('left').html('<span>Выделено</span>');
-            $('right').html('<span id="cancelSelection">Отмена</span>');
-            $.bottomMenu();
+            
+            if (checked.length == 1) {
+                $('left').html('<span>Выделено</span>');
+                $('right').html('<span id="cancelSelection">Отмена</span>');
+                $.bottomMenu();
+            }
         }
 
         if (checked.length) {

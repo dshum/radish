@@ -196,18 +196,15 @@ class FileProperty extends BaseProperty
 	public function getListView()
 	{
 		$scope = array(
+            'name' => $this->getName(),
+			'title' => $this->getTitle(),
 			'exists' => $this->exists(),
 			'path' => $this->path(),
 			'filename' => $this->filename(),
 			'filesize' => $this->filesize_kb(1),
 		);
 
-		try {
-			$view = $this->getClassName().'.elementList';
-			return \View::make('admin::properties.'.$view, $scope);
-		} catch (\Exception $e) {}
-
-		return null;
+		return view('moonlight::properties.'.$this->getClassName().'.list', $scope)->render();
 	}
 
 	public function getEditView()

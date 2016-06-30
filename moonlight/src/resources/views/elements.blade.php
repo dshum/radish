@@ -26,8 +26,12 @@
         <div class="edit"><a href="{{ route('element.edit', $element->getClassId()) }}"><span class="halflings halflings-pencil"></span></a></div>
         <div main="true"><a href="{{ route('browse.element', $element->getClassId()) }}">{{ $element->{$currentItem->getMainProperty()} }}</a></div>
         @endif
-        @if ($element->getTouchListView())
-        {!! $element->getTouchListView() !!}
+        @if (isset($fields[$element->getClassId()]))
+            @foreach ($fields[$element->getClassId()] as $property)
+                @if ($view = $property->setElement($element)->getListView())
+                {!! $view !!}
+                @endif
+            @endforeach
         @endif
     </li>
     @endforeach

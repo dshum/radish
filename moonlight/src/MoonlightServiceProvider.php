@@ -2,6 +2,7 @@
 
 namespace Moonlight;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Moonlight\Main\Site;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,8 @@ class MoonlightServiceProvider extends ServiceProvider
     public function boot()
     {
         $site = \App::make('site');
+        
+        Log::info('prov');
 
 		$site->initMicroTime();
 

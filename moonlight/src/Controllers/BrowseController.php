@@ -808,6 +808,16 @@ class BrowseController extends Controller
         $total = $elements->total();
 		$currentPage = $elements->currentPage();
         $hasMorePages = $elements->hasMorePages();
+        
+        $fields = [];
+
+        foreach ($elements as $element) {
+            foreach ($propertyList as $property) {
+                if ( ! $property->getShow()) continue;
+                
+                $fields[$element->getClassId()][$property->getName()] = $property;
+            }
+        }
 
         $scope['currentElement'] = $element;
         $scope['currentItem'] = $currentItem;
@@ -815,6 +825,7 @@ class BrowseController extends Controller
         $scope['currentPage'] = $currentPage;
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
+        $scope['fields'] = $fields;
         $scope['orders'] = $orders;
         $scope['hasOrderProperty'] = $hasOrderProperty;
         

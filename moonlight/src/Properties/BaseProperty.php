@@ -277,13 +277,15 @@ abstract class BaseProperty
 		$classId = $element ? $element->getClassId() : null;
 
 		$scope = array(
+            'name' => $this->getName(),
+			'title' => $this->getTitle(),
 			'value' => $this->getValue(),
 			'isMainProperty' => $this->isMainProperty(),
 			'classId' => $classId,
 			'trashed' => $this->isTrashed(),
 		);
 
-		return $scope;
+		return view('moonlight::properties.'.$this->getClassName().'.list', $scope)->render();
 	}
 
 	public function getEditView()

@@ -213,14 +213,12 @@ class Item
 		addProperty(
 			DatetimeProperty::create('created_at')->
 			setTitle('Создан')->
-			setReadonly(true)->
-			setShow(true)
+			setReadonly(true)
 		)->
 		addProperty(
 			DatetimeProperty::create('updated_at')->
 			setTitle('Изменен')->
-			setReadonly(true)->
-			setShow(true)
+			setReadonly(true)
 		);
 
 		return $this;
@@ -232,8 +230,7 @@ class Item
 		addProperty(
 			DatetimeProperty::create('deleted_at')->
 			setTitle('Удален')->
-			setReadonly(true)->
-			setShow(true)
+			setReadonly(true)
 		);
 
 		return $this;

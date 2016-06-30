@@ -18,4 +18,8 @@ class PasswordProperty extends BaseProperty
 	{
 		return null;
 	}
+    
+    public function getListView() {
+        return null;
+    }
 }

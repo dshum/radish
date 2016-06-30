@@ -1,6 +1,7 @@
 <?php
 
-use \Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Moonlight\Middleware\GuestMiddleware;
 use Moonlight\Middleware\AuthMiddleware;

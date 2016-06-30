@@ -5,7 +5,10 @@ namespace Moonlight\Controllers;
 use Illuminate\Http\Request;
 use Moonlight\Main\LoggedUser;
 use Moonlight\Main\Element;
+use Moonlight\Properties\BaseProperty;
 use Moonlight\Properties\OrderProperty;
+use Moonlight\Properties\DateProperty;
+use Moonlight\Properties\DatetimeProperty;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -141,7 +144,21 @@ class SearchController extends Controller
 		}
         
         $properties = [];
+        $orderProperties = [];
         $ones = [];
+        $hasOrderProperty = false;
+        
+        foreach ($propertyList as $property) {
+            if ($property instanceof OrderProperty) {
+                $orderProperties[] = $property;
+                $hasOrderProperty = true;
+            }
+            
+            if ($property->getHidden()) continue;
+            if ($property->getName() == 'deleted_at') continue;
+            
+            $orderProperties[] = $property;
+        }
         
         foreach ($map as $property) {
             if ($property->getHidden()) continue;
@@ -168,12 +185,17 @@ class SearchController extends Controller
         $onesCopy = view('moonlight::onesCopy', ['ones' => $ones])->render();
         $onesMove = view('moonlight::onesMove', ['ones' => $ones])->render();
         
+        $sort = $request->input('sort');
+        
         $scope['currentItem'] = $currentItem;
         $scope['mainProperty'] = $mainProperty;
         $scope['properties'] = $properties;
+        $scope['orderProperties'] = $orderProperties;
         $scope['elementsView'] = $elements;
         $scope['onesCopy'] = $onesCopy;
         $scope['onesMove'] = $onesMove;
+        $scope['hasOrderProperty'] = $hasOrderProperty;
+        $scope['sort'] = $sort;
             
         return view('moonlight::searchItem', $scope);
     }
@@ -268,6 +290,8 @@ class SearchController extends Controller
     protected function elementListView(Request $request, $currentItem)
     {
         $scope = [];
+        
+        Log::info($currentItem->getNameId().'---');
         
         $loggedUser = LoggedUser::getUser();
         
@@ -369,7 +393,18 @@ class SearchController extends Controller
 			}
 		}
         
-        $orderByList = $currentItem->getOrderByList();
+        $sort = $request->input('sort');
+        $property = $currentItem->getPropertyByName($sort);
+        
+        if ($property instanceof DateProperty) {
+            $orderByList = [$sort => 'desc'];
+        } elseif ($property instanceof DatetimeProperty) {
+            $orderByList = [$sort => 'desc'];
+        } elseif ($property instanceof BaseProperty) {
+            $orderByList = [$sort => 'asc'];
+        } else {
+            $orderByList = $currentItem->getOrderByList();
+        }
         
         $orders = [];
 
@@ -396,12 +431,24 @@ class SearchController extends Controller
         $total = $elements->total();
 		$currentPage = $elements->currentPage();
         $hasMorePages = $elements->hasMorePages();
+        
+        $fields = [];
+
+        foreach ($elements as $element) {
+            foreach ($propertyList as $property) {
+                if ( ! $property->getShow()) continue;
+                
+                $fields[$element->getClassId()][$property->getName()] = $property;
+            }
+        }
 
         $scope['currentItem'] = $currentItem;
+        $scope['propertyList'] = $propertyList;
         $scope['total'] = $total;
         $scope['currentPage'] = $currentPage;
         $scope['hasMorePages'] = $hasMorePages;
         $scope['elements'] = $elements;
+        $scope['fields'] = $fields;
         $scope['orders'] = $orders;
         $scope['hasOrderProperty'] = false;
         

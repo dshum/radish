@@ -50,13 +50,15 @@
   white-space: normal;
 }
 
-.browse-form-params .label span:not(.glyphicons) {
+.browse-form-params .label span {
   cursor: pointer;
   border-bottom: 1px dashed #999;
 }
 
-.browse-form-params .label .glyphicons {
+.browse-form-params .label .glyphicons,
+.browse-form-params .label .halflings {
   margin-right: 0.25rem;
+  border-bottom: none;
 }
 
 .browse-form-params .date .glyphicons {
@@ -77,6 +79,10 @@
 
 .browse-form-params .checkbox .glyphicons {
   color: royalblue;
+}
+
+.browse-form-params .order .halflings {
+  color: yellowgreen;
 }
 
 .browse-form-params .one .glyphicons {
@@ -290,8 +296,16 @@ ul.elements li .checkbox .glyphicons {
   color: #999;
 }
 
+ul.elements li .one a {
+    color: black;
+}
+
 ul.elements li .one .glyphicons {
   color: orchid;
+}
+
+ul.elements li .file .glyphicons {
+  color: wheat;
 }
 
 .bottom-context-menu .button {

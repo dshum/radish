@@ -106,6 +106,16 @@ var itemName = '{{ $currentItem->getNameId() }}';
                     </div>
                     @endif
                 @endforeach
+                <div class="block">
+                    <div class="label order" property="sort"><span class="halflings halflings-sort"></span><span>Сортировать по полю:</span></div>
+                    <div container="property" property="sort" class="{{ $sort ? '' : 'dnone' }}">
+                        <select name="sort"{{ $sort ? '' : ' disabled="disabled"' }}>
+                            @foreach ($orderProperties as $property)
+                            <option value="{{ $property->getName() }}"{{ $sort == $property->getName() ? ' selected' : '' }}>{{ $property->getTitle() }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <input type="submit" value="Найти" class="btn">

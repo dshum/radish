@@ -32,8 +32,7 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			TextfieldProperty::create('url')->
@@ -89,8 +88,7 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			OneToOneProperty::create('service_section_id')->
@@ -115,8 +113,7 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			TextfieldProperty::create('title')->
@@ -160,8 +157,7 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			ImageProperty::create('image')->
@@ -211,8 +207,7 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			TextfieldProperty::create('url')->
@@ -257,21 +252,22 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			TextfieldProperty::create('url')->
 			setTitle('URL')->
 			setRequired(true)->
-			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис.')
+			addRule('regex:/^[a-z0-9\-]+$/i', 'Допускаются латинские буквы, цифры и дефис.')->
+			setShow(true)
 		)->
 		addProperty(
 			ImageProperty::create('image')->
 			setTitle('Изображение')->
 			setResize(300, 350, 80)->
 			addResize('spec', 150, 200, 80)->
-			addResize('other', 100, 100, 80)
+			addResize('other', 100, 100, 80)->
+			setShow(true)
 		)->
 		addProperty(
 			FloatProperty::create('supplier_price')->
@@ -313,11 +309,13 @@ $site->
 		)->
 		addProperty(
 			CheckboxProperty::create('special')->
-			setTitle('Спецпредложение')
+			setTitle('Спецпредложение')->
+			setShow(true)
 		)->
 		addProperty(
 			CheckboxProperty::create('novelty')->
-			setTitle('Новинка')
+			setTitle('Новинка')->
+			setShow(true)
 		)->
 		addProperty(
 			CheckboxProperty::create('hide')->
@@ -361,8 +359,7 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			OneToOneProperty::create('service_section_id')->
@@ -387,8 +384,7 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
 		addProperty(
 			OneToOneProperty::create('service_section_id')->
@@ -413,20 +409,21 @@ $site->
 		addProperty(
 			TextfieldProperty::create('name')->
 			setTitle('Название')->
-			setRequired(true)->
-			setShow(true)
+			setRequired(true)
 		)->
         addProperty(
 			OneToOneProperty::create('category_id')->
 			setTitle('Категория расхода')->
 			setRelatedClass('App\ExpenseCategory')->
-            setOpenItem(true)
+            setOpenItem(true)->
+			setShow(true)
 		)->
         addProperty(
 			OneToOneProperty::create('source_id')->
 			setTitle('Источник расхода')->
 			setRelatedClass('App\ExpenseSource')->
-            setOpenItem(true)
+            setOpenItem(true)->
+			setShow(true)
 		)->
         addProperty(
 			FloatProperty::create('sum')->
@@ -448,14 +445,12 @@ $site->
 		addProperty(
 			DatetimeProperty::create('created_at')->
             setFillNow()->
-			setTitle('Создан')->
-			setShow(true)
+			setTitle('Создан')
 		)->
 		addProperty(
 			DatetimeProperty::create('updated_at')->
 			setTitle('Изменен')->
-			setReadonly(true)->
-			setShow(true)
+			setReadonly(true)
 		)->
 		addSoftDeletes()
 	)->
