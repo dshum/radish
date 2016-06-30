@@ -424,7 +424,7 @@ class SearchController extends Controller
         
         $orders = implode(', ', $orders);
 
-		$elements = $criteria->paginate(3);
+		$elements = $criteria->paginate(10);
         
         $total = $elements->total();
 		$currentPage = $elements->currentPage();
