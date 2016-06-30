@@ -291,8 +291,6 @@ class SearchController extends Controller
     {
         $scope = [];
         
-        Log::info($currentItem->getNameId().'---');
-        
         $loggedUser = LoggedUser::getUser();
         
         $propertyList = $currentItem->getPropertyList();
@@ -426,7 +424,7 @@ class SearchController extends Controller
         
         $orders = implode(', ', $orders);
 
-		$elements = $criteria->paginate(10);
+		$elements = $criteria->paginate(3);
         
         $total = $elements->total();
 		$currentPage = $elements->currentPage();

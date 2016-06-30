@@ -57,24 +57,30 @@ $(function() {
 
         next.addClass('waiting');
         $.blockUI();
+        
+        $('form').ajaxSubmit({
+            url: elementsUrl,
+            dataType: 'json',
+            data: {
+                item: item,
+                page: page
+            },
+            success: function(data) {
+                $.unblockUI();
+            
+                next.remove();
 
-        $.getJSON(elementsUrl, {
-            item: item,
-            page: page
-        }, function(data) {
-            $.unblockUI();
+                if (data.html) {
+                    $('.list-container').append(data.html);
+                }
+            },
+            error: function() {
+                $.unblockUI();
             
-            next.remove();
-            
-            if (data.html) {
-                $('.list-container').append(data.html);
+                next.removeClass('waiting');
+
+                $.alertDefaultError();
             }
-        }).fail(function() {
-            $.unblockUI();
-            
-            next.removeClass('waiting');
-            
-            $.alertDefaultError();
         });
     });
     

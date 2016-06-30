@@ -17,8 +17,6 @@ class MoonlightServiceProvider extends ServiceProvider
     public function boot()
     {
         $site = \App::make('site');
-        
-        Log::info('prov');
 
 		$site->initMicroTime();
 

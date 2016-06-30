@@ -35,19 +35,6 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
         AuthMiddleware::class,
         VerifyCsrfToken::class,
     ]], function () {
-        
-        Route::group(['middleware' => [HistoryMiddleware::class]], function () {
-            Route::get('/search/{item}', ['as' => 'search.item', 'uses' => 'Moonlight\Controllers\SearchController@item'])->
-                where(['item' => '[A-Za-z0-9\.]+']);
-            
-            Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
-        
-            Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
-            
-            Route::get('/browse/{classId}', ['as' => 'browse.element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
-                where(['classId' => '[A-Za-z0-9\.]+']);
-        });
-        
         Route::get('/', ['as' => 'home', 'uses' => 'Moonlight\Controllers\HomeController@show']);
 
         Route::get('/logout', ['as' => 'logout', 'uses' => 'Moonlight\Controllers\LoginController@logout']);
@@ -164,5 +151,17 @@ Route::group(['prefix' => 'moonlight/touch'], function() {
             where(['classId' => '[A-Za-z0-9\.]+', 'method' => '[A-Za-z0-9]+']);
         
         Route::post('/order', ['as' => 'order', 'uses' => 'Moonlight\Controllers\BrowseController@order']);
+        
+        Route::group(['middleware' => [HistoryMiddleware::class]], function () {
+            Route::get('/search/{item}', ['as' => 'search.item', 'uses' => 'Moonlight\Controllers\SearchController@item'])->
+                where(['item' => '[A-Za-z0-9\.]+']);
+            
+            Route::get('/browse', ['as' => 'browse', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
+        
+            Route::get('/browse/root', ['as' => 'browse.root', 'uses' => 'Moonlight\Controllers\BrowseController@root']);
+            
+            Route::get('/browse/{classId}', ['as' => 'browse.element', 'uses' => 'Moonlight\Controllers\BrowseController@element'])->
+                where(['classId' => '[A-Za-z0-9\.]+']);
+        });
     });
 });
